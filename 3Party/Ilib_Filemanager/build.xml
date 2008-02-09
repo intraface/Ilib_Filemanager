@@ -115,7 +115,6 @@
 
     <target name="test">
         <exec dir="${tests.dir}" command="phpunit
-          -d display_errors=On
           --log-xml ${reports.phpunit.dir}/phpunit.xml
           --log-pmd ${reports.phpunit.dir}/phpunit.pmd.xml
           --coverage-xml ${reports.phpunit.dir}/phpunit.coverage.xml
