@@ -78,9 +78,9 @@ intradace.dk/main/file/index.php her hentes filerne fra. Den er ikke helt smukt 
 class FileHandlerHTML {
 
 
-    var $file_handler;
+    private $file_handler;
 
-    function FileHandlerHTML(&$file_handler) {
+    function __construct($file_handler) {
 
         if(!is_object($file_handler)) {
             trigger_error("InstanceHandler kræver et filehandler- eller filemanagerobject i InstanceHandler->instancehandler (1)", E_USER_ERROR);
