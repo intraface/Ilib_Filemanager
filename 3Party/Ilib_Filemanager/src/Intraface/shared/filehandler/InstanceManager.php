@@ -8,7 +8,6 @@
  */
 class InstanceManager
 {
-
     /**
      * @var object error error objekt
      */
@@ -86,20 +85,17 @@ class InstanceManager
             $this->value['resize_type'] = $resize_types[$this->value['resize_type_key']];
             $this->value['origin'] = 'overwritten';
             return true;
-        }
-        elseif(isset($standard_type)) {
+        } elseif(isset($standard_type)) {
             $this->value = $standard_type;
             $this->value['origin'] = 'standard';
             return true;
-        }
-        elseif(isset($custom_type)) {
+        } elseif(isset($custom_type)) {
             $this->value = $custom_type;
             $resize_types = $this->getResizeTypes();
             $this->value['resize_type'] = $resize_types[$this->value['resize_type_key']];
             $this->value['origin'] = 'custom';
             return true;
-        }
-        else {
+        } else {
             $this->type_key = 0;
             $this->value['type_key'] = 0;
             return false;
@@ -114,7 +110,6 @@ class InstanceManager
      */
     function save($input)
     {
-
         $validator = new Ilib_Validator($this->error);
 
         if($this->type_key != 0) {
@@ -164,8 +159,7 @@ class InstanceManager
         if($this->type_key == 0 || $this->get('origin') == 'standard') {
             if($this->type_key == 0) {
                 $type_key = $this->getNextFreeTypeKey();
-            }
-            else {
+            } else {
                 $type_key = $this->type_key;
             }
 
@@ -183,8 +177,7 @@ class InstanceManager
             }
             $this->type_key = $type_key;
             return $this->type_key;
-        }
-        else {
+        } else {
             $result = $this->db->exec('UPDATE file_handler_instance_type SET '.$sql.' ' .
                     'WHERE intranet_id = '.$this->db->quote($this->intranet_id, 'integer').' ' .
                             'AND type_key = '.$this->db->quote($this->type_key, 'integer'));
@@ -230,7 +223,6 @@ class InstanceManager
      */
     private function isNameFree($name, $type_key = 0)
     {
-
         $standard_types = $this->getStandardTypes();
         foreach($standard_types AS $standard_type) {
             if($standard_type['name'] == $name && $standard_type['type_key'] != $type_key) {
@@ -275,8 +267,7 @@ class InstanceManager
 
         if($row['max_key'] >= InstanceManager::MIN_CUSTOM_TYPE_KEY_VALUE) {
             return $row['max_key'] + 1;
-        }
-        else {
+        } else {
             return InstanceManager::MIN_CUSTOM_TYPE_KEY_VALUE;
         }
     }
@@ -322,13 +313,11 @@ class InstanceManager
                     $type[$i]['resize_type'] = $resize_types[$type[$i]['resize_type_key']];
                     $type[$i]['origin'] = 'overwritten';
                     $c++;
-                }
-                else {
+                } else {
                     $type[$i] = $standard_types[$s];
                     $type[$i]['origin'] = 'standard';
                 }
-            }
-            else {
+            } else {
                $type[$i] = $custom_types[$c];
                $type[$i]['resize_type'] = $resize_types[$type[$i]['resize_type_key']];
                $type[$i]['origin'] = 'custom';
@@ -386,8 +375,7 @@ class InstanceManager
         if(!empty($key)) {
             if(isset($this->value[$key])) {
                 return($this->value[$key]);
-            }
-            else {
+            } else {
                 return '';
             }
         }
