@@ -12,9 +12,8 @@
  * @todo: csv type applocatio/octet-stream should be checked whether it is a program as this mime_type can also be an exe file
  */
 
-class FileType {
-
-
+class FileType
+{
     private $types = array(
             0 => array('description' => 'Unknown filetype',
                 'mime_type' => '',
@@ -140,16 +139,16 @@ class FileType {
     /**
      * constructor
      */
-    public function __construct() {
-
+    public function __construct()
+    {
+        // void
     }
 
     /**
      * Returns all the file types.
      */
-    public function getList() {
+    public function getList()
+    {
         return $this->types;
-
     }
-
 }
