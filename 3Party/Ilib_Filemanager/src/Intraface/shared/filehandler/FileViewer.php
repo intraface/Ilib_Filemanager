@@ -13,9 +13,8 @@
  * @version @package-version@
  */
 
-
-class FileViewer {
-
+class FileViewer 
+{
     /**
      * @var string file_name
      */

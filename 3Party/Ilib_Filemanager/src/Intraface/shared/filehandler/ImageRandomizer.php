@@ -1,8 +1,6 @@
 <?php
-
 class ImageRandomizer
 {
-
     /**
      * @var object $file_manager file handler
      */
@@ -100,5 +98,4 @@ class ImageRandomizer
         return new FileHandler($this->file_manager->kernel, $this->file_list[$key]);
 
     }
-
 }
