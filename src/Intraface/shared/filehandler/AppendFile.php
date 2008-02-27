@@ -42,7 +42,7 @@ class AppendFile
         $this->registerBelongTo(3, 'product');
         $this->registerBelongTo(4, 'cms_element_filelist');
 
-        if(!in_array($belong_to, $this->belong_to_types)) {
+        if (!in_array($belong_to, $this->belong_to_types)) {
             trigger_error("AppendFile->__construct unknown type", E_USER_ERROR);
         }
 
@@ -204,9 +204,9 @@ class AppendFile
      */
     public function getList()
     {
-        if(!isset($this->dbquery)) $this->createDBQuery();
+        if (!isset($this->dbquery)) $this->createDBQuery();
 
-        if($this->dbquery->checkFilter('order_by') && $this->dbquery->getFilter('order_by') == 'name') {
+        if ($this->dbquery->checkFilter('order_by') && $this->dbquery->getFilter('order_by') == 'name') {
             $this->dbquery->setJoin('INNER', 'file_handler', 'filehandler_append_file.file_handler_id = file_handler.id', 'file_handler.intranet_id = '.$this->kernel->intranet->get('id').' AND file_handler.active = 1');
             $this->dbquery->setSorting('file_handler.file_name');
         } else {
