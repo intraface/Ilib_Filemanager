@@ -2,7 +2,7 @@
 /**
  * @package Intraface_FileManager
  */
- 
+
 require_once 'Intraface/shared/filehandler/FileHandler.php';
 
 class FileManager extends FileHandler
@@ -29,7 +29,7 @@ class FileManager extends FileHandler
     {
         parent::__construct($kernel, $file_id);
     }
-    
+
     /**
      * Creates the dbquery object so it can be used in the class
      *
@@ -42,7 +42,7 @@ class FileManager extends FileHandler
         $this->dbquery->createStore($this->kernel->getSessionId(), 'intranet_id = '.intval($this->kernel->intranet->get('id')));
         $this->dbquery->useErrorObject($this->error);
     }
-    
+
 
     /**
      * Creates the keywords object
@@ -69,87 +69,87 @@ class FileManager extends FileHandler
      */
     public function getList($debug = '')
     {
-        // we load the mime types as they are going to be used a couple of times 
+        // we load the mime types as they are going to be used a couple of times
         $this->loadMimeTypes();
-        
-        if($this->dbquery->checkFilter("uploaded_from_date")) {
+
+        if ($this->dbquery->checkFilter("uploaded_from_date")) {
             $date_parts = explode(" ", $this->dbquery->getFilter("uploaded_from_date"));
             // Der kontrolleres ikke for gyldig tidsformat
-            if(isset($date_parts[1]) && $date_parts[1] != "") $time = " ".$date_parts[1];
+            if (isset($date_parts[1]) && $date_parts[1] != "") $time = " ".$date_parts[1];
             require_once 'Intraface/tools/Date.php';
             $date = new Intraface_Date($date_parts[0]);
-            if($date->convert2db()) {
+            if ($date->convert2db()) {
                 $this->dbquery->setCondition("file_handler.date_created >= \"".$date->get().$time."\"");
             } else {
                 $this->error->set("error in uploaded from date");
             }
         }
 
-        if($this->dbquery->checkFilter("uploaded_to_date")) {
+        if ($this->dbquery->checkFilter("uploaded_to_date")) {
             $date_parts = explode(" ", $this->dbquery->getFilter("uploaded_to_date"));
             // Der kontrolleres ikke for gyldig tidsformat
-            if(isset($date_parts[1]) && $date_parts[1] != "") $time = " ".$date_parts[1];
+            if (isset($date_parts[1]) && $date_parts[1] != "") $time = " ".$date_parts[1];
             require_once 'Intraface/tools/Date.php';
             $date = new Intraface_Date($date_parts[0]);
-            if($date->convert2db()) {
+            if ($date->convert2db()) {
                 $this->dbquery->setCondition("file_handler.date_created <= \"".$date->get().$time."\"");
             } else {
                 $this->error->set("error in uploaded to date");
             }
         }
 
-        if($this->dbquery->checkFilter("edited_from_date")) {
+        if ($this->dbquery->checkFilter("edited_from_date")) {
             $date_parts = explode(" ", $this->dbquery->getFilter("edited_from_date"));
             // Der kontrolleres ikke for gyldig tidsformat
-            if(isset($date_parts[1]) && $date_parts[1] != "") $time = " ".$date_parts[1];
+            if (isset($date_parts[1]) && $date_parts[1] != "") $time = " ".$date_parts[1];
             require_once 'Intraface/tools/Date.php';
             $date = new Intraface_Date($date_parts[0]);
-            if($date->convert2db()) {
+            if ($date->convert2db()) {
                 $this->dbquery->setCondition("file_handler.date_changed >= \"".$date->get().$time."\"");
             } else {
                 $this->error->set("error in edited from date");
             }
         }
 
-        if($this->dbquery->checkFilter("edited_to_date")) {
+        if ($this->dbquery->checkFilter("edited_to_date")) {
             $date_parts = explode(" ", $this->dbquery->getFilter("edited_to_date"));
             // Der kontrolleres ikke for gyldig tidsformat
-            if(isset($date_parts[1]) && $date_parts[1] != "") $time = " ".$date_parts[1];
+            if (isset($date_parts[1]) && $date_parts[1] != "") $time = " ".$date_parts[1];
             require_once 'Intraface/tools/Date.php';
             $date = new Intraface_Date($date_parts[0]);
-            if($date->convert2db()) {
+            if ($date->convert2db()) {
                 $this->dbquery->setCondition("file_handler.date_changed <= \"".$date->get().$time."\"");
             } else {
                 $this->error->set("error in edited to date");
             }
         }
 
-        if($this->dbquery->checkFilter("accessibility")) {
+        if ($this->dbquery->checkFilter("accessibility")) {
             $accessibility_key = array_search($this->dbquery->getFilter("accessibility"), $this->accessibility_types);
-            if($accessibility_key !== false) {
+            if ($accessibility_key !== false) {
                 $this->dbquery->setCondition("file_handler.accessibility_key = ".intval($accessibility_key)."");
             }
         }
 
-        if($this->dbquery->checkFilter("text")) {
+        if ($this->dbquery->checkFilter("text")) {
             $this->dbquery->setCondition("file_handler.file_name LIKE \"%".safeToDb($this->dbquery->getFilter("text"))."%\" OR file_handler.description LIKE \"%".safeToDb($this->dbquery->getFilter("text"))."%\"");
         }
 
-        if($this->dbquery->checkFilter('images')) {
+        if ($this->dbquery->checkFilter('images')) {
             $keys = array();
             foreach($this->file_types AS $key => $mime_type) {
-                if($mime_type['image'] == 1) {
+                if ($mime_type['image'] == 1) {
                     $keys[] = $key;
                 }
             }
 
-            if(count($keys) > 0) {
+            if (count($keys) > 0) {
                 $this->dbquery->setCondition("file_handler.file_type_key IN (".implode(',', $keys).")");
             }
         }
 
 
-        if(!$this->dbquery->checkSorting()) {
+        if (!$this->dbquery->checkSorting()) {
             $this->dbquery->setSorting('file_handler.file_name');
         }
 
@@ -157,7 +157,7 @@ class FileManager extends FileHandler
         $i = 0;
 
 
-        if($debug == 'debug') {
+        if ($debug == 'debug') {
             $debug = true;
         } else {
             $debug = false;
@@ -178,9 +178,9 @@ class FileManager extends FileHandler
             $file[$i]['file_size'] = $db->f('file_size');
             $file[$i]['file_type'] = $this->_getMimeType((int)$db->f('file_type_key'));
             $file[$i]['is_picture'] = $this->file_types[$db->f('file_type_key')]['image'];
-            if($file[$i]['file_size'] >= 1000000) {
+            if ($file[$i]['file_size'] >= 1000000) {
                 $file[$i]['dk_file_size'] = number_format(($file[$i]['file_size']/1000000), 2, ",",".")." Mb";
-            } else if($file[$i]['file_size'] >= 1000) {
+            } else if ($file[$i]['file_size'] >= 1000) {
                 $file[$i]['dk_file_size'] = number_format(($file[$i]['file_size']/1000), 2, ",",".")." Kb";
             } else {
                 $file[$i]['dk_file_size'] = number_format($file[$i]['file_size'], 2, ",",".")." byte";
@@ -190,7 +190,7 @@ class FileManager extends FileHandler
             $file[$i]['accessibility'] = $this->accessibility_types[$db->f('accessibility_key')];
 
 
-            if($file[$i]['is_picture'] == 1) {
+            if ($file[$i]['is_picture'] == 1) {
                 $file[$i]['icon_uri'] = FILE_VIEWER.'?/'.$this->kernel->intranet->get('public_key').'/'.$db->f('access_key').'/system-square/'.urlencode($db->f('file_name'));
                 $file[$i]['icon_width'] = 75;
                 $file[$i]['icon_height'] = 75;
@@ -203,6 +203,4 @@ class FileManager extends FileHandler
         }
         return $file;
     }
-
 }
-?>
