@@ -63,7 +63,7 @@ class ImageRandomizer
         $this->file_list = array();
         $db = $dbquery->getRecordset("file_handler.id", "", false);
 
-        while($db->nextRecord()) {
+        while ($db->nextRecord()) {
             $this->file_list[] = $db->f('id');
         }
 
