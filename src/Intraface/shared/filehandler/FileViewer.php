@@ -13,7 +13,7 @@
  * @version @package-version@
  */
 
-class FileViewer 
+class FileViewer
 {
     /**
      * @var string file_name
@@ -37,22 +37,20 @@ class FileViewer
 
     public function __construct($filehandler, $instance = '')
     {
-
-        if(!is_object($filehandler)) {
+        if (!is_object($filehandler)) {
             trigger_error('the first parameter needs to be filehandler in FileViewet->__construct', E_USER_ERROR);
             exit;
         }
 
         $this->filehandler = $filehandler;
-        $this->file_path = $filehandler->get('file_path');
-        $this->file_name = $filehandler->get('file_name');
-
-        $file_type = $filehandler->get('file_type');
-        $this->mime_type = $file_type['mime_type'];
+        $this->file_path   = $filehandler->get('file_path');
+        $this->file_name   = $filehandler->get('file_name');
+        $file_type         = $filehandler->get('file_type');
+        $this->mime_type   = $file_type['mime_type'];
 
         $this->filehandler->createInstance();
 
-        if(!empty($instance) && $filehandler->instance->checkType($instance) !== false) {
+        if (!empty($instance) && $filehandler->instance->checkType($instance) !== false) {
             $this->filehandler->createInstance($instance);
             $this->file_path = $filehandler->instance->get('file_path');
         }
@@ -63,7 +61,8 @@ class FileViewer
         return $this->mime_type;
     }
 
-    public function needLogin() {
+    public function needLogin()
+    {
         return $this->filehandler->get('accessibility') != 'public';
     }
 
@@ -74,9 +73,9 @@ class FileViewer
         }
     }
 
-    public function out() {
-
-        if(!file_exists($this->file_path)) {
+    public function out()
+    {
+        if (!file_exists($this->file_path)) {
             return 'invalid file';
         }
 
@@ -89,5 +88,4 @@ class FileViewer
         header('Pragma:');
         return $this->fetch();
     }
-
 }
