@@ -79,11 +79,11 @@ class UploadHandler extends Standard
      */
     function __construct($file_handler)
     {
-        if(!is_object($file_handler)) {
+        if (!is_object($file_handler)) {
             trigger_error("UploadHandler kræver et filehandler- eller filemanagerobject (1)", E_USER_ERROR);
         }
 
-        if(strtolower(get_class($file_handler)) == 'filehandler' || strtolower(get_class($file_handler)) == 'filemanager') {
+        if (strtolower(get_class($file_handler)) == 'filehandler' || strtolower(get_class($file_handler)) == 'filemanager') {
             // @todo HJÆLP MIG, jeg kan ikke vende denne if-sætning rigtigt.
             // Men her er det ok.
         } else {
@@ -113,7 +113,7 @@ class UploadHandler extends Standard
      */
     function setSetting($setting, $value)
     {
-        if(isset($this->upload_setting[$setting])) {
+        if (isset($this->upload_setting[$setting])) {
             $this->upload_setting[$setting] = $value;
         } else {
             trigger_error("Ugyldig setting ".$setting." i UploadHandler->setSetting", E_USER_ERROR);
@@ -131,18 +131,18 @@ class UploadHandler extends Standard
         $files = $upload->getFiles();
         $return = true;
         foreach($files as $file) {
-            if($error = $file->isError()) {
+            if ($error = $file->isError()) {
                 $this->file_handler->error->set($file->getMessage());
                 $return = false;
             }
         }
 
-        if($return === false) {
+        if ($return === false) {
             return false;
         }
 
         foreach($files as $file) {
-            if($this->upload($file) === false) {
+            if ($this->upload($file) === false) {
                 $return = false;
             }
         }
@@ -166,18 +166,18 @@ class UploadHandler extends Standard
     function upload($input, $upload_type = 'save')
     {
 
-        if(!in_array($upload_type, array('save', 'temporary', 'do_not_save'))) {
+        if (!in_array($upload_type, array('save', 'temporary', 'do_not_save'))) {
             trigger_error("Anden parameter '".$upload_type."' er ikke enten 'save', 'temporary' eller 'do_not_save' i UploadHandler->upload", E_USER_ERROR);
         }
 
-        if(is_string($input) && $input != '') {
+        if (is_string($input) && $input != '') {
             $upload = new HTTP_Upload('en');
             $file = $upload->getFiles($input);
-            if($file->isError()) {
+            if ($file->isError()) {
                 $this->file_handler->error->set($file->getMessage());
                 return false;
             }
-        } elseif(is_object($input) && strtolower(get_class($input)) == 'http_upload_file') {
+        } elseif (is_object($input) && strtolower(get_class($input)) == 'http_upload_file') {
             $file = $input;
         } else {
             trigger_error("Invalid input in FileHandler->upload", E_USER_ERROR);
@@ -185,60 +185,60 @@ class UploadHandler extends Standard
 
         $prop = $file->getProp(); // returnere et array med oplysninger om filen.
 
-        if(!$file->isValid()) {
+        if (!$file->isValid()) {
             $this->file_handler->error->set($file->getMessage());
             return false;
         }
-        if(!isset($prop['ext']) || $prop['ext'] == "") {
+        if (!isset($prop['ext']) || $prop['ext'] == "") {
             $this->file_handler->error->set("error in file - needs extension");
             return false;
         }
 
-        if($prop['size'] > $this->upload_setting['max_file_size']) {
+        if ($prop['size'] > $this->upload_setting['max_file_size']) {
             $this->file_handler->error->set("error in file - too big");
         }
 
         $mime_type = $this->file_handler->_getMimeType($prop['type'], 'mime_type');
-        if($mime_type === false) {
+        if ($mime_type === false) {
             $this->file_handler->error->set("error in file - not allowed mime_type (".$prop['ext'].", ".$prop['type'].")");
             return false;
         }
 
         // @todo: we have a problem here because csv files have the same mime type as exe files!
 
-        if($mime_type['allow_user_upload'] == 0) {
+        if ($mime_type['allow_user_upload'] == 0) {
             $this->file_handler->error->set("error in file - you have no permissions");
             return false;
         }
 
-        if($this->upload_setting['allow_only_images'] == 1 && $mime_type['image'] == 0) {
+        if ($this->upload_setting['allow_only_images'] == 1 && $mime_type['image'] == 0) {
             $this->file_handler->error->set("error in file - only images are allowed");
             return false;
         }
 
-        if($this->upload_setting['allow_only_documents'] == 1 && $mime_type['image'] == 1) {
+        if ($this->upload_setting['allow_only_documents'] == 1 && $mime_type['image'] == 1) {
             $this->file_handler->error->set("error in file - only documents are allowed");
             return false;
         }
 
-        if($this->file_handler->error->isError()) {
+        if ($this->file_handler->error->isError()) {
             return false;
         }
 
 
-        if($upload_type == 'do_not_save') {
+        if ($upload_type == 'do_not_save') {
             $tmp_server_file_name = date("U").$this->file_handler->kernel->randomKey(10).".".$mime_type['extension'];
             $file->setName($tmp_server_file_name);
 
-            if(!is_dir($this->file_handler->tempdir_path)) {
-                if(!mkdir($this->file_handler->tempdir_path)) {
+            if (!is_dir($this->file_handler->tempdir_path)) {
+                if (!mkdir($this->file_handler->tempdir_path)) {
                     trigger_error("Kunne ikke oprette mappe i FileHandler->upload", E_USER_ERROR);
                 }
             }
 
             $moved = $file->moveTo($this->file_handler->tempdir_path);
 
-            if(PEAR::isError($moved)) {
+            if (PEAR::isError($moved)) {
                 trigger_error("Kunne ikke flytte filen i UploadHandler->upload", E_USER_ERROR);
             }
 
@@ -249,19 +249,15 @@ class UploadHandler extends Standard
                 'image' => $mime_type['image'],
                 'icon' => $mime_type['icon']
                 );
-
-
-        } elseif($upload_type == 'temporary') {
+        } elseif ($upload_type == 'temporary') {
             $id = $this->file_handler->save($prop['tmp_name'], $prop['real'], 'temporary', $mime_type['mime_type']);
-
             return $id;
         } else {
-
-            # PHP's mime_content_type showed up to be not to liable with png images. Therefor we submit the mime_type from here which is ok.
+            // PHP's mime_content_type showed up to be not to liable with png images. Therefor we submit the mime_type from here which is ok.
             $id = $this->file_handler->save($prop['tmp_name'], $prop['real'], 'visible', $mime_type['mime_type']);
             $this->file_handler->update(array('accessibility' => $this->upload_setting['file_accessibility']));
 
-            if($this->upload_setting['add_keyword'] != '' && strtolower(get_class($this->file_handler)) == 'filemanager') {
+            if ($this->upload_setting['add_keyword'] != '' && strtolower(get_class($this->file_handler)) == 'filemanager') {
                 $this->file_handler->load();
                 $keyword = $this->file_handler->getKeywords();
                 $appender = $this->file_handler->getKeywordAppender();
@@ -282,7 +278,7 @@ class UploadHandler extends Standard
      */
     function isUploadFile($field)
     {
-        if(isset($_FILES) && isset($_FILES[$field]) && $_FILES[$field]['tmp_name'] != '' && $_FILES[$field]['error'] == 0) {
+        if (isset($_FILES) && isset($_FILES[$field]) && $_FILES[$field]['tmp_name'] != '' && $_FILES[$field]['error'] == 0) {
             return true;
         } else {
             return false;
@@ -309,52 +305,51 @@ class UploadHandler extends Standard
      */
     function import($dir)
     {
-
-        if($handle = opendir($dir)) {
+        if ($handle = opendir($dir)) {
             while (false !== ($file = readdir($handle))) {
                 print($file);
-                if($file == ".." || $file == "." || is_dir($file)) {
-                    CONTINUE;
+                if ($file == ".." || $file == "." || is_dir($file)) {
+                    continue;
                 }
 
                 $ext = substr($file, strrpos($file, ".")+1);
 
-                if(strlen($ext) < 3 || strlen($ext) > 4) {
+                if (strlen($ext) < 3 || strlen($ext) > 4) {
                     $this->file_handler->error->set("Filen \"".$file."\" har ikke en gyldig endelse, f.eks. .pdf");
                     print("Filen \"".$file."\" har ikke en gyldig endelse, f.eks. .pdf<br />");
-                    CONTINUE;
+                    continue;
                 }
 
                 $file_size = filesize($dir.$file);
-                if($file_size > $this->upload_setting['max_file_size']) {
+                if ($file_size > $this->upload_setting['max_file_size']) {
                     $this->file_handler->error->set("Filen \"".$file."\" er større end de tilladte ".$this->upload_setting['max_file_size']." Byte");
                     print("Filen \"".$file."\" er større end de tilladte ".$this->upload_setting['max_file_size']." Byte<br/>");
-                    CONTINUE;
+                    continue;
                 }
 
                 $mime_type = $this->file_handler->_getMimeType(mime_content_type($dir.$file), 'mime_type');
-                if($mime_type === false) {
+                if ($mime_type === false) {
                     $this->file_handler->error->set("Filen \"".$file."\" er ikke en gyldig filtype (Det er typen: ".mime_content_type($dir.'/'.$file).")");
                     print("Filen \"".$file."\" er ikke en gyldig filtype (Det er typen: ".mime_content_type($dir.'/'.$file).")<br />");
-                    CONTINUE;
+                    continue;
                 }
 
-                if($mime_type['allow_user_upload'] == 0) {
+                if ($mime_type['allow_user_upload'] == 0) {
                     $this->file_handler->error->set("Filen \"".$file."\" af typen \"".$mime_type['description']."\" kan ikke uploades");
                     print("Filen \"".$file."\" af typen \"".$mime_type['description']."\" kan ikke uploades<br />");
-                    CONTINUE;
+                    continue;
                 }
 
-                if($this->upload_setting['allow_only_images'] == 1 && $mime_type['image'] == 0) {
+                if ($this->upload_setting['allow_only_images'] == 1 && $mime_type['image'] == 0) {
                     $this->file_handler->error->set("Filen \"".$file."\" er ikke et billede. Du kan kun uploade billeder!");
                     print("Filen \"".$file."\" er ikke et billede. Du kan kun uploade billeder!<br />");
-                    CONTINUE;
+                    continue;
                 }
 
-                if($this->upload_setting['allow_only_documents'] == 1 && $mime_type['image'] == 1) {
+                if ($this->upload_setting['allow_only_documents'] == 1 && $mime_type['image'] == 1) {
                     $this->file_handler->error->set("Filen \"".$file."\" er ikke et dokument. Du kan kun uploade dokumenter!");
                     print("Filen \"".$file."\" er ikke et dokument. Du kan kun uploade dokumenter!");
-                    CONTINUE;
+                    continue;
                 }
                 /*
                 print_r(array('file_name' => $file, 'file_size' => $file_size, 'file_type' => $mime_type['mime_type'], 'accessibility' => $this->upload_setting['file_accessibility']));
@@ -367,7 +362,7 @@ class UploadHandler extends Standard
 
                 $imported_files[] = $id;
 
-                if($this->upload_setting['add_keyword'] != '') {
+                if ($this->upload_setting['add_keyword'] != '') {
                     $file_handler->load(); // Der skal lige loades, så id kan hentes.
                     $file_handler->kernel->useShared('keyword');
 
@@ -379,20 +374,18 @@ class UploadHandler extends Standard
                 $server_file_name = $id.".".$mime_type['extension'];
                 $file_handler->update(array('server_file_name' => $server_file_name));
 
-                if(!is_dir($this->upload_path)) {
-                    if(!mkdir($this->upload_path)) {
+                if (!is_dir($this->upload_path)) {
+                    if (!mkdir($this->upload_path)) {
                         trigger_error("Kunne ikke oprette mappe i FileHandler->upload", E_USER_ERROR);
                     }
                 }
 
-                if(!rename($dir.$file, $this->upload_path.$server_file_name)) {
+                if (!rename($dir.$file, $this->upload_path.$server_file_name)) {
                     $this->file_handler->error->set('Der opstod en fejl under flytningen af filen '.$file);
                     print('Der opstod en fejl under flytningen af filen '.$file.'<br />');
                     $file_handler->delete();
-                    CONTINUE;
+                    continue;
                 }
-
-                //print("SUCCESS: ".$file."<br />");
             }
         }
 
