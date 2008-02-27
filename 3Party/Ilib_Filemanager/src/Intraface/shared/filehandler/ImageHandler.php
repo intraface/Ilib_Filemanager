@@ -7,7 +7,6 @@
   * @version: 1.0
   *
   */
-
 require_once 'Image/Transform.php';
 
 class ImageHandler extends Standard
@@ -36,11 +35,11 @@ class ImageHandler extends Standard
      */
     public function __construct($file_handler)
     {
-        if(!is_object($file_handler)) {
+        if (!is_object($file_handler)) {
             trigger_error("InstanceHandler kræver et filehandler- eller filemanagerobject i InstanceHandler->instancehandler (1)", E_USER_ERROR);
         }
 
-        if(strtolower(get_class($file_handler)) == 'filehandler' || strtolower(get_class($file_handler)) == 'filemanager') {
+        if (strtolower(get_class($file_handler)) == 'filehandler' || strtolower(get_class($file_handler)) == 'filemanager') {
             // HJÆLP MIG, jeg kan ikke vende denne if-sætning rigtigt.
             // Men her er det ok.
         } else {
@@ -49,20 +48,20 @@ class ImageHandler extends Standard
 
         $this->file_handler = $file_handler;
 
-        if(!defined('IMAGE_LIBRARY')) {
+        if (!defined('IMAGE_LIBRARY')) {
             define('IMAGE_LIBRARY', 'GD');
         }
 
         $this->image_library = IMAGE_LIBRARY;
 
-        if($this->file_handler->get('is_image') != 1) {
+        if ($this->file_handler->get('is_image') != 1) {
             trigger_error("Filtypen " . $file_handler->get('mime_type') . " er ikke et billede, og kan derfor ikke manipuleres i ImageHandler", E_USER_ERROR);
         }
 
         $this->tempdir_path = $this->file_handler->getTemporaryDirectory();
 
-        if(!is_dir($this->tempdir_path)) {
-            if(!mkdir($this->tempdir_path)) {
+        if (!is_dir($this->tempdir_path)) {
+            if (!mkdir($this->tempdir_path)) {
                 trigger_error('Kunne ikke oprette workdir '.$this->tempdir_path.'i ImageHandler->imageHandler', E_USER_ERROR);
             }
         }
@@ -86,26 +85,25 @@ class ImageHandler extends Standard
             exit;
         }
 
-        if($this->tmp_file_name != NULL && file_exists($this->tmp_file_name)) {
+        if ($this->tmp_file_name != NULL && file_exists($this->tmp_file_name)) {
             $error = $image->load($this->tmp_file_name);
         } else {
             $error = $image->load($this->file_handler->get('file_path'));
         }
 
-
         $image->setOption('quality', 90);
 
-        if($error !== true) {
+        if ($error !== true) {
             trigger_error("Kunne ikke åbne fil i ImageHandler->resize. ".$error->getMessage(), E_USER_ERROR);
             return false;
         }
 
-        if(!in_array($strict, array('relative', 'strict'))) {
+        if (!in_array($strict, array('relative', 'strict'))) {
             trigger_error("Den tredje parameter i ImageHandle->resize er ikke 'strict' eller 'relative'.", E_USER_ERROR);
         }
 
         // die($image->img_x.':'.$image->img_y.':'.$width.':'.$height);
-        if($strict == 'strict') {
+        if ($strict == 'strict') {
             // same aspect ratio: doesn't mapper which way to scale
             if (($image->img_y/$image->img_x) < ($height/$width)) {
                 $image->scaleByY($height);
@@ -119,13 +117,13 @@ class ImageHandler extends Standard
             }
 
             // die($image->new_x.':'.$image->new_y.':'.$width.':'.$height.': '.$offset_x.': '.$offset_y);
-            if($image->crop($width, $height, $offset_x, $offset_y) !== true){
+            if ($image->crop($width, $height, $offset_x, $offset_y) !== true){
                 trigger_error("Der opstod en fejl under formatering (crop) af billedet i ImageHandler->resize", E_USER_ERROR);
                 return false;
             }
         } else {
 
-            if($image->fit($width, $height) !== true) {
+            if ($image->fit($width, $height) !== true) {
                 trigger_error("Der opstod en fejl under formatering (fit) af billedet i ImageHandler->resize", E_USER_ERROR);
                 return false;
             }
@@ -134,7 +132,7 @@ class ImageHandler extends Standard
         $file_type = $this->file_handler->get('file_type');
         $new_filename = $this->tempdir_path.date('U').$this->file_handler->kernel->randomKey(10).'.'.$file_type['extension'];
 
-        if($image->save($new_filename) !== true) {
+        if ($image->save($new_filename) !== true) {
             trigger_error("Kunne ikke gemme billedet i ImageHandler->resize", E_USER_ERROR);
             return false;
         }
@@ -142,8 +140,6 @@ class ImageHandler extends Standard
         $this->tmp_file_name = $new_filename;
         return $new_filename;
     }
-
-
 
     /**
      * crop a picture
@@ -163,7 +159,7 @@ class ImageHandler extends Standard
             exit;
         }
 
-        if($this->tmp_file_name != NULL && file_exists($this->tmp_file_name)) {
+        if ($this->tmp_file_name != NULL && file_exists($this->tmp_file_name)) {
             $error = $image->load($this->tmp_file_name);
         } else {
             $error = $image->load($this->file_handler->get('file_path'));
@@ -172,12 +168,12 @@ class ImageHandler extends Standard
 
         $image->setOption('quality', 100);
 
-        if($error !== true) {
+        if ($error !== true) {
             trigger_error("Kunne ikke åbne fil i ImageHandler->resize. ".$error->getMessage(), E_USER_ERROR);
         }
 
 
-        if($image->crop($width, $height, $offset_x, $offset_y) !== true){
+        if ($image->crop($width, $height, $offset_x, $offset_y) !== true){
             trigger_error("Der opstod en fejl under formatering (crop) af billedet i ImageHandler->crop", E_USER_ERROR);
             return false;
         }
@@ -186,7 +182,7 @@ class ImageHandler extends Standard
 
         $new_filename = $this->tempdir_path.date('U').$this->file_handler->kernel->randomKey(10).'.'.$file_type['extension'];
 
-        if($image->save($new_filename) !== true) {
+        if ($image->save($new_filename) !== true) {
             trigger_error("Kunne ikke gemme billedet i ImageHandler->crop", E_USER_ERROR);
             return false;
         }
@@ -209,12 +205,12 @@ class ImageHandler extends Standard
         $width = $this->file_handler->get('width'); //1000
         $height = $this->file_handler->get('height'); //502
 
-        if($width > $max_width) {
+        if ($width > $max_width) {
             $height = ($max_width/$width)*$height;
             $width = $max_width;
         }
 
-        if($height > $max_height) {
+        if ($height > $max_height) {
             $width = ($max_height/$height)*$width;
             $height = $max_height;
         }
