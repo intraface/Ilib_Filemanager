@@ -52,7 +52,7 @@ class UploadHandler extends Standard
     private $file_handler;
 
     /**
-     * @todo
+     * @var @todo
      */
     private $upload_setting;
 
