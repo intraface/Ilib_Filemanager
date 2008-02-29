@@ -6,8 +6,13 @@ Doctrine_Manager::connection('mysql://root:@localhost/pear');
 
 require_once 'Doctrine/Migration.php';
 $migration = new Doctrine_Migration('./migration');
-echo $migration->getCurrentVersion();
 
-$migration->migrate(1);
+$migrate_to = 1;
 
-echo $migration->getCurrentVersion();
+if ($migration->getCurrentVersion() >= $migrate_to) {
+    exit('Database scheme is already at least at version ' . $migration->getCurrentVersion());
+}
+
+$migration->migrate($migrate_to);
+
+exit('Now the database scheme is at version ' . $migration->getCurrentVersion());
