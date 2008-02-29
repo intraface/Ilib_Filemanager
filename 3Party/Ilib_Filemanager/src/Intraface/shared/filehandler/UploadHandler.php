@@ -130,7 +130,7 @@ class UploadHandler extends Standard
         $upload = new HTTP_Upload("en");
         $files = $upload->getFiles();
         $return = true;
-        foreach($files as $file) {
+        foreach ($files as $file) {
             if ($error = $file->isError()) {
                 $this->file_handler->error->set($file->getMessage());
                 $return = false;
@@ -141,7 +141,7 @@ class UploadHandler extends Standard
             return false;
         }
 
-        foreach($files as $file) {
+        foreach ($files as $file) {
             if ($this->upload($file) === false) {
                 $return = false;
             }
