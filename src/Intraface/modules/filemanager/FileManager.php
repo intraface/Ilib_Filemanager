@@ -25,7 +25,7 @@ class FileManager extends FileHandler
      *
      * @return void
      */
-    function __construct($kernel, $file_id = 0)
+    public function __construct($kernel, $file_id = 0)
     {
         parent::__construct($kernel, $file_id);
     }
