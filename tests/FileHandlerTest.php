@@ -53,10 +53,18 @@ class FileHandlerTest extends PHPUnit_Framework_TestCase
 {
     private $file_name = 'tester.jpg';
 
-    function setUp() {
+    function setUp()
+    {
         $db = MDB2::factory(DB_DSN);
         $db->query('TRUNCATE file_handler');
-        fht_deltree(PATH_UPLOAD . '1');
+        fht_deltree(PATH_UPLOAD);
+        mkdir(PATH_UPLOAD);
+    }
+
+    function tearDown()
+    {
+        fht_deltree(PATH_UPLOAD);
+        mkdir(PATH_UPLOAD);
     }
 
     function createKernel()
