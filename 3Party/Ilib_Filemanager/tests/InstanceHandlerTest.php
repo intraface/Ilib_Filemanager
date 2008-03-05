@@ -41,7 +41,7 @@ function iht_deltree( $f ){
                 continue;
             iht_deltree( $f . "/" . $item );
         }
-        rmdir( $f );
+        @rmdir( $f );
     }
     else{
         @unlink( $f );
@@ -64,7 +64,7 @@ class InstanceHandlerTest extends PHPUnit_Framework_TestCase
 
     function tearDown()
     {
-        fht_deltree(PATH_UPLOAD);
+        iht_deltree(PATH_UPLOAD);
         mkdir(PATH_UPLOAD);
     }
 
