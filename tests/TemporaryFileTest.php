@@ -2,7 +2,26 @@
 require_once 'config.test.php';
 
 require_once 'PHPUnit/Framework.php';
+require_once 'MDB2.php';
 require_once 'Intraface/shared/filehandler/TemporaryFile.php';
+
+if(!function_exists('iht_deltree')) {
+function iht_deltree( $f ){
+
+    if( is_dir( $f ) ){
+        foreach( scandir( $f ) as $item ){
+            if( !strcmp( $item, '.' ) || !strcmp( $item, '..' ) )
+                continue;
+            iht_deltree( $f . "/" . $item );
+        }
+        @rmdir( $f );
+    }
+    else{
+        @unlink( $f );
+    }
+}
+}
+
 
 class FakeTemporaryFileKernel {
     public $intranet;
@@ -66,7 +85,7 @@ class TemporaryFileTest extends PHPUnit_Framework_TestCase
 
     function tearDown()
     {
-        fht_deltree(PATH_UPLOAD);
+        iht_deltree(PATH_UPLOAD);
         mkdir(PATH_UPLOAD);
     }
 
