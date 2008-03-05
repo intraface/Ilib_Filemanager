@@ -60,11 +60,14 @@ class ImageHandlerTest extends PHPUnit_Framework_TestCase
     {
         $db = MDB2::factory(DB_DSN);
         $db->query('TRUNCATE file_handler');
-        iht_deltree(PATH_UPLOAD.'1');
-        if(file_exists(PATH_UPLOAD.'/1/1.jpeg')) {
-            unlink(PATH_UPLOAD.'/1/1.jpeg');
-        }
+        iht_deltree(PATH_UPLOAD);
+        mkdir(PATH_UPLOAD);
+    }
 
+    function tearDown()
+    {
+        iht_deltree(PATH_UPLOAD);
+        mkdir(PATH_UPLOAD);
     }
 
     function createKernel()

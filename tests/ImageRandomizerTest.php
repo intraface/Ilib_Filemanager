@@ -61,11 +61,14 @@ class ImageRandomizerTest extends PHPUnit_Framework_TestCase
         $db->query('TRUNCATE file_handler_instance');
         $db->query('TRUNCATE keyword');
         $db->query('TRUNCATE keyword_x_object');
-        ihta_deltree(PATH_UPLOAD.'1');
-        if(file_exists(PATH_UPLOAD.'/1/1.jpeg')) {
-            unlink(PATH_UPLOAD.'/1/1.jpeg');
-        }
+        ihta_deltree(PATH_UPLOAD);
+        mkdir(PATH_UPLOAD);
+    }
 
+    function tearDown()
+    {
+        ihta_deltree(PATH_UPLOAD);
+        mkdir(PATH_UPLOAD);
     }
 
     function createKernel()
