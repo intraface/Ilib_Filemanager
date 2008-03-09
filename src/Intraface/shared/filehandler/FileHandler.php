@@ -602,7 +602,7 @@ class FileHandler extends Standard
      *
      * @return string
      */
-    public function _getMimeType($key, $from = 'key')
+    protected function _getMimeType($key, $from = 'key')
     {
         if (empty($this->file_types)) {
             $this->loadMimeTypes();
