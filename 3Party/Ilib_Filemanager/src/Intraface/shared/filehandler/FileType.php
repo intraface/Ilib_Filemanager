@@ -14,6 +14,9 @@
 
 class FileType
 {
+    /**
+     * @var array
+     */
     private $types = array(
             0 => array('description' => 'Unknown filetype',
                 'mime_type' => '',
