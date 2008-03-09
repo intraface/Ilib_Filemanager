@@ -18,6 +18,11 @@ class FileManager extends FileHandler
     public $dbquery;
 
     /**
+     * @var string
+     */
+    public $fileviewer_path;
+
+    /**
      * Constructor
      *
      * @param object  $kernel  Kernel object
@@ -28,6 +33,7 @@ class FileManager extends FileHandler
     public function __construct($kernel, $file_id = 0)
     {
         parent::__construct($kernel, $file_id);
+        $this->fileviewer_path = FILE_VIEWER;
     }
 
     /**
@@ -185,13 +191,13 @@ class FileManager extends FileHandler
             } else {
                 $file[$i]['dk_file_size'] = number_format($file[$i]['file_size'], 2, ",",".")." byte";
             }
-            $file[$i]['file_uri'] = FILE_VIEWER.'?/'.$this->kernel->intranet->get('public_key').'/'.$db->f('access_key').'/'.urlencode($db->f('file_name'));
+            $file[$i]['file_uri'] = $this->fileviewer_path.'?/'.$this->kernel->intranet->get('public_key').'/'.$db->f('access_key').'/'.urlencode($db->f('file_name'));
 
             $file[$i]['accessibility'] = $this->accessibility_types[$db->f('accessibility_key')];
 
 
             if ($file[$i]['is_picture'] == 1) {
-                $file[$i]['icon_uri'] = FILE_VIEWER.'?/'.$this->kernel->intranet->get('public_key').'/'.$db->f('access_key').'/system-square/'.urlencode($db->f('file_name'));
+                $file[$i]['icon_uri'] = $this->fileviewer_path.'?/'.$this->kernel->intranet->get('public_key').'/'.$db->f('access_key').'/system-square/'.urlencode($db->f('file_name'));
                 $file[$i]['icon_width'] = 75;
                 $file[$i]['icon_height'] = 75;
             } else {
