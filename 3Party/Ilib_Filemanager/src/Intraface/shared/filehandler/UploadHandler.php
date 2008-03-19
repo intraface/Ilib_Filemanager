@@ -198,7 +198,7 @@ class UploadHandler extends Standard
             $this->file_handler->error->set("error in file - too big");
         }
 
-        $mime_type = $this->file_handler->_getMimeType($prop['type'], 'mime_type');
+        $mime_type = $this->file_handler->getMimeType($prop['type'], 'mime_type');
         if ($mime_type === false) {
             $this->file_handler->error->set("error in file - not allowed mime_type (".$prop['ext'].", ".$prop['type'].")");
             return false;
