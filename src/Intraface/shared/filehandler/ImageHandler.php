@@ -91,7 +91,7 @@ class ImageHandler extends Standard
             $error = $image->load($this->file_handler->get('file_path'));
         }
 
-        $image->setOption('quality', 90);
+        $image->setOption('quality', 95);
 
         if ($error !== true) {
             trigger_error("Kunne ikke åbne fil i ImageHandler->resize. ".$error->getMessage(), E_USER_ERROR);
@@ -166,7 +166,7 @@ class ImageHandler extends Standard
         }
 
 
-        $image->setOption('quality', 100);
+        $image->setOption('quality', 95);
 
         if ($error !== true) {
             trigger_error("Kunne ikke åbne fil i ImageHandler->resize. ".$error->getMessage(), E_USER_ERROR);
