@@ -470,8 +470,8 @@ class FileHandler extends Standard
             $width = $imagesize[0]; // imagesx($file);
             $height = $imagesize[1]; // imagesy($file);
         } else {
-            $width = "NULL";
-            $height = "NULL";
+            $width = 0;
+            $height = 0;
         }
 
         $accessibility_key = array_search('intranet', $this->accessibility_types);
@@ -626,6 +626,11 @@ class FileHandler extends Standard
         }
 
         return false;
+    }
+
+    public function getMimeType($key, $from = 'key')
+    {
+        return $this->_getMimeType($key, $from);
     }
 
     /**
