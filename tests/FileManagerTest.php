@@ -29,6 +29,7 @@ class FileManagerTest extends PHPUnit_Framework_TestCase
     function createKernel()
     {
         $kernel = new FakeKernel;
+        $kernel->session_id = 'notreallyasessionid';
         $kernel->intranet = new FakeFileManagerIntranet;
         $kernel->user = new FakeFileManagerUser;
         return $kernel;

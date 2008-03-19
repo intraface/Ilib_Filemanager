@@ -64,8 +64,8 @@ class InstanceHandlerTest extends PHPUnit_Framework_TestCase
 
     function tearDown()
     {
-        iht_deltree(PATH_UPLOAD);
-        mkdir(PATH_UPLOAD);
+        // iht_deltree(PATH_UPLOAD);
+        // mkdir(PATH_UPLOAD);
     }
 
     function createKernel()
