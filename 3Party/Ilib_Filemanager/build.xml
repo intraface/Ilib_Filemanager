@@ -5,7 +5,7 @@
     <taskdef classname="phing.tasks.ext.FtpDeployTask" name="ftpdeploy" />
 
     <property name="package-name" value="${phing.project.name}" />
-    <property name="version" value="0.1.0" />
+    <property name="version" value="0.1.1" />
     <property name="stability" value="alpha" />
     <property name="pear.channel" value="public.intraface.dk" />
 
@@ -29,11 +29,12 @@
     <target name="pear" depends="export">
         <d51pearpkg2 dir="${build.dir}" baseinstalldir="/">
             <name>${package-name}</name>
-            <summary>Filehandler</summary>
+            <summary>Provides an easy framework for handling files</summary>
             <channel>${pear.channel}</channel>
             <description>
                 <!--        Don't exceed this width         -->
-                Filehandler
+                Ilib_Filehandler for handling files, file 
+                upload and images.
             </description>
 
             <lead user="lsolesen" name="Lars Olesen" email="lars@legestue.net" />
@@ -68,7 +69,7 @@
             </dependencies>
 
             <notes>
-                * Initial release as a pear package.
+                * Fixed bug with requesting getMimeType in uploadhandler 
             </notes>
         </d51pearpkg2>
     </target>
@@ -118,6 +119,6 @@
           --log-pmd ${reports.phpunit.dir}/phpunit.pmd.xml
           --coverage-xml ${reports.phpunit.dir}/phpunit.coverage.xml
           --coverage-html ${reports.coverage.dir}/
-          FileHandler_AllTests AllTests.php" passthru="true" checkreturn="true" />
+          AllTests AllTests.php" passthru="true" checkreturn="true" />
     </target>
 </project>
