@@ -118,14 +118,13 @@ class FileHandler extends Standard
         if (!is_object($kernel)) {
             trigger_error('FileHandler kræver kernel', E_USER_ERROR);
         }
-        $this->kernel = $kernel;
-        $this->id = (int)$file_id;
-        $this->error = new Ilib_Error;
-
-        $this->upload_path = PATH_UPLOAD . $this->kernel->intranet->get('id') . '/';
-        $this->tempdir_path = $this->upload_path.PATH_UPLOAD_TEMPORARY;
-        $this->file_viewer = FILE_VIEWER;
-        $this->www_path = PATH_WWW;
+        $this->kernel       = $kernel;
+        $this->id           = (int)$file_id;
+        $this->error        = new Ilib_Error;
+        $this->upload_path  = PATH_UPLOAD . $this->kernel->intranet->get('id') . '/';
+        $this->tempdir_path = $this->upload_path . PATH_UPLOAD_TEMPORARY;
+        $this->file_viewer  = FILE_VIEWER;
+        $this->www_path     = PATH_WWW;
 
         if (!is_dir($this->upload_path)) {
             if (!mkdir($this->upload_path)) {
@@ -133,8 +132,7 @@ class FileHandler extends Standard
                 exit;
             }
         }
-        
-        
+
         if ($this->id > 0) {
             $this->load();
         }
@@ -510,13 +508,13 @@ class FileHandler extends Standard
             $id = $db->insertedId();
         }
 
-        $server_file_name = $id.'.'.$mime_type['extension'];
+        $server_file_name = $id . '.' . $mime_type['extension'];
 
         if (!is_file($file)) {
             trigger_error("Filen vi vil flytte er ikke en gyldig fil i filehandler->save", E_USER_ERROR);
         }
 
-        if (!rename($file, $this->upload_path.$server_file_name)) {
+        if (!rename($file, $this->upload_path . $server_file_name)) {
             $this->delete();
             trigger_error("Unable to move file '".$file."' to '".$this->upload_path.$server_file_name."' in Filehandler->save", E_USER_ERROR);
         }

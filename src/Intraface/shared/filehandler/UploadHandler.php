@@ -95,11 +95,11 @@ class UploadHandler extends Standard
         //$this->upload_path = PATH_UPLOAD.$this->file_handler->kernel->intranet->get('id').'/';
         $this->upload_path = $this->file_handler->getUploadPath();
 
-        $this->upload_setting['max_file_size'] = 500000;
-        $this->upload_setting['allow_only_images'] = 0;
+        $this->upload_setting['max_file_size']        = 500000;
+        $this->upload_setting['allow_only_images']    = 0;
         $this->upload_setting['allow_only_documents'] = 0;
-        $this->upload_setting['file_accessibility'] = 'intranet';
-        $this->upload_setting['add_keyword'] = '';
+        $this->upload_setting['file_accessibility']   = 'intranet';
+        $this->upload_setting['add_keyword']          = '';
     }
 
     /**
@@ -107,7 +107,7 @@ class UploadHandler extends Standard
      * Se indstillingenre i Uploadhandler->uploadhandler (init funktionen).
      *
      * @param string $setting @todo
-     * @apram string $value   @todo
+     * @param string $value   @todo
      *
      * @return void
      */
@@ -165,7 +165,6 @@ class UploadHandler extends Standard
      */
     function upload($input, $upload_type = 'save')
     {
-
         if (!in_array($upload_type, array('save', 'temporary', 'do_not_save'))) {
             trigger_error("Anden parameter '".$upload_type."' er ikke enten 'save', 'temporary' eller 'do_not_save' i UploadHandler->upload", E_USER_ERROR);
         }
@@ -224,7 +223,6 @@ class UploadHandler extends Standard
         if ($this->file_handler->error->isError()) {
             return false;
         }
-
 
         if ($upload_type == 'do_not_save') {
             $tmp_server_file_name = date("U").$this->file_handler->kernel->randomKey(10).".".$mime_type['extension'];
