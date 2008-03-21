@@ -87,14 +87,16 @@ class ImageHandler extends Standard
 
         if ($this->tmp_file_name != NULL && file_exists($this->tmp_file_name)) {
             $error = $image->load($this->tmp_file_name);
+            $filename = $this->tmp_file_name;
         } else {
             $error = $image->load($this->file_handler->get('file_path'));
+            $filename = $this->file_handler->get('file_path');
         }
 
         $image->setOption('quality', 95);
 
         if ($error !== true) {
-            trigger_error("Kunne ikke åbne fil i ImageHandler->resize. ".$error->getMessage(), E_USER_ERROR);
+            trigger_error('Could not open ' . $filename . ' ImageHandler->resize. ' . $error->getMessage(), E_USER_ERROR);
             return false;
         }
 
