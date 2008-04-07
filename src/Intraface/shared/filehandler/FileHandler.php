@@ -282,6 +282,7 @@ class FileHandler extends Standard
                 $this->value['height'] = $imagesize[1]; //imagesy($this->get('file_uri'));
                 $db2 = new DB_sql;
                 $db2->query("UPDATE file_handler SET height = ".(int)$this->value['height']." WHERE intranet_id = ".$this->kernel->intranet->get('id')." AND id = ".$this->id);
+                $db2->free();
             } else {
                 $this->value['height'] = $db->f('height');
             }
@@ -289,6 +290,8 @@ class FileHandler extends Standard
             $this->value['width'] = '';
             $this->value['height'] = '';
         }
+
+        $db->free();
 
         return $this->id;
     }
