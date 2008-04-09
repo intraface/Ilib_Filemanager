@@ -325,7 +325,7 @@ class UploadHandler extends Standard
                     continue;
                 }
 
-                $mime_type = $this->file_handler->_getMimeType(mime_content_type($dir.$file), 'mime_type');
+                $mime_type = $this->file_handler->getMimeType(mime_content_type($dir.$file), 'mime_type');
                 if ($mime_type === false) {
                     $this->file_handler->error->set("Filen \"".$file."\" er ikke en gyldig filtype (Det er typen: ".mime_content_type($dir.'/'.$file).")");
                     print("Filen \"".$file."\" er ikke en gyldig filtype (Det er typen: ".mime_content_type($dir.'/'.$file).")<br />");
