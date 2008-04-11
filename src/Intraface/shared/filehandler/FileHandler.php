@@ -9,6 +9,8 @@
  * FileManager er modullet hvor man også kan se browse og ændre filerne.
  * Dette vil benytte FileHandler.
  *
+ * @todo FileHandler kunne godt vaere mere intelligent, saa den ikke forsoger at gemme som en, hvis der allerede findes en fil, der hedder 1, men saa i stedet laver et andet navn...
+ *
  * @package Intraface
  * @author  Sune Jensen
  * @since   1.2
