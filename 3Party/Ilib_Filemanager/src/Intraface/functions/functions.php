@@ -24,45 +24,6 @@ function safeToDb($data) {
     return mysql_escape_string(trim($data));
 }
 
-/**
- * Function to be called before outputting data to a form
- *
- * @author	Lars Olesen <lars@legestue.net>
- */
-function safeToForm($data) {
-
-    // return 'safeToForm'; // for debugging of use of safeToForm
-
-    return safeToHtml($data);
-
-
-}
-
-/**
- * Function to be called before putting data into a form
- *
- * Metoden skal i øvrigt skrives om hvis den skal fungere sådan her til den
- * der findes i vores subversion.
- *
- * @author	Lars Olesen <lars@legestue.net>
- */
-function safeToHtml($data) {
-    // denne bruges i forbindelse med translation - kan sikkert fjernes når alt er implementeret
-    if (is_object($data)) return $data->getMessage();
-
-    // egentlig bør den her vel ikke være rekursiv. Man skal kun bruge den når man skriver direkte ud.
-    if(is_array($data)){
-        return array_map('safeToHtml',$data);
-    }
-
-    if (get_magic_quotes_gpc()) {
-        $data = stripslashes($data);
-    }
-
-    // return 'safeToHtml'; // For debugging of use of safeToHtml
-    return htmlspecialchars($data);
-}
-
 /*
  * Function to convert filesize to readable sizes.
  * from: http://us3.php.net/filesize
