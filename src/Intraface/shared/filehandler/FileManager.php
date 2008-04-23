@@ -1,6 +1,6 @@
 <?php
 /**
- * @package Intraface_FileManager
+ * @package Ilib_Filehandler
  */
  
 require_once 'Intraface/shared/filehandler/FileHandler.php';

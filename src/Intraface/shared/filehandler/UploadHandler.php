@@ -36,7 +36,7 @@
  * når man er sådan en der måske kun har lov at indsætte billeder på en side, der er oploadet
  * til filarkivet.
  *
- * @package Intraface
+ * @package Ilib_Filehandler
  * @author: Sune
  * @version: 1.0
  *

@@ -2,7 +2,7 @@
  /**
   * Image handler. Klarer håndtering af billeder.
   *
-  * @package Intraface
+  * @package Ilib_Filehandler
   * @author: Sune
   * @version: 1.0
   *
