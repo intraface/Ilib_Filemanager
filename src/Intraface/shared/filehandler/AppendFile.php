@@ -103,6 +103,21 @@ class AppendFile
     }
 
     /**
+     * Creates the dbquery so it can be used from everywhere
+     *
+     * @return object
+     */
+    function getDBQuery()
+    {
+        if ($this->dbquery) {
+            return $this->dbquery;
+        }
+        $this->dbquery = new Ilib_DBQuery('filehandler_append_file', 'filehandler_append_file.active = 1 AND filehandler_append_file.intranet_id='.$this->kernel->intranet->get('id').' AND filehandler_append_file.belong_to_key = '.$this->belong_to_key.' AND filehandler_append_file.belong_to_id = ' . $this->belong_to_id);
+        $this->dbquery->createStore($this->kernel->getSessionId(), 'intranet_id = '.intval($this->kernel->intranet->get('id')));
+        return $this->dbquery;
+    }
+
+    /**
      * Checks whether the file has already been appended
      *
      * @param integer $file_id The file id to check
@@ -204,18 +219,14 @@ class AppendFile
      */
     public function getList()
     {
-        if (!isset($this->dbquery)) {
-            $this->createDBQuery();
-        }
-
-        if ($this->dbquery->checkFilter('order_by') && $this->dbquery->getFilter('order_by') == 'name') {
-            $this->dbquery->setJoin('INNER', 'file_handler', 'filehandler_append_file.file_handler_id = file_handler.id', 'file_handler.intranet_id = '.$this->kernel->intranet->get('id').' AND file_handler.active = 1');
-            $this->dbquery->setSorting('file_handler.file_name');
+        if ($this->getDBQuery()->checkFilter('order_by') && $this->dbquery->getFilter('order_by') == 'name') {
+            $this->getDBQuery()->setJoin('INNER', 'file_handler', 'filehandler_append_file.file_handler_id = file_handler.id', 'file_handler.intranet_id = '.$this->kernel->intranet->get('id').' AND file_handler.active = 1');
+            $this->getDBQuery()->setSorting('file_handler.file_name');
         } else {
-            $this->dbquery->setSorting('filehandler_append_file.id');
+            $this->getDBQuery()->setSorting('filehandler_append_file.id');
         }
 
-        $db = $this->dbquery->getRecordset('filehandler_append_file.id, filehandler_append_file.file_handler_id, filehandler_append_file.description');
+        $db = $this->getDBQuery()->getRecordset('filehandler_append_file.id, filehandler_append_file.file_handler_id, filehandler_append_file.description');
         $i = 0;
         $files = array();
         while ($db->nextRecord()) {
