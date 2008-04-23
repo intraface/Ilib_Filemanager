@@ -1,6 +1,8 @@
 <?php
 /**
  * Class to control and check file types
+ * 
+ * @package Ilib_Filehandler
  */
 
 /**

@@ -6,7 +6,7 @@
  * so I can fake it - and how to put in the authentication when
  * it is only needed sometimes?
  *
- * @package Intraface
+ * @package Ilib_Filehandler
  * @author  Sune Jensen <sj@sunet.dk>
  * @author  Lars Olesen <lars@legestue.net>
  * @since   0.1.0

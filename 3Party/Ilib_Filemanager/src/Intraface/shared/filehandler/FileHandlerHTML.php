@@ -4,7 +4,7 @@
  *
  * Den mangler stadig at blive udviklet!!!
  *
- * @package Intraface
+ * @package Ilib_Filehandler
  */
 
 

@@ -4,7 +4,7 @@
  *
  * @author sune
  * @version 0.0.1
- * @package filehandler
+ * @package Ilib_Filehandler
  */
 class InstanceManager
 {

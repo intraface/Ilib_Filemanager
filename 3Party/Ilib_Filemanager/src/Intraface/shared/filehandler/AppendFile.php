@@ -1,6 +1,6 @@
 <?php
 /**
- * @package Intraface
+ * @package Ilib_Filehandler
  */
 require_once 'Ilib/DBQuery.php';
 

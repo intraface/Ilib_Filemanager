@@ -4,7 +4,7 @@
  *
  * @author sune jensen
  * @version 0.0.1
- * @category filehandler
+ * @package Ilib_Filehandler
  */
 
 class TemporaryFile

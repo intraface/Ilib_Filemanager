@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * @package Intraface
+ * @package Ilib_Filehandler
  * @author	<Sune>
  * @since	1.0
  * @version	1.0

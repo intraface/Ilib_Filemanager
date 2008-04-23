@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package Ilib_Filehandler
+ */
 class ImageRandomizer
 {
     /**

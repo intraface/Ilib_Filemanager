@@ -11,7 +11,7 @@
  *
  * @todo FileHandler kunne godt vaere mere intelligent, saa den ikke forsoger at gemme som en, hvis der allerede findes en fil, der hedder 1, men saa i stedet laver et andet navn...
  *
- * @package Intraface
+ * @package Ilib_Filehandler
  * @author  Sune Jensen
  * @since   1.2
  */
