@@ -5,7 +5,7 @@
     <taskdef classname="phing.tasks.ext.FtpDeployTask" name="ftpdeploy" />
 
     <property name="package-name" value="${phing.project.name}" />
-    <property name="version" value="0.1.1" />
+    <property name="version" value="0.1.2" />
     <property name="stability" value="alpha" />
     <property name="pear.channel" value="public.intraface.dk" />
 
@@ -33,7 +33,7 @@
             <channel>${pear.channel}</channel>
             <description>
                 <!--        Don't exceed this width         -->
-                Ilib_Filehandler for handling files, file 
+                Ilib_Filehandler for handling files, file
                 upload and images.
             </description>
 
@@ -52,24 +52,24 @@
 
                 <package name="DB_Sql"
                          channel="public.intraface.dk"
-                         recommended_version="0.0.1"
                          minimum_version="0.0.1" />
 
                 <package name="Ilib_Error"
                          channel="public.intraface.dk"
-                         recommended_version="0.0.1"
                          minimum_version="0.0.1" />
 
                 <package name="Ilib_DBQuery"
                          channel="public.intraface.dk"
-                         recommended_version="0.1.1"
                          minimum_version="0.1.1" />
 
+                <package name="Ilib_RandomKeyGenerator"
+                         channel="public.intraface.dk"
+                         minimum_version="0.1.0" />
 
             </dependencies>
 
             <notes>
-                * Fixed bug with requesting getMimeType in uploadhandler 
+                * Added dependency on Ilib_RandomKeyGenerator
             </notes>
         </d51pearpkg2>
     </target>
