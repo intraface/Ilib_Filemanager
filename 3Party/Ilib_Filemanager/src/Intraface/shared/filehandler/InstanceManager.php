@@ -305,7 +305,7 @@ class InstanceManager
             if (isset($standard_types[$s])) {
                 if ($standard_types[$s]['hidden'] && $show == 'visible') {
                     $s++;
-                    CONTINUE;
+                    continue;
                 }
 
                 if (isset($custom_types[$c]['type_key']) && $standard_types[$s]['type_key'] == $custom_types[$c]['type_key']) {
