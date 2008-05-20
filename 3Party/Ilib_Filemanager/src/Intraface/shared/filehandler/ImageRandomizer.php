@@ -2,6 +2,8 @@
 /**
  * @package Ilib_Filehandler
  */
+
+if (!class_exists('ImageRandomizer')) {
 class ImageRandomizer
 {
     /**
@@ -100,4 +102,5 @@ class ImageRandomizer
         return new FileHandler($this->file_manager->kernel, $this->file_list[$key]);
 
     }
+}
 }
