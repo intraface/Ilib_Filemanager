@@ -25,8 +25,8 @@ class ImageRandomizer
      * @param object $file_manager file handler
      * @param array $keywords array with keywords
      */
-    public function __construct($file_manager, $keywords) {
-
+    public function __construct($file_manager, $keywords)
+    {
         $this->file_manager = $file_manager;
 
         require_once 'Ilib/Error.php';
@@ -96,7 +96,6 @@ class ImageRandomizer
      */
     public function getRandomImage()
     {
-
         $key = rand(0, count($this->file_list)-1);
         return new FileHandler($this->file_manager->kernel, $this->file_list[$key]);
 
