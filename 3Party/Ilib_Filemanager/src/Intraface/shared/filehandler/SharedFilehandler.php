@@ -7,6 +7,7 @@
  * @version	1.0
  *
  */
+require_once 'Intraface/Shared.php';
 
 class SharedFilehandler extends Shared
 {
