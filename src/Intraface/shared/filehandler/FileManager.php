@@ -2,10 +2,10 @@
 /**
  * @package Ilib_Filehandler
  */
- 
+
 require_once 'Intraface/shared/filehandler/FileHandler.php';
 
-class FileManager extends FileHandler
+class NotActivatedYet_FileManager extends FileHandler
 {
     /**
      * @var object
@@ -29,7 +29,7 @@ class FileManager extends FileHandler
     {
         parent::__construct($kernel, $file_id);
     }
-    
+
     /**
      * Creates the dbquery object so it can be used in the class
      *
@@ -42,7 +42,7 @@ class FileManager extends FileHandler
         $this->dbquery->createStore($this->kernel->getSessionId(), 'intranet_id = '.intval($this->kernel->intranet->get('id')));
         $this->dbquery->useErrorObject($this->error);
     }
-    
+
 
     /**
      * Creates the keywords object
@@ -69,9 +69,9 @@ class FileManager extends FileHandler
      */
     public function getList($debug = '')
     {
-        // we load the mime types as they are going to be used a couple of times 
+        // we load the mime types as they are going to be used a couple of times
         $this->loadMimeTypes();
-        
+
         if($this->dbquery->checkFilter("uploaded_from_date")) {
             $date_parts = explode(" ", $this->dbquery->getFilter("uploaded_from_date"));
             // Der kontrolleres ikke for gyldig tidsformat
