@@ -1,7 +1,7 @@
 <?php
 /**
  * Class to control and check file types
- * 
+ *
  * @package Ilib_Filehandler
  */
 
@@ -137,7 +137,13 @@ class FileType
                 'extension' => 'csv',
                 'icon' => 'csv.jpg',
                 'image' => 0,
-                'allow_user_upload' => 1)
+                'allow_user_upload' => 1),
+            17 => array('description' => 'MP3 audio file',
+                'mime_type' => 'mp3, audio/x-mp3',
+                'extension' => 'mp3',
+                'icon' => 'mp3.jpg',
+                'image' => 0,
+                'allow_user_upload' => 1),
         );
 
 
