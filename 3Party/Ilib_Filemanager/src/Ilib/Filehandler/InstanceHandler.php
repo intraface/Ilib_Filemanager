@@ -12,7 +12,7 @@
  * @version 1.0
  *
  */
-class Ilib_Filehandler_InstanceHandler extends Standard
+class Ilib_Filehandler_InstanceHandler extends Ilib_Filehandler_Standard
 {
     /**
      * @var object

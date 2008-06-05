@@ -41,7 +41,7 @@
  * @version: 1.0
  *
  */
-class Ilib_Filehandler_UploadHandler extends Standard
+class Ilib_Filehandler_UploadHandler extends Ilib_Filehandler_Standard
 {
     /**
      * @var object

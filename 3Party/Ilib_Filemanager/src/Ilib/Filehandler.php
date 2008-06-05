@@ -15,7 +15,7 @@
  * @author  Sune Jensen
  * @since   1.2
  */
-class Ilib_Filehandler extends Standard
+class Ilib_Filehandler extends Ilib_Filehandler_Standard
 {
     /**
      * @var integer
