@@ -15,7 +15,7 @@ class FileManager extends FileHandler
     /**
      * @var object
      */
-    public $dbquery;
+    protected $dbquery;
 
     /**
      * @var string
@@ -41,12 +41,13 @@ class FileManager extends FileHandler
      *
      * @return void
      */
-    public function createDBQuery()
+    public function getDBQuery()
     {
-        require_once 'Ilib/DBQuery.php';
+        if ($this->dbquery) return $this->dbquery;
         $this->dbquery = new Ilib_DBQuery("file_handler", "file_handler.temporary = 0 AND file_handler.active = 1 AND file_handler.intranet_id = ".$this->kernel->intranet->get("id"));
         $this->dbquery->createStore($this->kernel->getSessionId(), 'intranet_id = '.intval($this->kernel->intranet->get('id')));
         $this->dbquery->useErrorObject($this->error);
+        return $this->dbquery;
     }
 
 
@@ -78,70 +79,66 @@ class FileManager extends FileHandler
         // we load the mime types as they are going to be used a couple of times
         $this->loadMimeTypes();
 
-        if ($this->dbquery->checkFilter("uploaded_from_date")) {
-            $date_parts = explode(" ", $this->dbquery->getFilter("uploaded_from_date"));
+        if ($this->getDBQuery()->checkFilter("uploaded_from_date")) {
+            $date_parts = explode(" ", $this->getDBQuery()->getFilter("uploaded_from_date"));
             // Der kontrolleres ikke for gyldig tidsformat
             if (isset($date_parts[1]) && $date_parts[1] != "") $time = " ".$date_parts[1];
-            require_once 'Intraface/tools/Date.php';
-            $date = new Intraface_Date($date_parts[0]);
+            $date = new Ilib_Date($date_parts[0]);
             if ($date->convert2db()) {
-                $this->dbquery->setCondition("file_handler.date_created >= \"".$date->get().$time."\"");
+                $this->getDBQuery()->setCondition("file_handler.date_created >= \"".$date->get().$time."\"");
             } else {
                 $this->error->set("error in uploaded from date");
             }
         }
 
-        if ($this->dbquery->checkFilter("uploaded_to_date")) {
+        if ($this->getDBQuery()->checkFilter("uploaded_to_date")) {
             $date_parts = explode(" ", $this->dbquery->getFilter("uploaded_to_date"));
             // Der kontrolleres ikke for gyldig tidsformat
             if (isset($date_parts[1]) && $date_parts[1] != "") $time = " ".$date_parts[1];
-            require_once 'Intraface/tools/Date.php';
-            $date = new Intraface_Date($date_parts[0]);
+            $date = new Ilib_Date($date_parts[0]);
             if ($date->convert2db()) {
-                $this->dbquery->setCondition("file_handler.date_created <= \"".$date->get().$time."\"");
+                $this->getDBQuery()->setCondition("file_handler.date_created <= \"".$date->get().$time."\"");
             } else {
                 $this->error->set("error in uploaded to date");
             }
         }
 
-        if ($this->dbquery->checkFilter("edited_from_date")) {
+        if ($this->getDBQuery()->checkFilter("edited_from_date")) {
             $date_parts = explode(" ", $this->dbquery->getFilter("edited_from_date"));
             // Der kontrolleres ikke for gyldig tidsformat
             if (isset($date_parts[1]) && $date_parts[1] != "") $time = " ".$date_parts[1];
-            require_once 'Intraface/tools/Date.php';
-            $date = new Intraface_Date($date_parts[0]);
+            $date = new Ilib_Date($date_parts[0]);
             if ($date->convert2db()) {
-                $this->dbquery->setCondition("file_handler.date_changed >= \"".$date->get().$time."\"");
+                $this->getDBQuery()->setCondition("file_handler.date_changed >= \"".$date->get().$time."\"");
             } else {
                 $this->error->set("error in edited from date");
             }
         }
 
-        if ($this->dbquery->checkFilter("edited_to_date")) {
+        if ($this->getDBQuery()->checkFilter("edited_to_date")) {
             $date_parts = explode(" ", $this->dbquery->getFilter("edited_to_date"));
             // Der kontrolleres ikke for gyldig tidsformat
             if (isset($date_parts[1]) && $date_parts[1] != "") $time = " ".$date_parts[1];
-            require_once 'Intraface/tools/Date.php';
-            $date = new Intraface_Date($date_parts[0]);
+            $date = new Ilib_Date($date_parts[0]);
             if ($date->convert2db()) {
-                $this->dbquery->setCondition("file_handler.date_changed <= \"".$date->get().$time."\"");
+                $this->getDBQuery()->setCondition("file_handler.date_changed <= \"".$date->get().$time."\"");
             } else {
                 $this->error->set("error in edited to date");
             }
         }
 
-        if ($this->dbquery->checkFilter("accessibility")) {
+        if ($this->getDBQuery()->checkFilter("accessibility")) {
             $accessibility_key = array_search($this->dbquery->getFilter("accessibility"), $this->accessibility_types);
             if ($accessibility_key !== false) {
-                $this->dbquery->setCondition("file_handler.accessibility_key = ".intval($accessibility_key)."");
+                $this->getDBQuery()->setCondition("file_handler.accessibility_key = ".intval($accessibility_key)."");
             }
         }
 
-        if ($this->dbquery->checkFilter("text")) {
-            $this->dbquery->setCondition("file_handler.file_name LIKE \"%".safeToDb($this->dbquery->getFilter("text"))."%\" OR file_handler.description LIKE \"%".safeToDb($this->dbquery->getFilter("text"))."%\"");
+        if ($this->getDBQuery()->checkFilter("text")) {
+            $this->getDBQuery()->setCondition("file_handler.file_name LIKE \"%".safeToDb($this->getDBQuery()->getFilter("text"))."%\" OR file_handler.description LIKE \"%".safeToDb($this->getDBQuery()->getFilter("text"))."%\"");
         }
 
-        if ($this->dbquery->checkFilter('images')) {
+        if ($this->getDBQuery()->checkFilter('images')) {
             $keys = array();
             foreach($this->file_types AS $key => $mime_type) {
                 if ($mime_type['image'] == 1) {
@@ -150,13 +147,13 @@ class FileManager extends FileHandler
             }
 
             if (count($keys) > 0) {
-                $this->dbquery->setCondition("file_handler.file_type_key IN (".implode(',', $keys).")");
+                $this->getDBQuery()->setCondition("file_handler.file_type_key IN (".implode(',', $keys).")");
             }
         }
 
 
-        if (!$this->dbquery->checkSorting()) {
-            $this->dbquery->setSorting('file_handler.file_name');
+        if (!$this->getDBQuery()->checkSorting()) {
+            $this->getDBQuery()->setSorting('file_handler.file_name');
         }
 
         $file = array();
@@ -169,7 +166,7 @@ class FileManager extends FileHandler
             $debug = false;
         }
 
-        $db = $this->dbquery->getRecordset("file_handler.*, DATE_FORMAT(file_handler.date_created, '%d-%m-%Y') AS dk_date_created", "", $debug);
+        $db = $this->getDBQuery()->getRecordset("file_handler.*, DATE_FORMAT(file_handler.date_created, '%d-%m-%Y') AS dk_date_created", "", $debug);
 
         //$db->query("SELECT * FROM file_handler WHERE intranet_id = ".$this->kernel->intranet->get('id')." AND active = 1 AND tmp = 0 ORDER BY date_created DESC");
         while($db->nextRecord()) {

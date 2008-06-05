@@ -95,7 +95,7 @@ class FileHandler extends Standard
      *       har jeg lavet keywordsøgning i denne LO
      * @var object
      */
-    public $dbquery;
+    protected $dbquery;
 
     /**
      * @var string

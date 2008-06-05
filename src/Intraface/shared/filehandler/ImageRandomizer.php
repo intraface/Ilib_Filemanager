@@ -31,10 +31,7 @@ class ImageRandomizer
     {
         $this->file_manager = $file_manager;
 
-        require_once 'Ilib/Error.php';
         $this->error = new Ilib_Error;
-
-        $dbquery = $this->getDBQuery();
 
         require_once 'Intraface/shared/keyword/Keyword.php';
         if (!is_array($keywords)) {
@@ -51,9 +48,8 @@ class ImageRandomizer
             $keyword_ids[] = $keyword_object->save(array('keyword' => $keyword));
         }
 
-        $dbquery->setKeyword((array)$keyword_ids);
+        $this->getDBQuery()->setKeyword((array)$keyword_ids);
 
-        require_once('Intraface/shared/filehandler/FileType.php');
         $filetype = new FileType();
         $types = $filetype->getList();
         $keys = array();
@@ -63,10 +59,10 @@ class ImageRandomizer
             }
         }
 
-        $dbquery->setCondition("file_handler.file_type_key IN (".implode(',', $keys).")");
+        $this->getDBQuery()->setCondition("file_handler.file_type_key IN (".implode(',', $keys).")");
 
         $this->file_list = array();
-        $db = $dbquery->getRecordset("file_handler.id", "", false);
+        $db = $this->getDBQuery()->getRecordset("file_handler.id", "", false);
 
         while($db->nextRecord()) {
             $this->file_list[] = $db->f('id');
@@ -84,10 +80,10 @@ class ImageRandomizer
      */
     private function getDBQuery()
     {
-        require_once 'Ilib/DBQuery.php';
+        if ($this->dbquery) return $this->dbquery;
         $dbquery = new Ilib_DBQuery("file_handler", "file_handler.temporary = 0 AND file_handler.active = 1 AND file_handler.intranet_id = ".$this->file_manager->kernel->intranet->get('id'));
         $dbquery->useErrorObject($this->error);
-        return $dbquery;
+        return ($this->dbquery = $dbquery);
     }
 
 

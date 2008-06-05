@@ -144,6 +144,12 @@ class FileType
                 'icon' => 'mp3.jpg',
                 'image' => 0,
                 'allow_user_upload' => 1),
+            18 => array('description' => 'Open Office document',
+                'mime_type' => 'application/vnd.oasis.opendocument.text',
+                'extension' => 'odt',
+                'icon' => 'odt.jpg',
+                'image' => 0,
+                'allow_user_upload' => 1)                
         );
 
 

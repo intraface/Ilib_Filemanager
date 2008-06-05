@@ -41,9 +41,6 @@
  * @version: 1.0
  *
  */
-
-require_once 'HTTP/Upload.php';
-
 class UploadHandler extends Standard
 {
     /**
@@ -81,13 +78,6 @@ class UploadHandler extends Standard
     {
         if (!is_object($file_handler)) {
             trigger_error("UploadHandler kræver et filehandler- eller filemanagerobject (1)", E_USER_ERROR);
-        }
-
-        if (strtolower(get_class($file_handler)) == 'filehandler' || strtolower(get_class($file_handler)) == 'filemanager') {
-            // @todo HJÆLP MIG, jeg kan ikke vende denne if-sætning rigtigt.
-            // Men her er det ok.
-        } else {
-            trigger_error("UploadHandler kræver et filehandler- eller filemanagerobject (2)", E_USER_ERROR);
         }
 
         $this->file_handler = $file_handler;
@@ -199,7 +189,7 @@ class UploadHandler extends Standard
 
         $mime_type = $this->file_handler->getMimeType($prop['type'], 'mime_type');
         if ($mime_type === false) {
-            $this->file_handler->error->set("error in file - not allowed mime_type (".$prop['ext'].", ".$prop['type'].")");
+            $this->file_handler->error->set("error in file - not allowed mime_type (extension was: ".$prop['ext'].", mime type was: ".$prop['type'].")");
             return false;
         }
 
