@@ -7,7 +7,7 @@
   * @version: 1.0
   *
   */
-class Ilib_Filehandler_ImageHandler extends Standard
+class Ilib_Filehandler_ImageHandler extends Ilib_Filehandler_Standard
 {
     /**
      * @var object

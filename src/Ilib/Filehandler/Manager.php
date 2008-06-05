@@ -60,7 +60,7 @@ class Ilib_Filehandler_Manager extends Ilib_Filehandler
 
     public function getKeywordAppender()
     {
-        return new Intraface_Keyword_Appender($this);
+        return new Ilib_Keyword_Appender($this);
     }
 
 
