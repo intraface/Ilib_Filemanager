@@ -50,7 +50,7 @@ if (!function_exists('filesize_readable')) {
         $GLOBALS['_global_function_callback_filesize_readable'] = NULL;
     }
 }
-$GLOBALS['_global_function_callback_filesize_readable'] = 'ilib_filehandler_safetodb';
+$GLOBALS['_global_function_callback_filesize_readable'] = 'ilib_filehandler_filesize_readable';
 
 /*
  * Function to convert filesize to readable sizes.
