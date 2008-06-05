@@ -13,7 +13,7 @@
  * @version @package-version@
  */
 
-class FileViewer
+class Ilib_Filehandler_FileViewer
 {
     /**
      * @var string file_name

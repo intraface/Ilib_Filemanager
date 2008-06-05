@@ -2,9 +2,7 @@
 /**
  * @package Ilib_Filehandler
  */
-
-if (!class_exists('ImageRandomizer')) {
-class ImageRandomizer
+class Ilib_Filehandler_ImageRandomizer
 {
     /**
      * @var object $file_manager file handler
@@ -50,7 +48,7 @@ class ImageRandomizer
 
         $this->getDBQuery()->setKeyword((array)$keyword_ids);
 
-        $filetype = new FileType();
+        $filetype = new Ilib_Filehandler_FileType();
         $types = $filetype->getList();
         $keys = array();
         foreach ($types AS $key => $mime_type) {
@@ -95,8 +93,7 @@ class ImageRandomizer
     public function getRandomImage()
     {
         $key = rand(0, count($this->file_list)-1);
-        return new FileHandler($this->file_manager->kernel, $this->file_list[$key]);
+        return new Ilib_Filehandler($this->file_manager->kernel, $this->file_list[$key]);
 
     }
-}
 }

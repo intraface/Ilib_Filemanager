@@ -4,8 +4,6 @@
  *
  * This is the inital database schema for Ilib_FileHandler
  */
-require_once 'Doctrine/Migration.php';
-
 class AddFileHandler extends Doctrine_Migration
 {
     public function up()

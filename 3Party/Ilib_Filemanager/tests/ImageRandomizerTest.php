@@ -1,12 +1,7 @@
 <?php
 require_once 'config.test.php';
 
-require_once 'PHPUnit/Framework.php';
-require_once 'Intraface/Standard.php';
 require_once 'Intraface/functions/functions.php';
-require_once 'Intraface/modules/filemanager/FileManager.php';
-require_once 'Intraface/modules/filemanager/ImageRandomizer.php';
-require_once 'Intraface/shared/keyword/Keyword.php';
 
 class FakeImageRandomizerKernel {
     public $intranet;
@@ -82,12 +77,12 @@ class ImageRandomizerTest extends PHPUnit_Framework_TestCase
     function createImageRandomizer($keyword = array('test'))
     {
 
-        return new ImageRandomizer(new FileManager($this->createKernel()), $keyword);
+        return new Ilib_Filehandler_ImageRandomizer(new Ilib_Filehandler_Manager($this->createKernel()), $keyword);
     }
 
     function createImages() {
         for($i = 1; $i < 11; $i++) {
-            $filemanager = new FileManager($this->createKernel());
+            $filemanager = new Ilib_Filehandler_Manager($this->createKernel());
             copy(dirname(__FILE__) . '/'.$this->file_name, PATH_UPLOAD.$this->file_name);
             $filemanager->save(PATH_UPLOAD.$this->file_name, 'file'.$i.'.jpg');
             $appender = $filemanager->getKeywordAppender();
@@ -139,7 +134,7 @@ class ImageRandomizerTest extends PHPUnit_Framework_TestCase
 
     function testGetRandomImageDoesNotTriggerErrorOnDeletedKeyword() {
         // first we add and delete a keyword used later
-        $filemanager = new FileManager($this->createKernel());
+        $filemanager = new Ilib_Filehandler_Manager($this->createKernel());
         $keyword = new Keyword($filemanager);
         $keyword->save(array('keyword' => 'test_A'));
         $keyword->delete();

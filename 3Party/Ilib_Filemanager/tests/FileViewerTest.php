@@ -1,9 +1,6 @@
 <?php
 require_once 'config.test.php';
 
-require_once 'PHPUnit/Framework.php';
-require_once 'Intraface/shared/filehandler/FileViewer.php';
-
 class FakeFileviewerIntranet {
     function get() {
         return 1;
@@ -47,7 +44,7 @@ class FileViewerTest extends PHPUnit_Framework_TestCase
 
     function testConstruction()
     {
-        $fileviewer = new FileViewer(new FakeFileViewerHandler);
+        $fileviewer = new Ilib_Filehandler_FileViewer(new FakeFileViewerHandler);
         $this->assertTrue(is_object($fileviewer));
     }
     /*

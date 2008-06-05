@@ -1,10 +1,7 @@
 <?php
 require_once 'config.test.php';
 
-require_once 'PHPUnit/Framework.php';
-require_once 'Intraface/Standard.php';
 require_once 'Intraface/functions/functions.php';
-require_once 'Intraface/shared/filehandler/FileHandler.php';
 
 class FakeFileHandlerKernel {
     public $intranet;
@@ -131,7 +128,7 @@ class FileHandlerTest extends PHPUnit_Framework_TestCase
 
     function testSave()
     {
-        $fh = new FileHandler($this->createKernel());
+        $fh = new Ilib_Filehandler($this->createKernel());
         // first we make a copy of the file as it is moved by upload.
         copy(dirname(__FILE__) . '/wideonball.jpg', PATH_UPLOAD.'wideonball.jpg');
         $id = $fh->save(PATH_UPLOAD.'wideonball.jpg', 'Filename');
@@ -141,7 +138,7 @@ class FileHandlerTest extends PHPUnit_Framework_TestCase
 
     function testAccessKeyIsValid()
     {
-        $fh = new FileHandler($this->createKernel());
+        $fh = new Ilib_Filehandler($this->createKernel());
         // first we make a copy of the file as it is moved by upload.
         copy(dirname(__FILE__) . '/wideonball.jpg', PATH_UPLOAD.'wideonball.jpg');
         $id = $fh->save(PATH_UPLOAD.'wideonball.jpg', 'Filename');
@@ -150,7 +147,7 @@ class FileHandlerTest extends PHPUnit_Framework_TestCase
     }
 
     function testCreateTemporaryFile() {
-        $fh = new FileHandler($this->createKernel());
+        $fh = new Ilib_Filehandler($this->createKernel());
         $this->assertEquals('TemporaryFile', get_class($fh->createTemporaryFile()));
     }
 }

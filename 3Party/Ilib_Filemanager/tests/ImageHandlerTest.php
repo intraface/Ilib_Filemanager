@@ -1,11 +1,8 @@
 <?php
 require_once 'config.test.php';
 
-require_once 'PHPUnit/Framework.php';
-require_once 'Intraface/Standard.php';
 require_once 'Intraface/functions/functions.php';
-require_once 'Intraface/shared/filehandler/FileHandler.php';
-require_once 'Intraface/shared/filehandler/ImageHandler.php';
+
 
 class FakeImageHandlerKernel {
     public $intranet;
@@ -82,7 +79,7 @@ class ImageHandlerTest extends PHPUnit_Framework_TestCase
     {
 
         $data = array('file_name' => $this->file_name);
-        $filehandler = new FileHandler($this->createKernel());
+        $filehandler = new Ilib_Filehandler($this->createKernel());
         copy(dirname(__FILE__) . '/'.$this->file_name, PATH_UPLOAD.$this->file_name);
         $filehandler->save(PATH_UPLOAD.$this->file_name, $this->file_name);
         $filehandler->load();
@@ -93,14 +90,14 @@ class ImageHandlerTest extends PHPUnit_Framework_TestCase
     ////////////////////////////////////////////////////////////////
 
     function testConstruct() {
-        $image = new ImageHandler($this->createFileHandler());
+        $image = new Ilib_Filehandler_ImageHandler($this->createFileHandler());
         $this->assertEquals('ImageHandler', get_class($image));
     }
 
 
     function testResizeWithRelativeSize() {
 
-        $image = new ImageHandler($this->createFileHandler());
+        $image = new Ilib_Filehandler_ImageHandler($this->createFileHandler());
         $file = $image->resize(200, 600);
         $size = getimagesize($file);
         $this->assertEquals(200, $size[0]);
@@ -109,7 +106,7 @@ class ImageHandlerTest extends PHPUnit_Framework_TestCase
 
     function testResizeWithStrictSize() {
 
-        $image = new ImageHandler($this->createFileHandler());
+        $image = new Ilib_Filehandler_ImageHandler($this->createFileHandler());
         $file = $image->resize(200, 300, 'strict');
         $size = getimagesize($file);
         $this->assertEquals(200, $size[0]);
@@ -117,7 +114,7 @@ class ImageHandlerTest extends PHPUnit_Framework_TestCase
     }
 
     function testCrop() {
-        $image = new ImageHandler($this->createFileHandler());
+        $image = new Ilib_Filehandler_ImageHandler($this->createFileHandler());
         $file = $image->crop(100, 100, 200, 20);
         $size = getimagesize($file);
         $this->assertEquals(100, $size[0]);
@@ -127,12 +124,12 @@ class ImageHandlerTest extends PHPUnit_Framework_TestCase
 
     function testQualityAfterRepeatedResize() {
 
-        $image = new ImageHandler($this->createFileHandler());
+        $image = new Ilib_Filehandler_ImageHandler($this->createFileHandler());
         $image->resize(500, 200);
         $image->resize(300, 200);
         $file1 = $image->resize(200, 200);
 
-        $image = new ImageHandler($this->createFileHandler());
+        $image = new Ilib_Filehandler_ImageHandler($this->createFileHandler());
         $file2 = $image->resize(200, 200);
 
         // we accept 10% fall in quality! after several resize

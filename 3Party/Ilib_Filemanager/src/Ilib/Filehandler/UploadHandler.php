@@ -41,7 +41,7 @@
  * @version: 1.0
  *
  */
-class UploadHandler extends Standard
+class Ilib_Filehandler_UploadHandler extends Standard
 {
     /**
      * @var object
@@ -344,7 +344,7 @@ class UploadHandler extends Standard
                 die();
                 */
 
-                $file_handler = new FileHandler($this->file_handler->kernel);
+                $file_handler = new Ilib_Filehandler($this->file_handler->kernel);
 
                 $id = $file_handler->update(array('file_name' => $file, 'file_size' => $file_size, 'file_type' => $mime_type['mime_type'], 'accessibility' => $this->upload_setting['file_accessibility']));
 

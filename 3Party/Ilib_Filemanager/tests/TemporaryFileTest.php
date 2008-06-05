@@ -1,9 +1,6 @@
 <?php
 require_once 'config.test.php';
 
-require_once 'PHPUnit/Framework.php';
-require_once 'MDB2.php';
-require_once 'Intraface/shared/filehandler/TemporaryFile.php';
 
 if(!function_exists('iht_deltree')) {
 function iht_deltree( $f ){
@@ -93,22 +90,22 @@ class TemporaryFileTest extends PHPUnit_Framework_TestCase
 
     function testConstruct() {
 
-        $tf = new TemporaryFile($this->createFileHandler());
+        $tf = new Ilib_Filehandler_TemporaryFile($this->createFileHandler());
         $this->assertEquals('TemporaryFile', get_class($tf));
     }
 
     function testConstructWithFileNameWithSpacesAndSlashes() {
-        $tf = new TemporaryFile($this->createFileHandler(), 'this is a very\ wrong name/.jpg');
+        $tf = new Ilib_Filehandler_TemporaryFile($this->createFileHandler(), 'this is a very\ wrong name/.jpg');
         $this->assertEquals('this_is_a_very__wrong_name_.jpg', $tf->getFileName());
     }
 
     function testConstructWithTooLongFileName() {
-        $tf = new TemporaryFile($this->createFileHandler(), '123456789012345678901234567890123456789012345678901234567890.jpg');
+        $tf = new Ilib_Filehandler_TemporaryFile($this->createFileHandler(), '123456789012345678901234567890123456789012345678901234567890.jpg');
         $this->assertEquals('1234567890123456789012345678901234567890123456.jpg', $tf->getFileName());
     }
 
     function testGetFilePath() {
-        $tf = new TemporaryFile($this->createFileHandler(), 'file_name.jpg');
+        $tf = new Ilib_Filehandler_TemporaryFile($this->createFileHandler(), 'file_name.jpg');
 
         $this->assertEquals(PATH_UPLOAD.'1'.DIRECTORY_SEPARATOR.PATH_UPLOAD_TEMPORARY, substr($tf->getFilePath(), 0, strlen(PATH_UPLOAD) + 1 + strlen(DIRECTORY_SEPARATOR) + strlen(PATH_UPLOAD_TEMPORARY)));
         $this->assertEquals(strlen(PATH_UPLOAD) + 1 + strlen(DIRECTORY_SEPARATOR) + strlen(PATH_UPLOAD_TEMPORARY) + 13 + strlen(DIRECTORY_SEPARATOR) + strlen('file_name.jpg'), strlen($tf->getFilePath()));
@@ -119,7 +116,7 @@ class TemporaryFileTest extends PHPUnit_Framework_TestCase
     }
 
     function testGetFileDir() {
-        $tf = new TemporaryFile($this->createFileHandler(), 'file_name.jpg');
+        $tf = new Ilib_Filehandler_TemporaryFile($this->createFileHandler(), 'file_name.jpg');
 
         $this->assertEquals(PATH_UPLOAD.'1'.DIRECTORY_SEPARATOR.PATH_UPLOAD_TEMPORARY, substr($tf->getFilePath(), 0, strlen(PATH_UPLOAD) + 1 + strlen(DIRECTORY_SEPARATOR) + strlen(PATH_UPLOAD_TEMPORARY)));
         $this->assertEquals(strlen(PATH_UPLOAD) + 1 + strlen(DIRECTORY_SEPARATOR) + strlen(PATH_UPLOAD_TEMPORARY) + 13 + strlen(DIRECTORY_SEPARATOR), strlen($tf->getFileDir()));
@@ -129,7 +126,7 @@ class TemporaryFileTest extends PHPUnit_Framework_TestCase
     }
 
     function testGetFilePathIsUnique() {
-        $tf = new TemporaryFile($this->createFileHandler(), 'file_name.jpg');
+        $tf = new Ilib_Filehandler_TemporaryFile($this->createFileHandler(), 'file_name.jpg');
         $file_path1 = $tf->getFilePath();
 
         $tf->setFileName('file_name.jpg');
@@ -137,6 +134,4 @@ class TemporaryFileTest extends PHPUnit_Framework_TestCase
 
         $this->assertNotEquals($file_path1, $file_path2);
     }
-
 }
-?>

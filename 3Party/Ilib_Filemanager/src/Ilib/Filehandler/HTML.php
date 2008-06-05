@@ -75,26 +75,14 @@ intradace.dk/main/file/index.php her hentes filerne fra. Den er ikke helt smukt 
 */
 
 
-class FileHandlerHTML {
+class Ilib_Filehandler_HTML {
 
 
     private $file_handler;
 
-    function __construct($file_handler) {
-
-        if(!is_object($file_handler)) {
-            trigger_error("InstanceHandler kræver et filehandler- eller filemanagerobject i InstanceHandler->instancehandler (1)", E_USER_ERROR);
-        }
-
-        if(strtolower(get_class($file_handler)) == 'filehandler' || strtolower(get_class($file_handler)) == 'filemanager') {
-            // HJÆLP MIG, jeg kan ikke vende denne if-sætning rigtigt.
-            // Men her er det ok.
-        }
-        else {
-            trigger_error("InstanceHandler kræver et filehandler- eller filemanagerobject i InstanceHandler->instancehandler (2)", E_USER_ERROR);
-        }
-
-        $this->file_handler = &$file_handler;
+    function __construct($file_handler) 
+    {
+        $this->file_handler = $file_handler;
     }
 
 

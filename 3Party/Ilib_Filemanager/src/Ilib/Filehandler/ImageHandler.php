@@ -7,9 +7,7 @@
   * @version: 1.0
   *
   */
-require_once 'Image/Transform.php';
-
-class ImageHandler extends Standard
+class Ilib_Filehandler_ImageHandler extends Standard
 {
     /**
      * @var object
