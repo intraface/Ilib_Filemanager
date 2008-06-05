@@ -2,9 +2,7 @@
 /**
  * @package Ilib_Filehandler
  */
-require_once 'Ilib/DBQuery.php';
-
-class AppendFile
+class Ilib_Filehandler_AppendFile
 {
     /**
      * @var array

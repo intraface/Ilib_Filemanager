@@ -7,7 +7,7 @@
  * @package Ilib_Filehandler
  */
 
-class TemporaryFile
+class Ilib_Filehandler_TemporaryFile
 {
     /**
      * @var object $file_handler

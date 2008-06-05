@@ -14,7 +14,7 @@
  * @todo: csv type applocatio/octet-stream should be checked whether it is a program as this mime_type can also be an exe file
  */
 
-class FileType
+class Ilib_Filehandler_FileType
 {
     /**
      * @var array

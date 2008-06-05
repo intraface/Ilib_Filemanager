@@ -1,11 +1,6 @@
 <?php
 require_once 'config.test.php';
 
-require_once 'PHPUnit/Framework.php';
-require_once 'Intraface/Standard.php';
-require_once 'Intraface/shared/filehandler/FileHandler.php';
-require_once 'Intraface/shared/filehandler/InstanceManager.php';
-
 class FakeInstanceManagerIntranet {
     function get() {
         return 1;
@@ -30,7 +25,7 @@ class InstanceManagerTest extends PHPUnit_Framework_TestCase
     }
 
     function createInstanceManager($id = 0) {
-        return new InstanceManager(new FakeInstanceManagerKernel, $id);
+        return new Ilib_Filehandler_InstanceManager(new FakeInstanceManagerKernel, $id);
 
     }
 

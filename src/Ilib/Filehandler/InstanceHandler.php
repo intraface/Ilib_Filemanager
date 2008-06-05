@@ -12,8 +12,7 @@
  * @version 1.0
  *
  */
-
-class InstanceHandler extends Standard
+class Ilib_Filehandler_InstanceHandler extends Standard
 {
     /**
      * @var object
@@ -92,19 +91,8 @@ class InstanceHandler extends Standard
      *
      * @return object
      */
-    function factory(&$file_handler, $type_name, $param = array())
+    function factory($file_handler, $type_name, $param = array())
     {
-        if (!is_object($file_handler)) {
-            trigger_error("InstanceHandler kræver et filehandler- eller filemanagerobject i InstanceHandler->factory (1)", E_USER_ERROR);
-        }
-
-        if (strtolower(get_class($file_handler)) != 'filehandler' AND strtolower(get_class($file_handler)) != 'filemanager') {
-            trigger_error("InstanceHandler kræver et filehandler- eller filemanagerobject i InstanceHandler->factory (2)", E_USER_ERROR);
-        }
-        /*
-        print_r($file_handler->get());
-        exit;
-        */
         if ((int)$file_handler->get('id') == 0) {
             trigger_error("Der kan kun laves instance ud en loaded fil i Instance->factory", E_USER_ERROR);
         }
@@ -113,16 +101,16 @@ class InstanceHandler extends Standard
             trigger_error("Filen skal være et billede i IntanceHandler->factory", E_USER_ERROR);
         }
 
-        $instancehandler = new InstanceHandler($file_handler);
+        $instancehandler = new Ilib_Filehandler_InstanceHandler($file_handler);
         $type = $instancehandler->checkType($type_name);
         if ($type === false) {
             trigger_error("Ugyldig type '".$type_name."' i InstanceHandler->factory", E_USER_ERROR);
         }
 
-        $db = new DB_sql;
+        $db = new DB_Sql;
         $db->query("SELECT id FROM file_handler_instance WHERE intranet_id = ".$file_handler->kernel->intranet->get('id')." AND active = 1 AND file_handler_id = ".$file_handler->get('id')." AND type_key = ".$type['type_key']);
         if ($db->nextRecord()) {
-            return new InstanceHandler($file_handler, $db->f('id'));
+            return new Ilib_Filehandler_InstanceHandler($file_handler, $db->f('id'));
         } else {
 
             $file_handler->createImage();
@@ -177,7 +165,7 @@ class InstanceHandler extends Standard
 
             $db->query("UPDATE file_handler_instance SET server_file_name = \"".$server_file_name."\", active = 1 WHERE intranet_id = ".$file_handler->kernel->intranet->get('id')." AND id = ".$id);
 
-            return new InstanceHandler($file_handler, $id);
+            return new self($file_handler, $id);
         }
     }
 
@@ -258,8 +246,7 @@ class InstanceHandler extends Standard
         }
 
         $db = new DB_Sql;
-        require_once('Intraface/shared/filehandler/InstanceManager.php');
-        $instancemanager = new InstanceManager($this->file_handler->kernel);
+        $instancemanager = new Ilib_Filehandler_InstanceManager($this->file_handler->kernel);
         $types = $instancemanager->getList($show);
         $i = 0;
         // if filehander has an id we supply the file information to the array.
@@ -321,8 +308,7 @@ class InstanceHandler extends Standard
             return false;
         }
 
-        require_once 'Intraface/shared/filehandler/InstanceManager.php';
-        $instancemanager = new InstanceManager($this->file_handler->kernel);
+        $instancemanager = new Ilib_Filehandler_InstanceManager($this->file_handler->kernel);
         $instance_types = $instancemanager->getList('include_hidden');
 
         for($i = 0, $max = count($instance_types); $i < $max; $i++) {
@@ -370,7 +356,7 @@ class InstanceHandler extends Standard
         $db = new DB_sql;
         $db->query("SELECT id FROM file_handler_instance WHERE intranet_id = ".$this->file_handler->kernel->intranet->get('id')." AND file_handler_id = ".$this->file_handler->get('id')." AND active = 1");
         while ($db->nextRecord()) {
-            $instance = new InstanceHandler($this->file_handler, $db->f('id'));
+            $instance = new self($this->file_handler, $db->f('id'));
             $instance->delete();
         }
 

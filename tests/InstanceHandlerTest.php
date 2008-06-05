@@ -1,11 +1,7 @@
 <?php
 require_once 'config.test.php';
 
-require_once 'PHPUnit/Framework.php';
-require_once 'Intraface/Standard.php';
 require_once 'Intraface/functions/functions.php';
-require_once 'Intraface/shared/filehandler/FileHandler.php';
-require_once 'Intraface/shared/filehandler/InstanceManager.php';
 
 class FakeInstanceHandlerKernel {
     public $intranet;
@@ -142,7 +138,7 @@ class InstanceHandlerTest extends PHPUnit_Framework_TestCase
 
     function testCreateCustomInstanceCreaterThanImage() {
 
-        $im = new InstanceManager($this->createKernel());
+        $im = new Ilib_Filehandler_InstanceManager($this->createKernel());
 
         $this->assertEquals(1000, $im->save(array('name' => 'wide', 'max_height' => 280, 'max_width' => 720, 'resize_type' => 'strict')));
 

@@ -299,8 +299,7 @@ class Ilib_Filehandler extends Standard
      */
     public function createUpload()
     {
-        require_once 'Intraface/shared/filehandler/UploadHandler.php';
-        $this->upload = new UploadHandler($this);
+        $this->upload = new Ilib_Filehandler_UploadHandler($this);
     }
 
     /**
@@ -310,11 +309,10 @@ class Ilib_Filehandler extends Standard
      */
     public function createInstance($type = "", $param = array())
     {
-        require_once 'Intraface/shared/filehandler/InstanceHandler.php';
         if ($type == "") {
-            $this->instance = new InstanceHandler($this);
+            $this->instance = new Ilib_Filehandler_InstanceHandler($this);
         } else {
-            $this->instance = InstanceHandler::factory($this, $type, $param);
+            $this->instance = Ilib_Filehandler_InstanceHandler::factory($this, $type, $param);
         }
         return $this->instance;
     }
@@ -328,8 +326,7 @@ class Ilib_Filehandler extends Standard
      */
     public function createImage()
     {
-        require_once 'Intraface/shared/filehandler/ImageHandler.php';
-        $this->image = new ImageHandler($this);
+        $this->image = new Ilib_Filehandler_ImageHandler($this);
     }
 
     /**
@@ -340,8 +337,7 @@ class Ilib_Filehandler extends Standard
      */
     public function createTemporaryFile($file_name = NULL)
     {
-        require_once 'Intraface/shared/filehandler/TemporaryFile.php';
-        return new TemporaryFile($this, $file_name);
+        return new Ilib_Filehandler_TemporaryFile($this, $file_name);
     }
 
     /**

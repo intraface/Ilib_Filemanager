@@ -6,7 +6,7 @@
  * @version 0.0.1
  * @package Ilib_Filehandler
  */
-class InstanceManager
+class Ilib_Filehandler_InstanceManager
 {
     /**
      * @var object error error objekt
@@ -265,10 +265,10 @@ class InstanceManager
 
         $row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 
-        if ($row['max_key'] >= InstanceManager::MIN_CUSTOM_TYPE_KEY_VALUE) {
+        if ($row['max_key'] >= self::MIN_CUSTOM_TYPE_KEY_VALUE) {
             return $row['max_key'] + 1;
         } else {
-            return InstanceManager::MIN_CUSTOM_TYPE_KEY_VALUE;
+            return self::MIN_CUSTOM_TYPE_KEY_VALUE;
         }
     }
 

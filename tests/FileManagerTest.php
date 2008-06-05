@@ -1,11 +1,6 @@
 <?php
 require_once 'config.test.php';
 
-require_once 'PHPUnit/Framework.php';
-require_once 'Intraface/Standard.php';
-require_once 'Intraface/Kernel.php';
-require_once 'Intraface/modules/filemanager/FileManager.php';
-
 class FakeFileManagerIntranet
 {
     function get()
@@ -37,7 +32,7 @@ class FileManagerTest extends PHPUnit_Framework_TestCase
 
     function createFileManager()
     {
-        return new FileManager($this->createKernel());
+        return new Ilib_Filehandler_Manager($this->createKernel());
     }
 
     function createFile()
