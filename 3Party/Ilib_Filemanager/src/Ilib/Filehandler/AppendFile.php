@@ -19,6 +19,8 @@ class Ilib_Filehandler_AppendFile
      */
     protected $dbquery;
 
+    protected $user;
+
     /**
      * Constructor
      *
@@ -48,6 +50,7 @@ class Ilib_Filehandler_AppendFile
         $this->belong_to_id = (int)$belong_to_id;
 
         $this->kernel = $kernel;
+        $this->user = $kernel->user;
         $this->error = new Ilib_Error;
 
     }
@@ -115,7 +118,7 @@ class Ilib_Filehandler_AppendFile
     {
         $db = new DB_Sql();
         $db->query("SELECT id FROM filehandler_append_file
-            WHERE intranet_id = " . $this->kernel->intranet->get('id') . "
+            WHERE intranet_id = " . $this->user->getActiveIntranetId() . "
                 AND belong_to_key = ".$this->belong_to_key."
                 AND belong_to_id = ".$this->belong_to_id."
                 AND file_handler_id = ".$file_id."
@@ -145,7 +148,7 @@ class Ilib_Filehandler_AppendFile
         $db = new DB_Sql();
         $db->query("INSERT INTO filehandler_append_file SET
             date_updated = NOW(),
-            intranet_id = ".$this->kernel->intranet->get('id').",
+            intranet_id = ".$this->user->getActiveIntranetId().",
             belong_to_key = ".$this->belong_to_key.",
             belong_to_id = ".$this->belong_to_id.",
             file_handler_id = ".$file_id.",
@@ -207,7 +210,7 @@ class Ilib_Filehandler_AppendFile
     public function getList()
     {
         if ($this->getDBQuery()->checkFilter('order_by') && $this->getDBQuery()->getFilter('order_by') == 'name') {
-            $this->getDBQuery()->setJoin('INNER', 'file_handler', 'filehandler_append_file.file_handler_id = file_handler.id', 'file_handler.intranet_id = '.$this->kernel->intranet->get('id').' AND file_handler.active = 1');
+            $this->getDBQuery()->setJoin('INNER', 'file_handler', 'filehandler_append_file.file_handler_id = file_handler.id', 'file_handler.intranet_id = '.$this->user->getActiveIntranetId().' AND file_handler.active = 1');
             $this->getDBQuery()->setSorting('file_handler.file_name');
         } else {
             $this->getDBQuery()->setSorting('filehandler_append_file.id');

@@ -15,6 +15,11 @@
  * @author  Sune Jensen
  * @since   1.2
  */
+ 
+if(!defined('PATH_UPLOAD_TEMPORARY')) {
+    define('PATH_UPLOAD_TEMPORARY', 'tempdir/');
+}
+ 
 class Ilib_Filehandler extends Ilib_Filehandler_Standard
 {
     /**
@@ -446,7 +451,6 @@ class Ilib_Filehandler extends Ilib_Filehandler_Standard
         // if mime type is not set as the parameter, we try to determine the mimetype
         if ($mime_type === NULL) {
             // $mime_type = mime_content_type($file);
-            require_once 'MIME/Type.php';
             $mime_type = MIME_Type::autoDetect($file);
             if (PEAR::isError($mime_type)) {
                 trigger_error("Error in MIME_Type::autoDetect in Filehandler->save() ".$mime_type->getMessage(), E_USER_ERROR);
@@ -671,7 +675,6 @@ class Ilib_Filehandler extends Ilib_Filehandler_Standard
 
     private function getRandomKeyGenerator($length)
     {
-        require_once 'Ilib/RandomKeyGenerator.php';
         return new Ilib_RandomKeyGenerator($length);
     }
 

@@ -130,7 +130,7 @@ class Ilib_Filehandler_ImageHandler extends Ilib_Filehandler_Standard
         }
 
         $file_type = $this->file_handler->get('file_type');
-        $new_filename = $this->tempdir_path.date('U').$this->file_handler->kernel->randomKey(10).'.'.$file_type['extension'];
+        $new_filename = $this->tempdir_path.date('U').$this->getRandomKeyGenerator()->generate(10).'.'.$file_type['extension'];
 
         if ($image->save($new_filename) !== true) {
             trigger_error("Kunne ikke gemme billedet i ImageHandler->resize", E_USER_ERROR);
@@ -139,6 +139,11 @@ class Ilib_Filehandler_ImageHandler extends Ilib_Filehandler_Standard
 
         $this->tmp_file_name = $new_filename;
         return $new_filename;
+    }
+    
+    private function getRandomKeyGenerator()
+    {
+        return new Ilib_RandomKeyGenerator();
     }
 
     /**
@@ -180,7 +185,7 @@ class Ilib_Filehandler_ImageHandler extends Ilib_Filehandler_Standard
 
         $file_type = $this->file_handler->get('file_type');
 
-        $new_filename = $this->tempdir_path.date('U').$this->file_handler->kernel->randomKey(10).'.'.$file_type['extension'];
+        $new_filename = $this->tempdir_path.date('U').$this->getRandomKeyGenerator()->generate(10).'.'.$file_type['extension'];
 
         if ($image->save($new_filename) !== true) {
             trigger_error("Kunne ikke gemme billedet i ImageHandler->crop", E_USER_ERROR);

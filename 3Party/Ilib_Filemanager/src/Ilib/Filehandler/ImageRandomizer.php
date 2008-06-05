@@ -31,7 +31,6 @@ class Ilib_Filehandler_ImageRandomizer
 
         $this->error = new Ilib_Error;
 
-        require_once 'Intraface/shared/keyword/Keyword.php';
         if (!is_array($keywords)) {
             trigger_error('second parameter should be an array with keywords', E_USER_ERROR);
             return false;
@@ -39,7 +38,7 @@ class Ilib_Filehandler_ImageRandomizer
 
         $keyword_ids = array();
         foreach ($keywords AS $keyword) {
-            $keyword_object = new Keyword($this->file_manager);
+            $keyword_object = new Ilib_Keyword($this->file_manager);
             /**
              * @todo: This is not really good, but the only way to identify keyword on name!
              */
