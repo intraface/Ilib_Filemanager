@@ -19,7 +19,7 @@ class AppendFile
     /**
      * @var object
      */
-    public $dbquery;
+    protected $dbquery;
 
     /**
      * Constructor
@@ -89,17 +89,6 @@ class AppendFile
     protected function getBelongToKey($identifier)
     {
         return array_search($identifier, $this->belong_to_types);
-    }
-
-    /**
-     * Creates the dbquery so it can be used from everywhere
-     *
-     * @return void
-     */
-    public function createDBQuery()
-    {
-        $this->dbquery = new Ilib_DBQuery('filehandler_append_file', 'filehandler_append_file.active = 1 AND filehandler_append_file.intranet_id='.$this->kernel->intranet->get('id').' AND filehandler_append_file.belong_to_key = '.$this->belong_to_key.' AND filehandler_append_file.belong_to_id = ' . $this->belong_to_id);
-        $this->dbquery->createStore($this->kernel->getSessionId(), 'intranet_id = '.intval($this->kernel->intranet->get('id')));
     }
 
     /**
@@ -219,7 +208,7 @@ class AppendFile
      */
     public function getList()
     {
-        if ($this->getDBQuery()->checkFilter('order_by') && $this->dbquery->getFilter('order_by') == 'name') {
+        if ($this->getDBQuery()->checkFilter('order_by') && $this->getDBQuery()->getFilter('order_by') == 'name') {
             $this->getDBQuery()->setJoin('INNER', 'file_handler', 'filehandler_append_file.file_handler_id = file_handler.id', 'file_handler.intranet_id = '.$this->kernel->intranet->get('id').' AND file_handler.active = 1');
             $this->getDBQuery()->setSorting('file_handler.file_name');
         } else {

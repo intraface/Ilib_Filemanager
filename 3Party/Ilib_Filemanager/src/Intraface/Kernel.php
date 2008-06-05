@@ -58,7 +58,7 @@ class FakeKernel {
 
     public function getTranslation($page_id)
     {
-
+        /*
         $dbinfo = array(
             'hostspec' => DB_HOST,
             'database' => DB_NAME,
@@ -103,6 +103,7 @@ class FakeKernel {
         $translation = $translation->getDecorator('DefaultText');
 
         return $translation;
+        */
     }
 
 
