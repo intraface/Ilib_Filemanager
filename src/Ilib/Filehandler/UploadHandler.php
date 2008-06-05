@@ -145,6 +145,11 @@ class Ilib_Filehandler_UploadHandler extends Ilib_Filehandler_Standard
 
     }
 
+    private function getRandomKeyGenerator()
+    {
+        return new Ilib_RandomKeyGenerator();
+    }
+
     /**
      * Upload fil
      *
@@ -215,7 +220,7 @@ class Ilib_Filehandler_UploadHandler extends Ilib_Filehandler_Standard
         }
 
         if ($upload_type == 'do_not_save') {
-            $tmp_server_file_name = date("U").$this->file_handler->kernel->randomKey(10).".".$mime_type['extension'];
+            $tmp_server_file_name = date("U").$this->getRandomKeyGenerator->generate(10).".".$mime_type['extension'];
             $file->setName($tmp_server_file_name);
 
             if (!is_dir($this->file_handler->tempdir_path)) {

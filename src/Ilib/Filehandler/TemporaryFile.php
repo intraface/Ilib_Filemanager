@@ -37,10 +37,6 @@ class Ilib_Filehandler_TemporaryFile
      */
     public function __construct($filehandler, $file_name = NULL)
     {
-        if (!is_object($filehandler)) {
-            trigger_error("TemporaryFile requires filehandler or filemanager", E_USER_ERROR);
-        }
-
         $this->filehandler = $filehandler;
         $this->file_name = $file_name;
         $this->file_path = NULL;
