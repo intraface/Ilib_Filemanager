@@ -5,7 +5,7 @@
     <taskdef classname="phing.tasks.ext.FtpDeployTask" name="ftpdeploy" />
 
     <property name="package-name" value="${phing.project.name}" />
-    <property name="version" value="0.1.2" />
+    <property name="version" value="0.2.0" />
     <property name="stability" value="alpha" />
     <property name="pear.channel" value="public.intraface.dk" />
 
@@ -69,7 +69,7 @@
             </dependencies>
 
             <notes>
-                * Added dependency on Ilib_RandomKeyGenerator
+                * BC break. All classes has been renamed.
             </notes>
         </d51pearpkg2>
     </target>
