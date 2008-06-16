@@ -32,18 +32,8 @@ class Ilib_Filehandler_AppendFile
      */
     public function __construct($kernel, $belong_to, $belong_to_id)
     {
-        if (!is_object($kernel)) {
-            trigger_error('AppendFile::__construct needs kernel', E_USER_ERROR);
-            return false;
-        }
-        $this->registerBelongTo(0, '_invalid_');
-        $this->registerBelongTo(1, 'cms_element_gallery');
-        $this->registerBelongTo(2, 'procurement_procurement');
-        $this->registerBelongTo(3, 'product');
-        $this->registerBelongTo(4, 'cms_element_filelist');
-
         if (!in_array($belong_to, $this->belong_to_types)) {
-            trigger_error("AppendFile->__construct unknown type", E_USER_ERROR);
+            throw new Exception("AppendFile->__construct unknown type");
         }
 
         $this->belong_to_key = $this->getBelongToKey($belong_to);
@@ -52,7 +42,6 @@ class Ilib_Filehandler_AppendFile
         $this->kernel = $kernel;
         $this->user = $kernel->user;
         $this->error = new Ilib_Error;
-
     }
 
     /**
@@ -102,7 +91,7 @@ class Ilib_Filehandler_AppendFile
         if ($this->dbquery) {
             return $this->dbquery;
         }
-        $this->dbquery = new Ilib_DBQuery('filehandler_append_file', 'filehandler_append_file.active = 1 AND filehandler_append_file.intranet_id='.$this->kernel->intranet->get('id').' AND filehandler_append_file.belong_to_key = '.$this->belong_to_key.' AND filehandler_append_file.belong_to_id = ' . $this->belong_to_id);
+        $this->dbquery = new Ilib_DBQuery('filehandler_append_file', 'filehandler_append_file.active = 1 AND filehandler_append_file.intranet_id='.$this->user->getActiveIntranetId().' AND filehandler_append_file.belong_to_key = '.$this->belong_to_key.' AND filehandler_append_file.belong_to_id = ' . $this->belong_to_id);
         $this->dbquery->createStore($this->kernel->getSessionId(), 'intranet_id = '.intval($this->kernel->intranet->get('id')));
         return $this->dbquery;
     }

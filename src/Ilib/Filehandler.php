@@ -19,7 +19,8 @@
 if(!defined('PATH_UPLOAD_TEMPORARY')) {
     define('PATH_UPLOAD_TEMPORARY', 'tempdir/');
 }
- 
+require_once 'Ilib/Filehandler/functions.php'; 
+
 class Ilib_Filehandler extends Ilib_Filehandler_Standard
 {
     /**
