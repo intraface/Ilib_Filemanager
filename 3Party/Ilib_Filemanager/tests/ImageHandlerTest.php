@@ -1,9 +1,6 @@
 <?php
 require_once 'config.test.php';
 
-require_once 'Intraface/functions/functions.php';
-
-
 class FakeImageHandlerKernel {
     public $intranet;
     public $user;
@@ -91,7 +88,7 @@ class ImageHandlerTest extends PHPUnit_Framework_TestCase
 
     function testConstruct() {
         $image = new Ilib_Filehandler_ImageHandler($this->createFileHandler());
-        $this->assertEquals('ImageHandler', get_class($image));
+        $this->assertTrue(is_object($image));
     }
 
 

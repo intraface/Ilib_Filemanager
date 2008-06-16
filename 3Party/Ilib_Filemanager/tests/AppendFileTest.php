@@ -16,9 +16,10 @@ class FakeAppendFileIntranet
 
 class FakeAppendFileFile
 {
-
     public $id;
-    function __construct($id = 1) {
+    
+    function __construct($id = 1) 
+    {
         $this->id = $id;
     }
 
@@ -26,6 +27,12 @@ class FakeAppendFileFile
     {
         return $this->id;
     }
+}
+
+class FakeAppendFileKernel
+{
+    public $intranet;
+    public $session_id;
 }
 
 class AppendFileTest extends PHPUnit_Framework_TestCase
@@ -38,10 +45,10 @@ class AppendFileTest extends PHPUnit_Framework_TestCase
 
     function createAppendFile($id = 0)
     {
-        $kernel = new FakeKernel;
+        $kernel = new FakeAppendFileKernel;
         $kernel->session_id = 'notreallyasessionid';
         $kernel->intranet = new FakeAppendFileIntranet;
-        return new AppendFile($kernel, 'product', 1, $id);
+        return new Ilib_Filehandler_AppendFile($kernel, 'product', 1);
     }
 
     /////////////////////////////////////////////////////////

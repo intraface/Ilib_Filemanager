@@ -17,13 +17,21 @@ class FakeFileManagerUser
     }
 }
 
+class FakeFilemanagerKernel
+{
+    function getSessionId()
+    {
+        return 'thisissomething';
+    }
+}
+
 class FileManagerTest extends PHPUnit_Framework_TestCase
 {
     private $file_name = 'tester.jpg';
 
     function createKernel()
     {
-        $kernel = new FakeKernel;
+        $kernel = new FakeFilemanagerKernel;
         $kernel->session_id = 'notreallyasessionid';
         $kernel->intranet = new FakeFileManagerIntranet;
         $kernel->user = new FakeFileManagerUser;
