@@ -25,16 +25,6 @@ class Ilib_Filehandler_InstanceHandler extends Ilib_Filehandler_Standard
     private $instance_path;
 
     /**
-     * @var array
-     */
-    // not in use ! private $instance_types;
-
-    /**
-     * @var array allo
-     */
-    // not in use! private $allowed_transform_image = array('jpg', 'jpeg', 'gif', 'png');
-
-    /**
      * @var integer id
      */
     private $id;
@@ -54,21 +44,9 @@ class Ilib_Filehandler_InstanceHandler extends Ilib_Filehandler_Standard
      */
     function __construct($file_handler, $id = 0)
     {
-        if (!is_object($file_handler)) {
-            trigger_error("InstanceHandler kræver et filehandler- eller filemanagerobject i InstanceHandler->instancehandler (1)", E_USER_ERROR);
-        }
-
-        if (strtolower(get_class($file_handler)) == 'filehandler' || strtolower(get_class($file_handler)) == 'filemanager') {
-            // HJÆLP MIG, jeg kan ikke vende denne if-sætning rigtigt.
-            // Men her er det ok.
-        } else {
-            trigger_error("InstanceHandler kræver et filehandler- eller filemanagerobject i InstanceHandler->instancehandler (2)", E_USER_ERROR);
-        }
-
         $this->file_handler = $file_handler;
         $this->id = (int)$id;
         $this->instance_path = $this->file_handler->getUploadPath().'instance/';
-
 
         $this->db = MDB2::singleton(DB_DSN);
 

@@ -12,7 +12,6 @@
  * @since   0.1.0
  * @version @package-version@
  */
-
 class Ilib_Filehandler_FileViewer
 {
     /**
@@ -37,11 +36,6 @@ class Ilib_Filehandler_FileViewer
 
     public function __construct($filehandler, $instance = '')
     {
-        if (!is_object($filehandler)) {
-            trigger_error('the first parameter needs to be filehandler in FileViewet->__construct', E_USER_ERROR);
-            exit;
-        }
-
         $this->filehandler = $filehandler;
         $this->file_path   = $filehandler->get('file_path');
         $this->file_name   = $filehandler->get('file_name');
@@ -63,20 +57,21 @@ class Ilib_Filehandler_FileViewer
 
     public function needLogin()
     {
-        return $this->filehandler->get('accessibility') != 'public';
+        return ($this->filehandler->get('accessibility') != 'public');
     }
 
     function fetch()
     {
-        if (readfile($this->file_path) === false) {
+        if ($content = readfile($this->file_path) === false) {
             throw new Exception('could not read file');
         }
+        return $content;
     }
 
     public function out()
     {
         if (!file_exists($this->file_path)) {
-            return 'invalid file';
+            throw new Exception($this->file_path . ' does not exist');
         }
 
         $last_modified = filemtime($this->file_path);

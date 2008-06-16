@@ -33,17 +33,6 @@ class Ilib_Filehandler_ImageHandler extends Ilib_Filehandler_Standard
      */
     public function __construct($file_handler)
     {
-        if (!is_object($file_handler)) {
-            trigger_error("InstanceHandler kræver et filehandler- eller filemanagerobject i InstanceHandler->instancehandler (1)", E_USER_ERROR);
-        }
-
-        if (strtolower(get_class($file_handler)) == 'filehandler' || strtolower(get_class($file_handler)) == 'filemanager') {
-            // HJÆLP MIG, jeg kan ikke vende denne if-sætning rigtigt.
-            // Men her er det ok.
-        } else {
-            trigger_error("InstanceHandler kræver et filehandler- eller filemanagerobject i InstanceHandler->instancehandler (2)", E_USER_ERROR);
-        }
-
         $this->file_handler = $file_handler;
 
         if (!defined('IMAGE_LIBRARY')) {
