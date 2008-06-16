@@ -33,6 +33,32 @@ class FakeAppendFileKernel
 {
     public $intranet;
     public $session_id;
+    public $user;
+    function __construct()
+    {
+        $this->user = new FakeAppendFileUser;
+    }
+    function getSessionId()
+    {
+        return 'dfsfdsfdsfdsfdsfsdfds';
+    }
+}
+
+class FakeAppendFileUser
+{
+    function getActiveIntranetId()
+    {
+        return 1;
+    }
+}
+
+class TestableAppendFile extends Ilib_Filehandler_AppendFile
+{
+    function __construct($kernel, $belong_to, $belong_to_id)
+    {
+        $this->registerBelongTo(1, 'product');
+        parent::__construct($kernel, $belong_to, $belong_to_id);
+    }
 }
 
 class AppendFileTest extends PHPUnit_Framework_TestCase
@@ -48,7 +74,7 @@ class AppendFileTest extends PHPUnit_Framework_TestCase
         $kernel = new FakeAppendFileKernel;
         $kernel->session_id = 'notreallyasessionid';
         $kernel->intranet = new FakeAppendFileIntranet;
-        return new Ilib_Filehandler_AppendFile($kernel, 'product', 1);
+        return new TestableAppendFile($kernel, 'product', 1);
     }
 
     /////////////////////////////////////////////////////////
