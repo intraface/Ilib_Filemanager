@@ -84,7 +84,7 @@ class AppendFileTest extends PHPUnit_Framework_TestCase
         $append = $this->createAppendFile();
         $append->getDBQuery();
 
-        $this->assertTrue(isset($append->getDBQuery()));
+        $this->assertTrue(is_object($append->getDBQuery()));
     }
 
     function testGetList()
