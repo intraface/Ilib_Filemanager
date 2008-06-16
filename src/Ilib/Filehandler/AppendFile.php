@@ -33,7 +33,7 @@ class Ilib_Filehandler_AppendFile
     public function __construct($kernel, $belong_to, $belong_to_id)
     {
         if (!in_array($belong_to, $this->belong_to_types)) {
-            throw new Exception("AppendFile->__construct unknown type");
+            throw new Exception($belong_to . ' is unknown type');
         }
 
         $this->belong_to_key = $this->getBelongToKey($belong_to);

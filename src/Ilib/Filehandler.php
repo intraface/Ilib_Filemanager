@@ -271,7 +271,7 @@ class Ilib_Filehandler extends Ilib_Filehandler_Standard
             if ($db->f('width') == NULL) {
                 $imagesize = getimagesize($this->get('file_path'));
                 $this->value['width'] = $imagesize[0]; // imagesx($this->get('file_uri'));
-                $db2 = new DB_sql;
+                $db2 = new DB_Sql;
                 $db2->query("UPDATE file_handler SET width = ".(int)$this->value['width']." WHERE intranet_id = ".$this->kernel->intranet->get('id')." AND id = ".$this->id);
             } else {
                 $this->value['width'] = $db->f('width');
@@ -280,7 +280,7 @@ class Ilib_Filehandler extends Ilib_Filehandler_Standard
             if ($db->f('height') == NULL) {
                 $imagesize = getimagesize($this->get('file_path'));
                 $this->value['height'] = $imagesize[1]; //imagesy($this->get('file_uri'));
-                $db2 = new DB_sql;
+                $db2 = new DB_Sql;
                 $db2->query("UPDATE file_handler SET height = ".(int)$this->value['height']." WHERE intranet_id = ".$this->kernel->intranet->get('id')." AND id = ".$this->id);
                 $db2->free();
             } else {
@@ -535,7 +535,7 @@ class Ilib_Filehandler extends Ilib_Filehandler_Standard
      */
     public function update($input)
     {
-        $db = new DB_sql;
+        $db = new DB_Sql;
 
         if (!is_array($input)) {
             trigger_error("Input skal være et array i FileHandler->updateInstance", E_USER_ERROR);
@@ -671,9 +671,9 @@ class Ilib_Filehandler extends Ilib_Filehandler_Standard
      * Returns RandomKeyGenerator
      *
      * @param integer $length the length of the random key
+     * 
      * @return object RandomKeyGenerator
      */
-
     private function getRandomKeyGenerator($length)
     {
         return new Ilib_RandomKeyGenerator($length);

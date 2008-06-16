@@ -1,8 +1,6 @@
 <?php
 require_once 'config.test.php';
 
-require_once 'Intraface/functions/functions.php';
-
 class FakeInstanceHandlerKernel {
     public $intranet;
     public $user;
@@ -74,7 +72,7 @@ class InstanceHandlerTest extends PHPUnit_Framework_TestCase
 
     function createFileHandler()
     {
-        return new FileHandler($this->createKernel());
+        return new Ilib_Filehandler($this->createKernel());
     }
 
     function createFile($file)

@@ -1,8 +1,6 @@
 <?php
 require_once 'config.test.php';
 
-require_once 'Intraface/functions/functions.php';
-
 class FakeFileHandlerKernel {
     public $intranet;
     public $user;
@@ -74,7 +72,7 @@ class FileHandlerTest extends PHPUnit_Framework_TestCase
 
     function createFileHandler()
     {
-        return new FileHandler($this->createKernel());
+        return new Ilib_Filehandler($this->createKernel());
     }
 
     function createFile()
@@ -97,7 +95,7 @@ class FileHandlerTest extends PHPUnit_Framework_TestCase
     {
         $fh = $this->createFile();
         $accesskey = $fh->getAccessKey();
-        $filehandler = FileHandler::factory($this->createKernel(), $accesskey);
+        $filehandler = Ilib_Filehandler::factory($this->createKernel(), $accesskey);
         $this->assertTrue(is_object($filehandler));
     }
 
@@ -113,7 +111,7 @@ class FileHandlerTest extends PHPUnit_Framework_TestCase
         $fh = $this->createFile();
         $id = $fh->getId();
 
-        $fh = new FileHandler($this->createKernel(), $id);
+        $fh = new Ilib_Filehandler($this->createKernel(), $id);
         $this->assertTrue($fh->delete());
     }
 
@@ -146,9 +144,9 @@ class FileHandlerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(50, strlen($fh->get('access_key')));
     }
 
-    function testCreateTemporaryFile() {
+    function testCreateTemporaryFile() 
+    {
         $fh = new Ilib_Filehandler($this->createKernel());
-        $this->assertEquals('TemporaryFile', get_class($fh->createTemporaryFile()));
+        $this->assertTrue(is_object($fh->createTemporaryFile()));
     }
 }
-?>
