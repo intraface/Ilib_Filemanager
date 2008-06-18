@@ -55,7 +55,7 @@
                 <package name="DB_Sql" channel="public.intraface.dk" recommended_version="0.0.1" minimum_version="0.0.1" />
                 <package name="Ilib_Error" channel="public.intraface.dk" recommended_version="0.0.1" minimum_version="0.0.1" />
                 <package name="Ilib_DBQuery" channel="public.intraface.dk" recommended_version="0.1.1" minimum_version="0.1.1" />
-                <package name="Ilib_RandomKeyGenerator" channel="public.intraface.dk" recommended_version="0.2.0" minimum_version="0.2.0" />
+                <package name="Ilib_RandomKeyGenerator" channel="public.intraface.dk" recommended_version="0.2.0" minimum_version="0.2.1" />
             </dependencies>
             <notes>* BC break. All classes has been renamed.</notes>
         </d51pearpkg2>
@@ -95,55 +95,7 @@
            --log-pmd ${reports.phpunit.dir}/phpunit.pmd.xml
            --coverage-xml ${reports.phpunit.dir}/phpunit.coverage.xml
            --coverage-html ${reports.coverage.dir}/
-           AppendFileTest" passthru="true" checkreturn="true" />
-        <exec dir="${tests.dir}" command="phpunit
-           --log-xml ${reports.phpunit.dir}/phpunit.xml
-           --log-pmd ${reports.phpunit.dir}/phpunit.pmd.xml
-           --coverage-xml ${reports.phpunit.dir}/phpunit.coverage.xml
-           --coverage-html ${reports.coverage.dir}/
-           FileHandlerTest" passthru="true" checkreturn="true" />
-        <exec dir="${tests.dir}" command="phpunit
-           --log-xml ${reports.phpunit.dir}/phpunit.xml
-           --log-pmd ${reports.phpunit.dir}/phpunit.pmd.xml
-           --coverage-xml ${reports.phpunit.dir}/phpunit.coverage.xml
-           --coverage-html ${reports.coverage.dir}/
-           FileManagerTest" passthru="true" checkreturn="true" />
-        <exec dir="${tests.dir}" command="phpunit
-           --log-xml ${reports.phpunit.dir}/phpunit.xml
-           --log-pmd ${reports.phpunit.dir}/phpunit.pmd.xml
-           --coverage-xml ${reports.phpunit.dir}/phpunit.coverage.xml
-           --coverage-html ${reports.coverage.dir}/
-           FileViewerTest" passthru="true" checkreturn="true" />
-        <exec dir="${tests.dir}" command="phpunit
-           --log-xml ${reports.phpunit.dir}/phpunit.xml
-           --log-pmd ${reports.phpunit.dir}/phpunit.pmd.xml
-           --coverage-xml ${reports.phpunit.dir}/phpunit.coverage.xml
-           --coverage-html ${reports.coverage.dir}/
-           ImageHandlerTest" passthru="true" checkreturn="true" />
-        <exec dir="${tests.dir}" command="phpunit
-           --log-xml ${reports.phpunit.dir}/phpunit.xml
-           --log-pmd ${reports.phpunit.dir}/phpunit.pmd.xml
-           --coverage-xml ${reports.phpunit.dir}/phpunit.coverage.xml
-           --coverage-html ${reports.coverage.dir}/
-           ImageRandomizerTest" passthru="true" checkreturn="true" />
-        <exec dir="${tests.dir}" command="phpunit
-           --log-xml ${reports.phpunit.dir}/phpunit.xml
-           --log-pmd ${reports.phpunit.dir}/phpunit.pmd.xml
-           --coverage-xml ${reports.phpunit.dir}/phpunit.coverage.xml
-           --coverage-html ${reports.coverage.dir}/
-           InstanceHandlerTest" passthru="true" checkreturn="true" />
-        <exec dir="${tests.dir}" command="phpunit
-           --log-xml ${reports.phpunit.dir}/phpunit.xml
-           --log-pmd ${reports.phpunit.dir}/phpunit.pmd.xml
-           --coverage-xml ${reports.phpunit.dir}/phpunit.coverage.xml
-           --coverage-html ${reports.coverage.dir}/
-           InstanceManagerTest" passthru="true" checkreturn="true" />
-        <exec dir="${tests.dir}" command="phpunit
-           --log-xml ${reports.phpunit.dir}/phpunit.xml
-           --log-pmd ${reports.phpunit.dir}/phpunit.pmd.xml
-           --coverage-xml ${reports.phpunit.dir}/phpunit.coverage.xml
-           --coverage-html ${reports.coverage.dir}/
-           TemporaryFileTest" passthru="true" checkreturn="true" />
+           AllTests" passthru="true" checkreturn="true" />
     </target>
 
 </project>
