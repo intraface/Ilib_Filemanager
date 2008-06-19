@@ -81,7 +81,7 @@ class InstanceHandlerTest extends PHPUnit_Framework_TestCase
         $filehandler = $this->createFileHandler();
         copy(dirname(__FILE__) . '/'.$file, PATH_UPLOAD.$file);
         $filehandler->save(PATH_UPLOAD.$file, $file);
-        $filehandler->load();
+        // $filehandler->load();
         $this->assertEquals('', $filehandler->error->view());
         return $filehandler;
     }
@@ -102,16 +102,18 @@ class InstanceHandlerTest extends PHPUnit_Framework_TestCase
 
     }
 
-    function testConstructWithTypeSquare() {
+    function testConstructWithTypeSquare() 
+    {
         $filehandler = $this->createFile('wideonball.jpg');
         $filehandler->createInstance('square');
-
-        $this->assertEquals(3844, $filehandler->instance->get('file_size'));
+        $size = getimagesize($filehandler->instance->get('file_path'));
+        $this->assertEquals(75, $size[0]);
+        $this->assertEquals(75, $size[1]);
     }
 
-    function testConstructWithTypeSquareAndCropParams() {
+    function testConstructWithTypeSquareAndCropParams() 
+    {
         $filehandler = $this->createFile('wideonball.jpg');
-
         $crop = array('crop_offset_x' => 200,
             'crop_offset_y' => 20,
             'crop_width' => 100,
@@ -134,21 +136,16 @@ class InstanceHandlerTest extends PHPUnit_Framework_TestCase
 
     }
 
-    function testCreateCustomInstanceCreaterThanImage() {
-
+    function testCreateCustomInstanceCreaterThanImage() 
+    {
         $im = new Ilib_Filehandler_InstanceManager($this->createKernel());
 
         $this->assertEquals(1000, $im->save(array('name' => 'wide', 'max_height' => 280, 'max_width' => 720, 'resize_type' => 'strict')));
 
         $filehandler = $this->createFile('idraetshoejskolen9.jpg');
         $filehandler->createInstance('wide');
-        // we add 10 bytes delta
-        $this->assertEquals(54498, filesize($filehandler->instance->get('file_path')), '', 10);
         $size = getimagesize($filehandler->instance->get('file_path'));
         $this->assertEquals(720, $size[0]);
         $this->assertEquals(280, $size[1]);
     }
-
-
 }
-?>

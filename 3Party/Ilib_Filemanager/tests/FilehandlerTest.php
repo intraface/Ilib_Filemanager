@@ -140,8 +140,7 @@ class FileHandlerTest extends PHPUnit_Framework_TestCase
         // first we make a copy of the file as it is moved by upload.
         copy(dirname(__FILE__) . '/wideonball.jpg', PATH_UPLOAD.'wideonball.jpg');
         $id = $fh->save(PATH_UPLOAD.'wideonball.jpg', 'Filename');
-        $fh->load();
-        $this->assertEquals(50, strlen($fh->get('access_key')));
+        $this->assertEquals(50, strlen($fh->getAccessKey()));
     }
 
     function testCreateTemporaryFile() 
