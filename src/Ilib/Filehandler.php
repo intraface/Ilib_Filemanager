@@ -203,12 +203,11 @@ class Ilib_Filehandler extends Ilib_Filehandler_Standard
      *
      * @return integer
      */
-    public function load()
+    protected function load()
     {
         $db = new DB_Sql;
         $db->query("SELECT id, date_created, width, height, date_changed, description, file_name, server_file_name, file_size, access_key, accessibility_key, file_type_key, DATE_FORMAT(date_created, '%d-%m-%Y') AS dk_date_created, DATE_FORMAT(date_changed, '%d-%m-%Y') AS dk_date_changed FROM file_handler WHERE id = ".$this->id." AND intranet_id = ".$this->kernel->intranet->get('id'));
         if (!$db->nextRecord()) {
-
             $this->id = 0;
             $this->value['id'] = 0;
             return 0;
@@ -432,16 +431,14 @@ class Ilib_Filehandler extends Ilib_Filehandler_Standard
             $file_name = safeToDb($file_name);
         }
 
-
-        $random_key_generator = $this->getRandomKeyGenerator();
-
         // Vi sikre os at ingen andre har den nøgle
+        $generator = $this->getRandomKeyGenerator();
         $i = 0;
         do {
-            $access_key = $random_key_generator->generate(50);
+            $access_key = $generator->generate(50);
 
             if ($i > 50 || $access_key == '') {
-                trigger_error("Fejl under generering af access_key i FileHandler->save", E_USER_ERROR);
+                throw new Exception("Fejl under generering af access_key i FileHandler->save");
             }
             $i++;
             $db->query("SELECT id FROM file_handler WHERE access_key = '".$access_key."'");
@@ -454,8 +451,7 @@ class Ilib_Filehandler extends Ilib_Filehandler_Standard
             // $mime_type = mime_content_type($file);
             $mime_type = MIME_Type::autoDetect($file);
             if (PEAR::isError($mime_type)) {
-                trigger_error("Error in MIME_Type::autoDetect in Filehandler->save() ".$mime_type->getMessage(), E_USER_ERROR);
-                exit;
+                throw new Exception("Error in MIME_Type::autoDetect in Filehandler->save() ".$mime_type->getMessage());
             }
         }
 
@@ -509,20 +505,19 @@ class Ilib_Filehandler extends Ilib_Filehandler_Standard
         $server_file_name = $id . '.' . $mime_type['extension'];
 
         if (!is_file($file)) {
-            trigger_error("Filen vi vil flytte er ikke en gyldig fil i filehandler->save", E_USER_ERROR);
+            throw new Exception("Filen vi vil flytte er ikke en gyldig fil i filehandler->save");
         }
 
         if (!rename($file, $this->upload_path . $server_file_name)) {
             $this->delete();
-            trigger_error("Unable to move file '".$file."' to '".$this->upload_path.$server_file_name."' in Filehandler->save", E_USER_ERROR);
+            throw new Exception("Unable to move file '".$file."' to '".$this->upload_path.$server_file_name."' in Filehandler->save");
         }
 
         $db->query("UPDATE file_handler SET server_file_name = \"".$server_file_name."\" WHERE intranet_id = ".$this->kernel->intranet->get('id')." AND id = ".$id);
         $this->id = $id;
-        // $this->load();
+        $this->load();
         return $this->id;
     }
-
 
     /**
      * Benyttes til at opdaterer oplysninger om fil

@@ -92,11 +92,7 @@
 
     <target name="test">
         <exec dir="${tests.dir}" command="phpunit
-           --log-xml ${reports.phpunit.dir}/phpunit.xml
-           --log-pmd ${reports.phpunit.dir}/phpunit.pmd.xml
-           --coverage-xml ${reports.phpunit.dir}/phpunit.coverage.xml
-           --coverage-html ${reports.coverage.dir}/
-           AllTests" passthru="true" checkreturn="true" />
+        	AllTests" passthru="true" checkreturn="true" />
     </target>
 
 </project>

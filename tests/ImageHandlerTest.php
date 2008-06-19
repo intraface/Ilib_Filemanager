@@ -79,7 +79,7 @@ class ImageHandlerTest extends PHPUnit_Framework_TestCase
         $filehandler = new Ilib_Filehandler($this->createKernel());
         copy(dirname(__FILE__) . '/'.$this->file_name, PATH_UPLOAD.$this->file_name);
         $filehandler->save(PATH_UPLOAD.$this->file_name, $this->file_name);
-        $filehandler->load();
+        //$filehandler->load();
         $this->assertEquals('', $filehandler->error->view());
         return $filehandler;
     }
