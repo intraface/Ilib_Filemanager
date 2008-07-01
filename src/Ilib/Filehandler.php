@@ -302,9 +302,12 @@ class Ilib_Filehandler extends Ilib_Filehandler_Standard
      *
      * @return void
      */
-    public function createUpload()
+    public function getUploader()
     {
-        $this->upload = new Ilib_Filehandler_UploadHandler($this);
+        if ($this->upload) {
+            return $this->upload;
+        }
+        return ($this->upload = new Ilib_Filehandler_UploadHandler($this));
     }
 
     /**
