@@ -55,7 +55,7 @@ class Ilib_Filehandler_Manager extends Ilib_Filehandler
      */
     public function getKeywords()
     {
-        return ($this->keywords = new Keyword($this));
+        return ($this->keywords = new Ilib_Keyword($this));
     }
 
     public function getKeywordAppender()

@@ -250,14 +250,13 @@ class Ilib_Filehandler_UploadHandler extends Ilib_Filehandler_Standard
             $id = $this->file_handler->save($prop['tmp_name'], $prop['real'], 'visible', $mime_type['mime_type']);
             $this->file_handler->update(array('accessibility' => $this->upload_setting['file_accessibility']));
 
-            if ($this->upload_setting['add_keyword'] != '' && strtolower(get_class($this->file_handler)) == 'filemanager') {
+            if ($this->upload_setting['add_keyword'] != '') {
                 $this->file_handler->load();
                 $keyword = $this->file_handler->getKeywords();
                 $appender = $this->file_handler->getKeywordAppender();
-                $string_appender = new Intraface_Keyword_StringAppender($keyword, $appender);
+                $string_appender = new Ilib_Keyword_StringAppender($keyword, $appender);
                 $string_appender->addKeywordsByString($this->upload_setting['add_keyword']);
             }
-
             return $id;
         }
     }
@@ -359,7 +358,7 @@ class Ilib_Filehandler_UploadHandler extends Ilib_Filehandler_Standard
                     $file_handler->load(); // Der skal lige loades, så id kan hentes.
                     $file_handler->kernel->useShared('keyword');
 
-                    $keyword = new Keyword($file_handler);
+                    $keyword = new Ilib_Keyword($file_handler);
                     $keyword->addKeywordsByString($this->upload_setting['add_keyword']);
                 }
 
