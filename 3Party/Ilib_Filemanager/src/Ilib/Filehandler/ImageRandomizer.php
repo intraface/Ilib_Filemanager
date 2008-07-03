@@ -20,6 +20,11 @@ class Ilib_Filehandler_ImageRandomizer
     private $file_list;
 
     /**
+     * @var array $file_list to find image from
+     */
+    private $dbquery;
+
+    /**
      * constructor
      *
      * @param object $file_manager file handler
@@ -77,7 +82,9 @@ class Ilib_Filehandler_ImageRandomizer
      */
     private function getDBQuery()
     {
-        if ($this->dbquery) return $this->dbquery;
+        if ($this->dbquery) {
+            return $this->dbquery;
+        }
         $dbquery = new Ilib_DBQuery("file_handler", "file_handler.temporary = 0 AND file_handler.active = 1 AND file_handler.intranet_id = ".$this->file_manager->kernel->intranet->get('id'));
         $dbquery->useErrorObject($this->error);
         return ($this->dbquery = $dbquery);
