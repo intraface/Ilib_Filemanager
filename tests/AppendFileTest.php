@@ -112,11 +112,9 @@ class AppendFileTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($append->undelete(1));
     }
 
-    function testCreateDBQuery()
+    function testGetDBQuery()
     {
         $append = $this->createAppendFile();
-        $append->getDBQuery();
-
         $this->assertTrue(is_object($append->getDBQuery()));
     }
 
@@ -126,8 +124,6 @@ class AppendFileTest extends PHPUnit_Framework_TestCase
         $append->addFile(new FakeAppendFileFile(1));
         $append->addFile(new FakeAppendFileFile(2));
         $append->addFile(new FakeAppendFileFile(3));
-
-        $append->getDBQuery();
 
         $expected = array(
             0 => array(
