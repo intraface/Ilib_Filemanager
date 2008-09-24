@@ -378,6 +378,11 @@ class Ilib_Filehandler_UploadHandler extends Ilib_Filehandler_Standard
                     $file_handler->delete();
                     continue;
                 }
+                
+                if(!chmod($this->upload_path.$server_file_name, 0644)) {
+                    // please do not stop executing here
+                    trigger_error("Unable to chmod file '".$this->upload_path.$server_file_name."'", E_USER_NOTICE);
+                }
             }
         }
 
