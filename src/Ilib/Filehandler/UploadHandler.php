@@ -224,7 +224,7 @@ class Ilib_Filehandler_UploadHandler extends Ilib_Filehandler_Standard
             $file->setName($tmp_server_file_name);
 
             if (!is_dir($this->file_handler->tempdir_path)) {
-                if (!mkdir($this->file_handler->tempdir_path)) {
+                if (!mkdir($this->file_handler->tempdir_path, 0755)) {
                     trigger_error("Kunne ikke oprette mappe i FileHandler->upload", E_USER_ERROR);
                 }
             }
@@ -367,7 +367,7 @@ class Ilib_Filehandler_UploadHandler extends Ilib_Filehandler_Standard
                 $file_handler->update(array('server_file_name' => $server_file_name));
 
                 if (!is_dir($this->upload_path)) {
-                    if (!mkdir($this->upload_path)) {
+                    if (!mkdir($this->upload_path, 0755)) {
                         trigger_error("Kunne ikke oprette mappe i FileHandler->upload", E_USER_ERROR);
                     }
                 }
