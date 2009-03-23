@@ -15,11 +15,11 @@
  * @author  Sune Jensen
  * @since   1.2
  */
- 
+
 if(!defined('PATH_UPLOAD_TEMPORARY')) {
     define('PATH_UPLOAD_TEMPORARY', 'tempdir/');
 }
-require_once 'Ilib/Filehandler/functions.php'; 
+require_once 'Ilib/Filehandler/functions.php';
 
 class Ilib_Filehandler extends Ilib_Filehandler_Standard
 {
@@ -251,6 +251,7 @@ class Ilib_Filehandler extends Ilib_Filehandler_Standard
             $this->value['last_modified'] = 'Filen findes ikke';
         }
 
+        $this->value['file_uri_parameters'] = '?/'.$this->kernel->intranet->get('public_key').'/'.$this->get('access_key').'/'.urlencode($this->get('file_name'));
         $this->value['file_uri'] = $this->file_viewer.'?/'.$this->kernel->intranet->get('public_key').'/'.$this->get('access_key').'/'.urlencode($this->get('file_name'));
         // nedenstående bruges til pdf-er
         //$this->value['file_uri_pdf'] = PATH_UPLOAD.$this->kernel->intranet->get('id').'/'.$this->value['server_file_name'];
@@ -515,7 +516,7 @@ class Ilib_Filehandler extends Ilib_Filehandler_Standard
             $this->delete();
             throw new Exception("Unable to move file '".$file."' to '".$this->upload_path.$server_file_name."' in Filehandler->save");
         }
-        
+
         if(!chmod($this->upload_path . $server_file_name, 0644)) {
             // please do not stop executing here
             trigger_error("Unable to chmod file '".$this->upload_path.$server_file_name."' in Filehandler->save", E_USER_NOTICE);
@@ -651,7 +652,7 @@ class Ilib_Filehandler extends Ilib_Filehandler_Standard
      *
      * @return boolean true on success
      */
-    public function loadMimeTypes() 
+    public function loadMimeTypes()
     {
         $filetype = new Ilib_Filehandler_FileType();
         $this->file_types = $filetype->getList();
@@ -674,7 +675,7 @@ class Ilib_Filehandler extends Ilib_Filehandler_Standard
      * Returns RandomKeyGenerator
      *
      * @param integer $length the length of the random key
-     * 
+     *
      * @return object RandomKeyGenerator
      */
     private function getRandomKeyGenerator()
