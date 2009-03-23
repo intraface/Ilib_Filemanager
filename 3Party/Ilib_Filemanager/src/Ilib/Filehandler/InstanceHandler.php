@@ -140,7 +140,7 @@ class Ilib_Filehandler_InstanceHandler extends Ilib_Filehandler_Standard
             if (!rename($file, $instancehandler->instance_path.$server_file_name)) {
                 trigger_error("Det var ikke muligt at flytte fil i InstanceHandler->factory", E_USER_ERROR);
             }
-            
+
             if(!chmod($instancehandler->instance_path.$server_file_name, 0644)) {
                 // please do not stop executing here
                 trigger_error("Unable to chmod file '".$instancehandler->instance_path.$server_file_name."'", E_USER_NOTICE);
@@ -191,6 +191,7 @@ class Ilib_Filehandler_InstanceHandler extends Ilib_Filehandler_Standard
 
         $this->value['last_modified'] = filemtime($this->get('file_path'));
         // $this->value['file_uri'] = FILE_VIEWER.'?id='.$this->get('id').'&type='.$this->get('type').'&name=/'.urlencode($this->file_handler->get('file_name'));
+        $this->value['file_uri_parameters'] = '?/'.$this->file_handler->kernel->intranet->get('public_key').'/'.$this->file_handler->get('access_key').'/'.$this->get('type').'/'.urlencode($this->file_handler->get('file_name'));
         $this->value['file_uri'] = FILE_VIEWER.'?/'.$this->file_handler->kernel->intranet->get('public_key').'/'.$this->file_handler->get('access_key').'/'.$this->get('type').'/'.urlencode($this->file_handler->get('file_name'));
 
         // dette er vel kun i en overgangsperiode? LO
