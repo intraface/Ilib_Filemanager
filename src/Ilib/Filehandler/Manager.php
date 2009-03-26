@@ -1,5 +1,7 @@
 <?php
 /**
+ * Basically a gateway to get a list of files
+ *
  * @package Intraface_FileManager
  */
 class Ilib_Filehandler_Manager extends Ilib_Filehandler
@@ -34,13 +36,15 @@ class Ilib_Filehandler_Manager extends Ilib_Filehandler
     }
 
     /**
-     * Creates the dbquery object so it can be used in the class
+     * Gets the dbquery object so it can be used in the class
      *
-     * @return void
+     * @return object
      */
     public function getDBQuery()
     {
-        if ($this->dbquery) return $this->dbquery;
+        if ($this->dbquery) {
+            return $this->dbquery;
+        }
         $this->dbquery = new Ilib_DBQuery("file_handler", "file_handler.temporary = 0 AND file_handler.active = 1 AND file_handler.intranet_id = ".$this->kernel->intranet->get("id"));
         $this->dbquery->createStore($this->kernel->getSessionId(), 'intranet_id = '.intval($this->kernel->intranet->get('id')));
         $this->dbquery->useErrorObject($this->error);
@@ -49,7 +53,7 @@ class Ilib_Filehandler_Manager extends Ilib_Filehandler
 
 
     /**
-     * Creates the keywords object
+     * Gets the keywords object
      *
      * @return object
      */
@@ -58,11 +62,16 @@ class Ilib_Filehandler_Manager extends Ilib_Filehandler
         return ($this->keywords = new Ilib_Keyword($this));
     }
 
+    /**
+     * Gets the keywords appender
+     *
+     * @return object
+     */
+
     public function getKeywordAppender()
     {
         return new Ilib_Keyword_Appender($this);
     }
-
 
     /**
      * Gets a list
@@ -202,5 +211,14 @@ class Ilib_Filehandler_Manager extends Ilib_Filehandler
             $i++;
         }
         return $file;
+    }
+
+    function deleteAllInstances()
+    {
+    	foreach ($this->getList() as $file) {
+            $filehandler = new Ilib_Filehandler($this->kernel, $file['id']);
+            $filehandler->getInstance()->deleteAll();
+    	}
+        return true;
     }
 }
