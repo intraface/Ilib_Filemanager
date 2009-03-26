@@ -1,6 +1,6 @@
 <?php
 /**
- * This class manage the user instance types that it is possibe to get
+ * Manage the user instance types that it is possibe to get
  *
  * @author sune
  * @version 0.0.1

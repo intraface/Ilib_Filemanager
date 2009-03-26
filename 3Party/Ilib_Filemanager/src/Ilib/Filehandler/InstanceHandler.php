@@ -1,6 +1,6 @@
 <?php
 /**
- * Instance handler. Klarer håndtering af billeder forskellige instancer af billeder.
+ * Handles different instances of pictures
  *
  * @todo        Der mangler noget der hurtigt kan returnere billedstørrelsen.
  *              Det skal fx bruges i cms, hvor man vil knytte width og height til
@@ -52,6 +52,7 @@ class Ilib_Filehandler_InstanceHandler extends Ilib_Filehandler_Standard
 
         if ($this->file_handler->get('is_image') == 0) {
             // trigger_error("InstanceHandler kan kun startes, hvis filen er et billede i IntanceHandler->InstanceHandler", E_USER_ERROR);
+            // @todo throw an exception
             $this->id = 0;
         }
 
@@ -160,7 +161,6 @@ class Ilib_Filehandler_InstanceHandler extends Ilib_Filehandler_Standard
      */
     private function load()
     {
-
         $db = new DB_sql;
         $db->query("SELECT * FROM file_handler_instance WHERE intranet_id = ".$this->file_handler->kernel->intranet->get('id')." AND active = 1 AND id = ".$this->id);
         if (!$db->nextRecord()) {
@@ -309,7 +309,8 @@ class Ilib_Filehandler_InstanceHandler extends Ilib_Filehandler_Standard
      *
      * @return boolean
      */
-    function delete() {
+    function delete()
+    {
         if ($this->id == 0) {
             return false;
         }
