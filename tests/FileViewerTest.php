@@ -21,19 +21,19 @@ class FakeFileViewerHandler{
     function get($key) {
         return 1;
     }
-    
+
     function createInstance() {
         return new FakeInstanceHandler();
     }
 }
 
 class FakeInstanceHandler {
-    
-    
+
+
     function checkType($type) {
         return $type == 'small';
     }
-    
+
     function get() {
         return '/path/to/file';
     }
@@ -41,6 +41,7 @@ class FakeInstanceHandler {
 
 class FileViewerTest extends PHPUnit_Framework_TestCase
 {
+    protected $backupGlobals = false;
 
     function testConstruction()
     {

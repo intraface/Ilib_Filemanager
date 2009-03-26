@@ -45,6 +45,7 @@ function iht_deltree( $f ){
 
 class InstanceHandlerTest extends PHPUnit_Framework_TestCase
 {
+    protected $backupGlobals = false;
 
     function setUp()
     {
@@ -102,7 +103,7 @@ class InstanceHandlerTest extends PHPUnit_Framework_TestCase
 
     }
 
-    function testConstructWithTypeSquare() 
+    function testConstructWithTypeSquare()
     {
         $filehandler = $this->createFile('wideonball.jpg');
         $filehandler->createInstance('square');
@@ -111,7 +112,7 @@ class InstanceHandlerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(75, $size[1]);
     }
 
-    function testConstructWithTypeSquareAndCropParams() 
+    function testConstructWithTypeSquareAndCropParams()
     {
         $filehandler = $this->createFile('wideonball.jpg');
         $crop = array('crop_offset_x' => 200,
@@ -136,7 +137,7 @@ class InstanceHandlerTest extends PHPUnit_Framework_TestCase
 
     }
 
-    function testCreateCustomInstanceCreaterThanImage() 
+    function testCreateCustomInstanceCreaterThanImage()
     {
         $im = new Ilib_Filehandler_InstanceManager($this->createKernel());
 

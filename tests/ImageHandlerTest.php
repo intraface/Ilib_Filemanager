@@ -47,7 +47,7 @@ if(!function_exists('iht_deltree')) {
 
 class ImageHandlerTest extends PHPUnit_Framework_TestCase
 {
-
+    protected $backupGlobals = false;
     private $file_name = 'wideonball.jpg';
 
     function setUp()
