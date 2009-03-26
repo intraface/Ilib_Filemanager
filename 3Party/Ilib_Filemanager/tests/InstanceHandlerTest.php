@@ -149,4 +149,11 @@ class InstanceHandlerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(720, $size[0]);
         $this->assertEquals(280, $size[1]);
     }
+
+    function testDeleteAllInstance()
+    {
+    	$filehandler = $this->createFile('idraetshoejskolen9.jpg');
+        $filehandler->getInstance('square');
+        $this->assertTrue($filehandler->getInstance('square')->deleteAll());
+    }
 }

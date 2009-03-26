@@ -92,7 +92,7 @@
 
     <target name="test">
         <exec dir="${tests.dir}" command="phpunit
-        	AllTests" passthru="true" checkreturn="true" />
+        	AllTests" passthru="true" checkreturn="false" />
     </target>
 
 </project>
