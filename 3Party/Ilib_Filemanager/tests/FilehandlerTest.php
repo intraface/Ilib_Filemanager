@@ -47,6 +47,7 @@ function fht_deltree( $f ){
 class FileHandlerTest extends PHPUnit_Framework_TestCase
 {
     private $file_name = 'tester.jpg';
+    protected $backupGlobals = false;
 
     function setUp()
     {
@@ -143,7 +144,7 @@ class FileHandlerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(50, strlen($fh->getAccessKey()));
     }
 
-    function testCreateTemporaryFile() 
+    function testCreateTemporaryFile()
     {
         $fh = new Ilib_Filehandler($this->createKernel());
         $this->assertTrue(is_object($fh->createTemporaryFile()));

@@ -28,6 +28,7 @@ class FakeFilemanagerKernel
 class FileManagerTest extends PHPUnit_Framework_TestCase
 {
     private $file_name = 'tester.jpg';
+    protected $backupGlobals = false;
 
     function createKernel()
     {

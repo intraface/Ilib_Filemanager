@@ -1,12 +1,12 @@
 <?php
 require_once 'config.test.php';
 
-class FakeImageRandomizerKernel 
+class FakeImageRandomizerKernel
 {
     public $intranet;
     public $user;
 
-    function randomKey() 
+    function randomKey()
     {
         return 'thisisnotreallyarandomkey'.microtime();
     }
@@ -45,7 +45,7 @@ function ihta_deltree( $f ){
 
 class ImageRandomizerTest extends PHPUnit_Framework_TestCase
 {
-
+    protected $backupGlobals = false;
     private $file_name = 'wideonball.jpg';
 
     function setUp()
@@ -79,7 +79,7 @@ class ImageRandomizerTest extends PHPUnit_Framework_TestCase
         return new Ilib_Filehandler_ImageRandomizer(new Ilib_Filehandler_Manager($this->createKernel()), $keyword);
     }
 
-    function createImages() 
+    function createImages()
     {
         for($i = 1; $i < 11; $i++) {
             $filemanager = new Ilib_Filehandler_Manager($this->createKernel());
@@ -99,7 +99,7 @@ class ImageRandomizerTest extends PHPUnit_Framework_TestCase
 
     ////////////////////////////////////////////////////////////////
 
-    function testImageRandomizerConstructor() 
+    function testImageRandomizerConstructor()
     {
         $this->createImages();
         $r = $this->createImageRandomizer();
@@ -107,7 +107,7 @@ class ImageRandomizerTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(is_object($r));
     }
 
-    function testGetRandomImageReturnsFileHandlerObject() 
+    function testGetRandomImageReturnsFileHandlerObject()
     {
         $this->createImages();
         $r = $this->createImageRandomizer();
@@ -116,7 +116,7 @@ class ImageRandomizerTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(is_object($file));
     }
 
-    function testGetRandomImageReturnsFileHandlerObjectWithCorrectFileName() 
+    function testGetRandomImageReturnsFileHandlerObjectWithCorrectFileName()
     {
         $this->createImages();
         $r = $this->createImageRandomizer();
@@ -125,7 +125,7 @@ class ImageRandomizerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(1, ereg("^file[0-9]{1,2}\.jpg$", $file->get('file_name')), 'file_name "'.$file->get('file_name').'" not valid');
     }
 
-    function testGetRandomImageReturnsDifferentImages() 
+    function testGetRandomImageReturnsDifferentImages()
     {
         $this->createImages();
         $r = $this->createImageRandomizer();
@@ -134,7 +134,7 @@ class ImageRandomizerTest extends PHPUnit_Framework_TestCase
         $this->assertNotEquals($file1->get('file_name'), $file2->get('file_name'));
     }
 
-    function testGetRandomImageDoesNotTriggerErrorOnDeletedKeyword() 
+    function testGetRandomImageDoesNotTriggerErrorOnDeletedKeyword()
     {
         // first we add and delete a keyword used later
         $filemanager = new Ilib_Filehandler_Manager($this->createKernel());

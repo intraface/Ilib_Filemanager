@@ -17,8 +17,8 @@ class FakeAppendFileIntranet
 class FakeAppendFileFile
 {
     public $id;
-    
-    function __construct($id = 1) 
+
+    function __construct($id = 1)
     {
         $this->id = $id;
     }
@@ -63,6 +63,8 @@ class TestableAppendFile extends Ilib_Filehandler_AppendFile
 
 class AppendFileTest extends PHPUnit_Framework_TestCase
 {
+    protected $backupGlobals = false;
+
     function setUp()
     {
         $db = MDB2::factory(DB_DSN);
