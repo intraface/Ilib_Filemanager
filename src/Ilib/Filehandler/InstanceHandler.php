@@ -80,7 +80,7 @@ class Ilib_Filehandler_InstanceHandler extends Ilib_Filehandler_Standard
             trigger_error("Filen skal være et billede i IntanceHandler->factory", E_USER_ERROR);
         }
 
-        $instancehandler = new Ilib_Filehandler_InstanceHandler($file_handler);
+        $instancehandler = new self($file_handler);
         $type = $instancehandler->checkType($type_name);
         if ($type === false) {
             trigger_error("Ugyldig type '".$type_name."' i InstanceHandler->factory", E_USER_ERROR);
@@ -100,14 +100,13 @@ class Ilib_Filehandler_InstanceHandler extends Ilib_Filehandler_Standard
                 // first we filter only crop parameters.
                 $crop_param = array_intersect_key($param, array('crop_width' =>'', 'crop_height' => '', 'crop_offset_x' => '', 'crop_offset_y' => ''));
                 $crop_param_string = serialize($crop_param);
-            }
-            else {
+            } else {
                 $crop_param_string = serialize(array());
             }
             $file = $file_handler->image->resize($type['max_width'], $type['max_height'], $type['resize_type']);
 
             if (!is_file($file)) {
-                trigger_error("Filen blev ikke opretett i InstanceHandler->factory", E_USER_ERROR);
+                trigger_error("Filen blev ikke oprettet i InstanceHandler->factory", E_USER_ERROR);
             }
 
             $file_size = filesize($file);
@@ -153,7 +152,6 @@ class Ilib_Filehandler_InstanceHandler extends Ilib_Filehandler_Standard
         }
     }
 
-
     /**
      * Henter en instance af et billede.
      *
@@ -198,7 +196,7 @@ class Ilib_Filehandler_InstanceHandler extends Ilib_Filehandler_Standard
         // Det kan lige så godt være der altid. Det gør jo ingen skade /Sune (20/11 2007)
         if ($db->f('width') == 0) {
             $imagesize = getimagesize($this->get('file_path'));
-            $this->value['width'] = $imagesize[0]; // imagesx($this->get('file_uri'));
+            $this->value['width'] = intval($imagesize[0]); // imagesx($this->get('file_uri'));
             $db2 = new DB_sql;
             $db2->query("UPDATE file_handler_instance SET width = ".$this->value['width']." WHERE intranet_id = ".$this->file_handler->kernel->intranet->get('id')." AND id = ".$this->id);
         } else {
@@ -207,7 +205,7 @@ class Ilib_Filehandler_InstanceHandler extends Ilib_Filehandler_Standard
 
         if ($db->f('height') == 0) {
             $imagesize = getimagesize($this->get('file_path'));
-            $this->value['height'] = $imagesize[1]; //imagesy($this->get('file_uri'));
+            $this->value['height'] = intval($imagesize[1]); //imagesy($this->get('file_uri'));
             $db2 = new DB_sql;
             $db2->query("UPDATE file_handler_instance SET height = ".$this->value['height']." WHERE intranet_id = ".$this->file_handler->kernel->intranet->get('id')." AND id = ".$this->id);
         } else {

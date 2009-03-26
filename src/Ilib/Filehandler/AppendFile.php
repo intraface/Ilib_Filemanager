@@ -93,6 +93,7 @@ class Ilib_Filehandler_AppendFile
         }
         $this->dbquery = new Ilib_DBQuery('filehandler_append_file', 'filehandler_append_file.active = 1 AND filehandler_append_file.intranet_id='.$this->user->getActiveIntranetId().' AND filehandler_append_file.belong_to_key = '.$this->belong_to_key.' AND filehandler_append_file.belong_to_id = ' . $this->belong_to_id);
         $this->dbquery->createStore($this->kernel->getSessionId(), 'intranet_id = '.intval($this->kernel->intranet->get('id')));
+
         return $this->dbquery;
     }
 
@@ -218,4 +219,17 @@ class Ilib_Filehandler_AppendFile
         return $files;
     }
 
+    /**
+     * @param object $db
+     * @param integer $id
+     */
+    function getPosition($db, $id)
+    {
+    	return new Ilib_Position($db, "filehandler_append_file", intval($id), "intranet_id=".$this->kernel->intranet->get('id')." AND debtor_id=".$this->debtor->get('id')." AND active = 1", "position", "id");
+    }
+
+    function getAppendedFile($id)
+    {
+    	return new Ilib_Filehandler_Append_File($id);
+    }
 }

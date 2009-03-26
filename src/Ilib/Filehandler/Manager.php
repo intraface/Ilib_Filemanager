@@ -217,6 +217,9 @@ class Ilib_Filehandler_Manager extends Ilib_Filehandler
     {
     	foreach ($this->getList() as $file) {
             $filehandler = new Ilib_Filehandler($this->kernel, $file['id']);
+            if (!$filehandler->isImage()) {
+            	continue;
+            }
             $filehandler->getInstance()->deleteAll();
     	}
         return true;

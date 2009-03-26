@@ -198,6 +198,11 @@ class Ilib_Filehandler extends Ilib_Filehandler_Standard
         return new self($kernel, $db->f('id'));
     }
 
+    function isImage()
+    {
+    	return $this->value['is_image'];
+    }
+
     /**
      * Loads the file
      *
@@ -270,7 +275,7 @@ class Ilib_Filehandler extends Ilib_Filehandler_Standard
         if ($this->value['is_image'] == 1) {
             if ($db->f('width') == NULL) {
                 $imagesize = getimagesize($this->get('file_path'));
-                $this->value['width'] = $imagesize[0]; // imagesx($this->get('file_uri'));
+                $this->value['width'] = intval($imagesize[0]); // imagesx($this->get('file_uri'));
                 $db2 = new DB_Sql;
                 $db2->query("UPDATE file_handler SET width = ".(int)$this->value['width']." WHERE intranet_id = ".$this->kernel->intranet->get('id')." AND id = ".$this->id);
             } else {
@@ -279,7 +284,7 @@ class Ilib_Filehandler extends Ilib_Filehandler_Standard
 
             if ($db->f('height') == NULL) {
                 $imagesize = getimagesize($this->get('file_path'));
-                $this->value['height'] = $imagesize[1]; //imagesy($this->get('file_uri'));
+                $this->value['height'] = intval($imagesize[1]); //imagesy($this->get('file_uri'));
                 $db2 = new DB_Sql;
                 $db2->query("UPDATE file_handler SET height = ".(int)$this->value['height']." WHERE intranet_id = ".$this->kernel->intranet->get('id')." AND id = ".$this->id);
                 $db2->free();
@@ -314,9 +319,21 @@ class Ilib_Filehandler extends Ilib_Filehandler_Standard
     /**
      * Creates the the instance handler so it can be used directly from the filehandler class
      *
+     * @deprecated
+     *
      * @return object
      */
     public function createInstance($type = "", $param = array())
+    {
+        return $this->getInstance($type, $param);
+    }
+
+    /**
+     * Gets an instance handler
+     *
+     * @return object
+     */
+    public function getInstance($type = "", $param = array())
     {
         if ($type == "") {
             $this->instance = new Ilib_Filehandler_InstanceHandler($this);
