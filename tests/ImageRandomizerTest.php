@@ -76,16 +76,18 @@ class ImageRandomizerTest extends PHPUnit_Framework_TestCase
     function createImageRandomizer($keyword = array('test'))
     {
 
-        return new Ilib_Filehandler_ImageRandomizer(new Ilib_Filehandler_Manager($this->createKernel()), $keyword);
+        return new Ilib_Filehandler_ImageRandomizer(new Ilib_Filehandler_Gateway($this->createKernel()), $keyword);
     }
 
     function createImages()
     {
         for($i = 1; $i < 11; $i++) {
-            $filemanager = new Ilib_Filehandler_Manager($this->createKernel());
+            $filemanager = new Ilib_Filehandler($this->createKernel());
             copy(dirname(__FILE__) . '/'.$this->file_name, PATH_UPLOAD.$this->file_name);
             $filemanager->save(PATH_UPLOAD.$this->file_name, 'file'.$i.'.jpg');
-            $appender = $filemanager->getKeywordAppender();
+
+            $gateway = new Ilib_Filehandler_Gateway($this->createKernel());
+            $appender = $gateway->getKeywordAppender();
 
             $string_appender = new Ilib_Keyword_StringAppender(new Ilib_Keyword($filemanager), $appender);
             if(round($i/2) == $i/2) {

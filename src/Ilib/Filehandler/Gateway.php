@@ -22,6 +22,11 @@ class Ilib_Filehandler_Gateway
     public $fileviewer_path;
 
     /**
+     * @var object
+     */
+    public $kernel;
+
+    /**
      * Constructor
      *
      * @param object  $kernel  Kernel object
@@ -31,6 +36,7 @@ class Ilib_Filehandler_Gateway
     public function __construct($kernel)
     {
         $this->fileviewer_path = FILE_VIEWER;
+        $this->kernel = $kernel;
     }
 
     /**
