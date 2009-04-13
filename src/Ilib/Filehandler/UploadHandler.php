@@ -251,7 +251,7 @@ class Ilib_Filehandler_UploadHandler extends Ilib_Filehandler_Standard
             $this->file_handler->update(array('accessibility' => $this->upload_setting['file_accessibility']));
 
             if ($this->upload_setting['add_keyword'] != '') {
-                $keyword = $this->file_handler->getKeywords();
+                $keyword = $this->file_handler->getKeyword();
                 $appender = $this->file_handler->getKeywordAppender();
                 $string_appender = new Ilib_Keyword_StringAppender($keyword, $appender);
                 $string_appender->addKeywordsByString($this->upload_setting['add_keyword']);

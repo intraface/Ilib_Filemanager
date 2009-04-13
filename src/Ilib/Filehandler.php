@@ -714,4 +714,14 @@ class Ilib_Filehandler extends Ilib_Filehandler_Standard
         return new Ilib_Keyword_Appender($this);
     }
 
+    /**
+     * Gets the keywords appender
+     *
+     * @return object
+     */
+    public function getKeyword()
+    {
+        return new Ilib_Keyword($this);
+    }
+
 }
