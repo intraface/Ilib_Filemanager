@@ -36,7 +36,7 @@ Bemærk at filerne altid (også når accessibility er public) er beskyttet med en a
 $filehandler = new FileHandler($kernel);
 $filehandler->loadUpload();
 $filehandler->upload->setSetting('accessibility', 'public'); // Der er en række forskellige indstillinger der kan sættes. Se shared/filehandler/UploadHandler.php)
-if($filehandler->upload->upload("userfile")) {
+if ($filehandler->upload->upload("userfile")) {
     // upload retunere id på filen. Den kan også efterfølgende tilgås med $filehandler->get('id');
     // noget redirect eller noget andet til den rigtige side
 }
@@ -75,16 +75,14 @@ intradace.dk/main/file/index.php her hentes filerne fra. Den er ikke helt smukt 
 */
 
 
-class Ilib_Filehandler_HTML {
-
-
+class Ilib_Filehandler_HTML
+{
     private $file_handler;
 
-    function __construct($file_handler) 
+    function __construct($file_handler)
     {
         $this->file_handler = $file_handler;
     }
-
 
     /**
     * Denne funktion skal printe et upload field.
@@ -100,8 +98,8 @@ class Ilib_Filehandler_HTML {
     *			type: full/only_upload
     *			include_submit_button_name: hvis sat bliver der indsat en "Upload" knap efter fil-felt, men strengen som navn
     */
-
-    function printFormUploadTag($checkbox_name, $upload_field_name, $submit_name, $options = array()) {
+    function printFormUploadTag($checkbox_name, $upload_field_name, $submit_name, $options = array())
+    {
         $pre_options = array(
             'image_attr' => '',
             'field_description' => 'choose file',
@@ -113,9 +111,9 @@ class Ilib_Filehandler_HTML {
 
         $options = array_merge($pre_options, $options);
 
-        if($this->file_handler->get('id') != 0 && $options['type'] != 'only_upload') {
+        if ($this->file_handler->get('id') != 0 && $options['type'] != 'only_upload') {
             $file_id = $this->file_handler->get('id');
-            if($options['image_size'] != '') {
+            if ($options['image_size'] != '') {
                 $this->file_handler->createInstance($options['image_size']);
                 $file = $this->file_handler->instance;
             }
@@ -131,43 +129,41 @@ class Ilib_Filehandler_HTML {
         echo '<div class="formrow">';
         echo '<label for="'.$upload_field_name.'">'.$this->file_handler->kernel->translation->get($options['field_description'], 'filehandler').'</label>';
         echo '<input name="'.$upload_field_name.'" type="file" id="'.$upload_field_name.'" />';
-        if($options['include_submit_button_name'] != '') {
+        if ($options['include_submit_button_name'] != '') {
             echo ' <input type="submit" name="'.$options['include_submit_button_name'].'" value="'.$this->file_handler->kernel->translation->get('upload', 'filehandler') . '" /> <br />';
         }
-        if($this->file_handler->kernel->user->hasModuleAccess('filemanager') AND $options['filemanager'] === true) {
+        if ($this->file_handler->kernel->user->hasModuleAccess('filemanager') AND $options['filemanager'] === true) {
             echo ' &nbsp; '.$this->file_handler->kernel->translation->get('or', 'common').' &nbsp; <input type="submit" name="'.$submit_name.'" value="'.$this->file_handler->kernel->translation->get('choose from filemanager', 'filehandler').'" />';
         }
         echo '</div>';
     }
 
-    function showFile($delete_link, $options = array()) {
-
+    function showFile($delete_link, $options = array())
+    {
         $pre_options = array(
             'image_size' => 'icon',
             'force_document_span_size' => '',
             'div_style' => '');
 
-
         $options = array_merge($pre_options, $options);
 
-        if($this->file_handler->get('is_image') == 1 && $options['image_size'] != 'icon') {
+        if ($this->file_handler->get('is_image') == 1 && $options['image_size'] != 'icon') {
             $this->file_handler->createInstance('small');
 
-            if($options['div_style'] == '') {
+            if ($options['div_style'] == '') {
                 $options['div_style'] = 'height: '.($this->file_handler->instance->get('height')+10).'px;';
             }
             echo '<div class="show_file" style="'.$options['div_style'].'"><img src="'.$this->file_handler->instance->get('file_uri').'" style="width: '.$this->file_handler->instance->get('width').'px; height: '.$this->file_handler->instance->get('height').'px" /> '.$this->file_handler->get('file_name');
-            if($delete_link != '') {
+            if ($delete_link != '') {
                 echo ' <a class="delete" href="'.$delete_link.'">'.$this->file_handler->kernel->translation->get('delete', 'common').'</a>';
             }
             echo '</div>';
-        }
-        else {
-            if($options['div_style'] == '') {
+        } else {
+            if ($options['div_style'] == '') {
                 $options['div_style'] = 'height: 85px;';
             }
             echo '<div class="show_file" style="'.$options['div_style'].'";><img src="'.$this->file_handler->get('icon_uri').'" style="width: 75px; height: 75px; float: left;" /> '.$this->file_handler->get('file_name');
-            if($delete_link != '') {
+            if ($delete_link != '') {
                 echo ' <a class="delete" href="'.$delete_link.'">'.$this->file_handler->kernel->translation->get('delete', 'common').'</a>';
             }
             echo '</div>';

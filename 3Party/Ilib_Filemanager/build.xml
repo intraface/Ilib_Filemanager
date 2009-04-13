@@ -4,7 +4,7 @@
     <taskdef classname="phing.tasks.ext.IlibPearDeployerTask" name="peardeploy" />
 
     <property name="package-name" value="${phing.project.name}" />
-    <property name="version" value="0.2.1" />
+    <property name="version" value="0.2.2" />
     <property name="stability" value="alpha" />
     <property name="pear.channel" value="public.intraface.dk" />
 
@@ -57,7 +57,7 @@
                 <package name="Ilib_DBQuery" channel="public.intraface.dk" recommended_version="0.1.1" minimum_version="0.1.1" />
                 <package name="Ilib_RandomKeyGenerator" channel="public.intraface.dk" recommended_version="0.2.0" minimum_version="0.2.1" />
             </dependencies>
-            <notes>* BC break. All classes has been renamed.</notes>
+            <notes>* Fixed bugs.</notes>
         </d51pearpkg2>
     </target>
 
