@@ -138,6 +138,11 @@ class Ilib_Filehandler extends Ilib_Filehandler_Standard
         }
     }
 
+    public function getKernel()
+    {
+    	return $this->kernel;
+    }
+
     /**
      * Returns the access key for the file
      *
@@ -672,8 +677,7 @@ class Ilib_Filehandler extends Ilib_Filehandler_Standard
     public function loadMimeTypes()
     {
         $filetype = new Ilib_Filehandler_FileType();
-        $this->file_types = $filetype->getList();
-        return true;
+        return ($this->file_types = $filetype->getList());
     }
 
     /**
@@ -698,6 +702,16 @@ class Ilib_Filehandler extends Ilib_Filehandler_Standard
     private function getRandomKeyGenerator()
     {
         return new Ilib_RandomKeyGenerator();
+    }
+
+    /**
+     * Gets the keywords appender
+     *
+     * @return object
+     */
+    public function getKeywordAppender()
+    {
+        return new Ilib_Keyword_Appender($this);
     }
 
 }

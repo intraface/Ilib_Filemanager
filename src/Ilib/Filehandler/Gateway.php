@@ -7,9 +7,18 @@
 class Ilib_Filehandler_Gateway
 {
     /**
+     * @var array
+     */
+    protected $accessibility_types = array(
+            0 => '_invalid_',
+            1 => 'user',
+            2 => 'intranet',
+            3 => 'public');
+
+    /**
      * @var object
      */
-    public $keywords;
+    protected $keywords;
 
     /**
      * @var object
@@ -19,12 +28,22 @@ class Ilib_Filehandler_Gateway
     /**
      * @var string
      */
-    public $fileviewer_path;
+    protected $fileviewer_path;
 
     /**
      * @var object
      */
-    public $kernel;
+    protected $kernel;
+
+    /**
+     * @var object
+     */
+    protected $error;
+
+    /**
+     * @var array
+     */
+    protected $file_types;
 
     /**
      * Constructor
@@ -37,6 +56,11 @@ class Ilib_Filehandler_Gateway
     {
         $this->fileviewer_path = FILE_VIEWER;
         $this->kernel = $kernel;
+    }
+
+    function getKernel()
+    {
+    	return $this->kernel;
     }
 
     /**
@@ -62,11 +86,18 @@ class Ilib_Filehandler_Gateway
             return $this->dbquery;
         }
         $this->dbquery = new Ilib_DBQuery("file_handler", "file_handler.temporary = 0 AND file_handler.active = 1 AND file_handler.intranet_id = ".$this->kernel->intranet->get("id"));
-        $this->dbquery->createStore($this->kernel->getSessionId(), 'intranet_id = '.intval($this->kernel->intranet->get('id')));
-        $this->dbquery->useErrorObject($this->error);
+        $this->dbquery->createStore($this->getKernel()->getSessionId(), 'intranet_id = '.intval($this->getKernel()->intranet->get('id')));
+        $this->dbquery->useErrorObject($this->getError());
         return $this->dbquery;
     }
 
+    public function getError()
+    {
+    	if ($this->error) {
+            return $this->error;
+        }
+        return ($this->error = new Intraface_Error());
+    }
 
     /**
      * Gets the keywords object
@@ -81,12 +112,20 @@ class Ilib_Filehandler_Gateway
     /**
      * Gets the keywords appender
      *
+     * @todo Dette kan ikke lade sig gøre, da keywordappenderen skal bruge et
+     * id.
+     *
      * @return object
      */
-
     public function getKeywordAppender()
     {
         return new Ilib_Keyword_Appender($this);
+    }
+
+    protected function getMimeTypes()
+    {
+        $filetype = new Ilib_Filehandler_FileType();
+        return $filetype->getList();
     }
 
     /**
@@ -99,7 +138,7 @@ class Ilib_Filehandler_Gateway
     public function getList($debug = '')
     {
         // we load the mime types as they are going to be used a couple of times
-        $this->loadMimeTypes();
+        $this->file_types = $this->getMimeTypes();
 
         if ($this->getDBQuery()->checkFilter("uploaded_from_date")) {
             $date_parts = explode(" ", $this->getDBQuery()->getFilter("uploaded_from_date"));
@@ -162,7 +201,7 @@ class Ilib_Filehandler_Gateway
 
         if ($this->getDBQuery()->checkFilter('images')) {
             $keys = array();
-            foreach($this->file_types AS $key => $mime_type) {
+            foreach($this->file_types as $key => $mime_type) {
                 if ($mime_type['image'] == 1) {
                     $keys[] = $key;
                 }
@@ -227,6 +266,37 @@ class Ilib_Filehandler_Gateway
             $i++;
         }
         return $file;
+    }
+
+    protected function _getMimeType($key, $from = 'key')
+    {
+        if (empty($this->file_types)) {
+            $this->loadMimeTypes();
+        }
+
+        if ($from == 'key') {
+            if (!is_integer($key)) {
+                trigger_error("Når der skal findes mimetype fra key (default), skal første parameter til FileHandler->_getMimeType være en integer", E_USER_ERROR);
+            }
+            return $this->file_types[$key];
+        }
+
+        if (in_array($from, array('mime_type', 'extension'))) {
+            foreach ($this->file_types as $file_key => $file_type) {
+                if ($file_type[$from] == $key) {
+                    // Vi putter lige key med i arrayet
+                    $file_type['key'] = $file_key;
+                    return $file_type;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public function getMimeType($key, $from = 'key')
+    {
+        return $this->_getMimeType($key, $from);
     }
 
     function deleteAllInstances()
