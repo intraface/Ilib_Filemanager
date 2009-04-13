@@ -96,7 +96,7 @@ class Ilib_Filehandler_Gateway
     	if ($this->error) {
             return $this->error;
         }
-        return ($this->error = new Intraface_Error());
+        return ($this->error = new Ilib_Error());
     }
 
     /**
