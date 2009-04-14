@@ -99,7 +99,7 @@ class Ilib_Filehandler_ImageRandomizer
     public function getRandomImage()
     {
         $key = rand(0, count($this->file_list)-1);
-        return new Ilib_Filehandler($this->file_manager->kernel, $this->file_list[$key]);
+        return new Ilib_Filehandler($this->file_manager->getKernel(), $this->file_list[$key]);
 
     }
 }
