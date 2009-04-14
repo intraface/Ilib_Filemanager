@@ -85,7 +85,7 @@ class Ilib_Filehandler_ImageRandomizer
         if ($this->dbquery) {
             return $this->dbquery;
         }
-        $dbquery = new Ilib_DBQuery("file_handler", "file_handler.temporary = 0 AND file_handler.active = 1 AND file_handler.intranet_id = ".$this->file_manager->kernel->intranet->get('id'));
+        $dbquery = new Ilib_DBQuery("file_handler", "file_handler.temporary = 0 AND file_handler.active = 1 AND file_handler.intranet_id = ".$this->file_manager->getKernel()->intranet->get('id'));
         $dbquery->useErrorObject($this->error);
         return ($this->dbquery = $dbquery);
     }
