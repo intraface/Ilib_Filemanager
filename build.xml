@@ -55,7 +55,7 @@
                 <package name="DB_Sql" channel="public.intraface.dk" recommended_version="0.0.1" minimum_version="0.0.1" />
                 <package name="Ilib_Error" channel="public.intraface.dk" recommended_version="0.0.1" minimum_version="0.0.1" />
                 <package name="Ilib_DBQuery" channel="public.intraface.dk" recommended_version="0.1.1" minimum_version="0.1.1" />
-                <package name="Ilib_RandomKeyGenerator" channel="public.intraface.dk" recommended_version="0.2.0" minimum_version="0.2.1" />
+                <package name="Ilib_RandomKeyGenerator" channel="public.intraface.dk" minimum_version="0.3.0" />
             </dependencies>
             <notes>* Fixed bugs.</notes>
         </d51pearpkg2>
