@@ -4,6 +4,8 @@
  *
  * @package Intraface_FileManager
  */
+require_once dirname(__FILE__) . '/functions.php';
+
 class Ilib_Filehandler_Gateway
 {
     /**
