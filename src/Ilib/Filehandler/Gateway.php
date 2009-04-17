@@ -70,7 +70,7 @@ class Ilib_Filehandler_Gateway
      *
      * @return object
      */
-    public function getFromId($id)
+    public function getFromId($id = 0)
     {
         return new Ilib_Filehandler($this->kernel, $id);
     }
@@ -106,7 +106,7 @@ class Ilib_Filehandler_Gateway
      */
     public function getKeywords()
     {
-        return ($this->keywords = new Ilib_Keyword($this));
+        return ($this->keywords = new Ilib_Keyword($this->getFromId(0)));
     }
 
     /**
@@ -119,7 +119,7 @@ class Ilib_Filehandler_Gateway
      */
     public function getKeywordAppender()
     {
-        return new Ilib_Keyword_Appender($this);
+        return new Ilib_Keyword_Appender($this->getFromId(0));
     }
 
     protected function getMimeTypes()
