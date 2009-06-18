@@ -54,7 +54,7 @@
                 <pear minimum_version="1.6.0" recommended_version="1.6.1" />
                 <package name="DB_Sql" channel="public.intraface.dk" recommended_version="0.0.1" minimum_version="0.0.1" />
                 <package name="Ilib_Error" channel="public.intraface.dk" recommended_version="0.0.1" minimum_version="0.0.1" />
-                <package name="Ilib_DBQuery" channel="public.intraface.dk" recommended_version="0.1.1" minimum_version="0.1.1" />
+                <package name="Ilib_DBQuery" channel="public.intraface.dk" recommended_version="0.1.3" minimum_version="0.1.3" />
                 <package name="Ilib_RandomKeyGenerator" channel="public.intraface.dk" minimum_version="0.3.0" />
             </dependencies>
             <notes>* Fixed bugs.</notes>
