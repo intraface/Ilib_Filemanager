@@ -275,7 +275,33 @@ class Ilib_Filehandler_UploadHandler extends Ilib_Filehandler_Standard
             return false;
         }
     }
+    
+    /**
+     * Returns PHP error from uplaod file
+     * 
+     * @param string $field name on html file input tag 
+     * 
+     */
+    function getUploadFileErrorMessage($field) {
+        if (isset($_FILES) && isset($_FILES[$field]) && $_FILES[$field]['error'] != 0) {
+            
+            $messages = array(UPLOAD_ERR_INI_SIZE => 'The uploaded file exceeds the max filesize (php)',
+                UPLOAD_ERR_FORM_SIZE => 'The uploaded file exceeds the max file size (html)',
+                UPLOAD_ERR_PARTIAL => 'The uploaded file was only partially uploaded.',
+                // UPLOAD_ERR_NO_FILE => 'No file was uploaded.', // removed as it is used on pages with non-required upload field
+                UPLOAD_ERR_NO_TMP_DIR => 'Missing a temporary folder.',
+                UPLOAD_ERR_CANT_WRITE => 'Failed to write file to disk',
+                UPLOAD_ERR_EXTENSION => 'File upload stopped by extension'
+            );
+            
+            if(isset($messages[$_FILES[$field]['error']])) {
+                return $messages[$_FILES[$field]['error']];
+            }
+        }
+        return '';
+    }
 
+    
     /**
      * Get files
      *
