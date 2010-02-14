@@ -43,7 +43,7 @@ class Ilib_Filehandler_ImageRandomizer
 
         $keyword_ids = array();
         foreach ($keywords as $keyword) {
-            $keyword_object = new Ilib_Keyword($this->file_manager);
+            $keyword_object = new Keyword($this->file_manager);
             /**
              * @todo: This is not really good, but the only way to identify keyword on name!
              */
