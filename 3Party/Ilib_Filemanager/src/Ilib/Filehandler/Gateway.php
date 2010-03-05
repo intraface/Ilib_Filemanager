@@ -31,6 +31,11 @@ class Ilib_Filehandler_Gateway
      * @var string
      */
     protected $fileviewer_path;
+    
+    /**
+     * @var string
+     */
+    private $www_path;
 
     /**
      * @var object
@@ -57,6 +62,7 @@ class Ilib_Filehandler_Gateway
     public function __construct($kernel)
     {
         $this->fileviewer_path = FILE_VIEWER;
+        $this->www_path = PATH_WWW;
         $this->kernel = $kernel;
     }
 
@@ -261,7 +267,7 @@ class Ilib_Filehandler_Gateway
                 $file[$i]['icon_width'] = 75;
                 $file[$i]['icon_height'] = 75;
             } else {
-                $file[$i]['icon_uri'] = '/images/mimetypes/'.$file[$i]['file_type']['icon'];
+                $file[$i]['icon_uri'] = $this->www_path.'/images/mimetypes/'.$file[$i]['file_type']['icon'];
                 $file[$i]['icon_width'] = 75;
                 $file[$i]['icon_height'] = 75;
             }
