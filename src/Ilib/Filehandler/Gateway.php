@@ -74,6 +74,7 @@ class Ilib_Filehandler_Gateway
     /**
      * Gets a filehandler from an id
      *
+     * @deprecated
      * @param integer $id file id
      *
      * @return object
@@ -81,6 +82,24 @@ class Ilib_Filehandler_Gateway
     public function getFromId($id = 0)
     {
         return new Ilib_Filehandler($this->kernel, $id);
+    }
+
+    public function findById($id)
+    {
+        return new Ilib_Filehandler($this->kernel, $id);
+    }
+
+    function findByAccessKey($access_key)
+    {
+        $access_key = safeToDb($access_key);
+
+        $db = new DB_Sql;
+        $db->query("SELECT id FROM file_handler WHERE intranet_id = ".$this->kernel->intranet->get('id')." AND active = 1 AND access_key = '".$access_key."'");
+        if (!$db->nextRecord()) {
+            return false;
+        }
+        return $this->findById($db->f('id'));
+
     }
 
     /**

@@ -68,6 +68,21 @@ class Ilib_Filehandler_FileViewer
         return $content;
     }
 
+    function getLastModified()
+    {
+        return filemtime($this->file_path);
+    }
+
+    function getMimeType()
+    {
+        return $this->file_path;
+    }
+
+    function getFileName()
+    {
+        return $this->file_name;
+    }
+
     public function out()
     {
         if (!file_exists($this->file_path)) {
