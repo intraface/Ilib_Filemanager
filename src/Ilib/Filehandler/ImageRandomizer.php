@@ -27,8 +27,14 @@ class Ilib_Filehandler_ImageRandomizer
     /**
      * constructor
      *
+     * @todo should have a gateway instead, so the
+     *       user can decide both which keyword and which
+     *       filehandler is used.
+     *
      * @param object $file_manager file handler
      * @param array $keywords array with keywords
+     *
+     * @return void
      */
     public function __construct($file_manager, $keywords)
     {
