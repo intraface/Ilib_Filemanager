@@ -194,7 +194,7 @@ class Ilib_Filehandler extends Ilib_Filehandler_Standard
     public function factory($kernel, $access_key)
     {
         $gateway = new Ilib_Filehandler_Gateway($kernel);
-        return $this->findByAccessKey($access_key);
+        return $gateway->findByAccessKey($access_key);
         /*
         $access_key = safeToDb($access_key);
 
