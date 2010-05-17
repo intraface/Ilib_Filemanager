@@ -73,11 +73,6 @@ class Ilib_Filehandler_FileViewer
         return filemtime($this->file_path);
     }
 
-    function getMimeType()
-    {
-        return $this->file_path;
-    }
-
     function getFileName()
     {
         return $this->file_name;
