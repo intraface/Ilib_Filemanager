@@ -7,7 +7,7 @@ class Ilib_Filehandler_ImageRandomizer
     /**
      * @var object $file_manager file handler
      */
-    private $file_manager;
+    protected $file_gateway;
 
     /**
      * @var object $error
@@ -31,28 +31,25 @@ class Ilib_Filehandler_ImageRandomizer
      *       user can decide both which keyword and which
      *       filehandler is used.
      *
-     * @param object $file_manager file handler
+     * @param object $file_gateway gateway for files
      * @param array $keywords array with keywords
      *
      * @return void
      */
-    public function __construct($file_manager, $keywords)
+    public function __construct($file_gateway, $keywords)
     {
-        $this->file_manager = $file_manager;
+        $this->file_gateway = $file_gateway;
 
         $this->error = new Ilib_Error;
 
         if (!is_array($keywords)) {
-            trigger_error('second parameter should be an array with keywords', E_USER_ERROR);
-            return false;
+            throw new Exception('second parameter should be an array with keywords');
         }
 
         $keyword_ids = array();
         foreach ($keywords as $keyword) {
-            $keyword_object = new Keyword($this->file_manager);
-            /**
-             * @todo: This is not really good, but the only way to identify keyword on name!
-             */
+            $keyword_object = new Ilib_Keyword($this->file_gateway);
+            // @todo: This is not really good, but the only way to identify keyword on name
             $keyword_ids[] = $keyword_object->save(array('keyword' => $keyword));
         }
 
@@ -72,7 +69,7 @@ class Ilib_Filehandler_ImageRandomizer
         $this->file_list = array();
         $db = $this->getDBQuery()->getRecordset("file_handler.id", "", false);
 
-        while($db->nextRecord()) {
+        while ($db->nextRecord()) {
             $this->file_list[] = $db->f('id');
         }
 
@@ -91,7 +88,7 @@ class Ilib_Filehandler_ImageRandomizer
         if ($this->dbquery) {
             return $this->dbquery;
         }
-        $dbquery = new Ilib_DBQuery("file_handler", "file_handler.temporary = 0 AND file_handler.active = 1 AND file_handler.intranet_id = ".$this->file_manager->getKernel()->intranet->get('id'));
+        $dbquery = new Ilib_DBQuery("file_handler", "file_handler.temporary = 0 AND file_handler.active = 1 AND file_handler.intranet_id = ".$this->file_gateway->getKernel()->intranet->get('id'));
         $dbquery->useErrorObject($this->error);
         return ($this->dbquery = $dbquery);
     }
@@ -105,7 +102,7 @@ class Ilib_Filehandler_ImageRandomizer
     public function getRandomImage()
     {
         $key = rand(0, count($this->file_list)-1);
-        return new Ilib_Filehandler($this->file_manager->getKernel(), $this->file_list[$key]);
-
+        return $this->file_gateway->findById($this->file_list[$key]);
+        //return new Ilib_Filehandler($this->file_manager->getKernel(), $this->file_list[$key]);
     }
 }

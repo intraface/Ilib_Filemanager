@@ -115,7 +115,7 @@ class ImageRandomizerTest extends PHPUnit_Framework_TestCase
         $r = $this->createImageRandomizer();
         $file = $r->getRandomImage();
         $this->assertTrue(is_object($file));
-        $this->assertTrue(is_object($file));
+        $this->assertEquals('Ilib_Filehandler', get_class($file));
     }
 
     function testGetRandomImageReturnsFileHandlerObjectWithCorrectFileName()
