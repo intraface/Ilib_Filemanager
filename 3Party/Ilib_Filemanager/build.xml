@@ -54,10 +54,10 @@
             <dependencies>
                 <php minimum_version="5.2.0" />
                 <pear minimum_version="1.6.0" recommended_version="1.6.1" />
-                <package name="DB_Sql" channel="public.intraface.dk" recommended_version="0.0.1" minimum_version="0.0.1" />
-                <package name="Ilib_Error" channel="public.intraface.dk" recommended_version="1.0.0" minimum_version="1.0.0" />
-                <package name="Ilib_DBQuery" channel="public.intraface.dk" recommended_version="0.1.6" minimum_version="0.1.6" />
-                <package name="Ilib_RandomKeyGenerator" channel="public.intraface.dk" recommended_version="0.3.0" minimum_version="0.3.0" />
+                <package name="DB_Sql" channel="public.intraface.dk" recommended_version="0.0.1" />
+                <package name="Ilib_Error" channel="public.intraface.dk" recommended_version="1.0.0" />
+                <package name="Ilib_DBQuery" channel="public.intraface.dk" recommended_version="0.1.8" />
+                <package name="Ilib_RandomKeyGenerator" channel="public.intraface.dk" recommended_version="0.3.0" />
             </dependencies>
             <notes>* Corrected path to document icons</notes>
         </d51pearpkg2>
