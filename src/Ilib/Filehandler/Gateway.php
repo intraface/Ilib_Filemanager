@@ -31,7 +31,7 @@ class Ilib_Filehandler_Gateway
      * @var string
      */
     protected $fileviewer_path;
-    
+
     /**
      * @var string
      */
@@ -84,6 +84,11 @@ class Ilib_Filehandler_Gateway
         return new Ilib_Filehandler($this->kernel, $id);
     }
 
+    function identify()
+    {
+        return 'file_handler';
+    }
+
     public function findById($id)
     {
         return new Ilib_Filehandler($this->kernel, $id);
@@ -112,6 +117,7 @@ class Ilib_Filehandler_Gateway
         if ($this->dbquery) {
             return $this->dbquery;
         }
+
         $this->dbquery = new Ilib_DBQuery("file_handler", "file_handler.temporary = 0 AND file_handler.active = 1 AND file_handler.intranet_id = ".$this->kernel->intranet->get("id"));
         $this->dbquery->createStore($this->getKernel()->getSessionId(), 'intranet_id = '.intval($this->getKernel()->intranet->get('id')));
         $this->dbquery->useErrorObject($this->getError());
