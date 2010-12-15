@@ -138,6 +138,11 @@ class Ilib_Filehandler extends Ilib_Filehandler_Standard
         }
     }
 
+    public function identify()
+    {
+        return 'file_handler';
+    }
+
     public function getKernel()
     {
     	return $this->kernel;
@@ -195,16 +200,6 @@ class Ilib_Filehandler extends Ilib_Filehandler_Standard
     {
         $gateway = new Ilib_Filehandler_Gateway($kernel);
         return $gateway->findByAccessKey($access_key);
-        /*
-        $access_key = safeToDb($access_key);
-
-        $db = new DB_Sql;
-        $db->query("SELECT id FROM file_handler WHERE intranet_id = ".$kernel->intranet->get('id')." AND active = 1 AND access_key = '".$access_key."'");
-        if (!$db->nextRecord()) {
-            return false;
-        }
-        return new self($kernel, $db->f('id'));
-        */
     }
 
     function isImage()
