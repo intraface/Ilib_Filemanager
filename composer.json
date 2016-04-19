@@ -16,7 +16,7 @@
     ],
    "autoload": {
         "classmap": [
-            "3Party/src/"
+            "src/"
         ]
     },
     "autoload-dev": {
